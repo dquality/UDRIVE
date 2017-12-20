@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">UDRIVE</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_dashboard">Доска</string>
+    <string name="title_home">Главная</string>
+    <string name="title_profit">Доходы</string>
+    <string name="title_account">Аккаунт</string>
+    <string name="title_other">Еще</string>
+    <string name="title_notifications">Уведомления</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
