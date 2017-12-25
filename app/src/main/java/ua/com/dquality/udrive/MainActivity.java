@@ -2,7 +2,6 @@ package ua.com.dquality.udrive;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
@@ -18,7 +17,6 @@ import java.lang.reflect.Field;
 
 public class MainActivity extends AppCompatActivity {
 
-    private BottomNavigationView navigation;
     private Fragment fragment;
     private FragmentManager fragmentManager;
 
@@ -53,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        navigation = findViewById(R.id.navigation);
+        BottomNavigationView navigation = findViewById(R.id.navigation);
         fragmentManager = getSupportFragmentManager();
 
 
@@ -61,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        navigation.setSelectedItemId(R.id.navigation_other);
+        navigation.setSelectedItemId(R.id.navigation_home);
     }
 
     public static class BottomNavigationViewHelper {
