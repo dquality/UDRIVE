@@ -13,7 +13,13 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.androidnetworking.AndroidNetworking;
+import com.jacksonandroidnetworking.JacksonParserFactory;
+
 import java.lang.reflect.Field;
+import com.facebook.stetho.okhttp3.StethoInterceptor;
+
+import okhttp3.OkHttpClient;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,6 +59,12 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         fragmentManager = getSupportFragmentManager();
+
+        OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
+                .addNetworkInterceptor(new StethoInterceptor())
+                .build();
+        AndroidNetworking.initialize(getApplicationContext(),okHttpClient);
+        AndroidNetworking.setParserFactory(new JacksonParserFactory());
 
 
         BottomNavigationViewHelper.disableShiftMode(navigation);
