@@ -28,7 +28,7 @@ public class HomeFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mPager = (ViewPager)  (getView().findViewById(R.id.homeViewPager));
+        mPager = getView().findViewById(R.id.homeViewPager);
         mPagerAdapter = new HomeSwipeFragmentPageAdapter(getChildFragmentManager());
         mPager.setAdapter(mPagerAdapter);
         mPager.setPageTransformer(true, new ZoomOutPageTransformer());
