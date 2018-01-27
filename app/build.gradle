@@ -19,7 +19,7 @@ android {
     }
     sourceSets {
         main {
-            java.srcDirs = ['src/main/java', 'src/main/java/ViewModel', 'src/main/java/ua/com/dquality/udrive/viewmodels']
+            java.srcDirs = ['src/main/java']
         }
     }
 }

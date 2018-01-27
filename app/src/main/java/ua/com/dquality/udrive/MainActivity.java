@@ -20,6 +20,10 @@ import java.lang.reflect.Field;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 
 import okhttp3.OkHttpClient;
+import ua.com.dquality.udrive.fragments.AccountFragment;
+import ua.com.dquality.udrive.fragments.HomeFragment;
+import ua.com.dquality.udrive.fragments.OtherFragment;
+import ua.com.dquality.udrive.fragments.ProfitFragment;
 
 public class MainActivity extends AppCompatActivity {
 

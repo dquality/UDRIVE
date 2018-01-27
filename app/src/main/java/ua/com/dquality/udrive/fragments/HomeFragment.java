@@ -1,4 +1,4 @@
-package ua.com.dquality.udrive;
+package ua.com.dquality.udrive.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +8,8 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import ua.com.dquality.udrive.R;
 
 
 public class HomeFragment extends Fragment {
@@ -22,16 +24,6 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        /*mPager = getView().findViewById(R.id.homeViewPager);
-        mPagerAdapter = new HomeSwipeFragmentPageAdapter(getChildFragmentManager());
-        mPager.setAdapter(mPagerAdapter);
-        mPager.setPageTransformer(true, new ZoomOutPageTransformer());*/
     }
 }
 
