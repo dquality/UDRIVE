@@ -1,14 +1,14 @@
 <resources>
     <string name="app_name">UDRIVE</string>
-    <string name="title_dashboard">Доска</string>
     <string name="title_home">Главная</string>
     <string name="title_profit">Доходы</string>
-    <string name="title_account">Аккаунт</string>
-    <string name="title_other">Еще</string>
-    <string name="title_notifications">Уведомления</string>
+    <string name="title_offer">Предложения</string>
+    <string name="title_additional_menu">Доп меню</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string-array name="sports_array">
         <item>Shuttle Badminton</item>
         <item>Tennis</item>

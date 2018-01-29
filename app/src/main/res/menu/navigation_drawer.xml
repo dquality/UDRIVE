@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_1"
+        android:icon="@drawable/ic_account_box_black_24dp"
+        android:title="@string/title_additional_menu"
+        android:checkable="true"
+        />
+    <item
+        android:id="@+id/navigation_2"
+        android:icon="@drawable/ic_account_box_black_24dp"
+        android:title="@string/title_additional_menu"
+        android:checkable="true"
+        />
+    <item
+        android:id="@+id/navigation_3"
+        android:icon="@drawable/ic_account_box_black_24dp"
+        android:title="@string/title_additional_menu"
+        android:checkable="true"
+        />
+</menu>

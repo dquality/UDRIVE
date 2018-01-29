@@ -4,21 +4,17 @@
 
     <item
         android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_home"/>
-
+        android:icon="@drawable/ic_credit_card_black_24dp"
+        android:tooltipText="@string/title_home"
+        android:title="" />
     <item
         android:id="@+id/navigation_profit"
-        android:icon="@drawable/ic_attach_money_black_24dp"
-        android:title="@string/title_profit"/>
-
+        android:icon="@drawable/ic_arrows_couple_to_opposite_directions_24dp"
+        android:tooltipText="@string/title_profit"
+        android:title=""/>
     <item
-        android:id="@+id/navigation_account"
-        android:icon="@drawable/ic_account_box_black_24dp"
-        android:title="@string/title_account"/>
-
-    <item
-        android:id="@+id/navigation_other"
-        android:icon="@drawable/ic_more_horiz_black_24dp"
-        android:title="@string/title_other"/>
+        android:id="@+id/navigation_udrive_shop"
+        android:icon="@drawable/ic_shopping_basket_black_24dp"
+        android:tooltipText="@string/title_offer"
+        android:title=""/>
 </menu>

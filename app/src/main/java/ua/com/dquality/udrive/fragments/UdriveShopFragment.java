@@ -8,14 +8,15 @@ import android.view.ViewGroup;
 
 import ua.com.dquality.udrive.R;
 
-public class OtherFragment extends Fragment {
-    public OtherFragment() {
+
+public class UdriveShopFragment extends Fragment {
+    public UdriveShopFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_other, container, false);
+        return inflater.inflate(R.layout.fragment_udrive_shop, container, false);
     }
 }
