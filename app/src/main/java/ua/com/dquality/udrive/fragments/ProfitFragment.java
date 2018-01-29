@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import ua.com.dquality.udrive.R;
 
 public class ProfitFragment extends Fragment {
-    public ProfitFragment() {
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

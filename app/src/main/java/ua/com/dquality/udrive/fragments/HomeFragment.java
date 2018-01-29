@@ -13,12 +13,6 @@ import ua.com.dquality.udrive.R;
 
 
 public class HomeFragment extends Fragment {
-    public HomeFragment() {
-    }
-
-    private ViewPager mPager;
-    private PagerAdapter mPagerAdapter;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

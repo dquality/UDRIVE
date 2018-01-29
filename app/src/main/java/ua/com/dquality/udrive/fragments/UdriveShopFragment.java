@@ -10,8 +10,6 @@ import ua.com.dquality.udrive.R;
 
 
 public class UdriveShopFragment extends Fragment {
-    public UdriveShopFragment() {
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

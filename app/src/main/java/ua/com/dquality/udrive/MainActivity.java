@@ -9,6 +9,7 @@ import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -88,6 +90,9 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_drawer_support:
                     mDrawerIntent = new Intent(MainActivity.this, SupportActivity.class);
                     break;
+                case R.id.navigation_drawer_exit:
+                    finish();
+                    break;
             }
 
             if (mDrawerIntent != null) {
@@ -115,17 +120,15 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void initDrawerNavigation(){
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+
         mDrawerLayout = findViewById(R.id.drawer_layout);
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar,
                 R.string.drawer_open, R.string.drawer_close);
 
         mDrawerLayout.addDrawerListener(mDrawerToggle);
-
-        ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null){
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeButtonEnabled(true);
-        }
 
         NavigationView drawerNavigation = findViewById(R.id.navigation_drawer);
         drawerNavigation.setNavigationItemSelectedListener(onDrawerNavigationItemSelectedListener);
@@ -176,6 +179,16 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
 
     public static class BottomNavigationViewHelper {
         @SuppressLint("RestrictedApi")
