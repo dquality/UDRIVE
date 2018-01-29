@@ -14,7 +14,7 @@
         android:title=""/>
     <item
         android:id="@+id/navigation_udrive_shop"
-        android:icon="@drawable/ic_shopping_basket_black_24dp"
+        android:icon="@drawable/ic_shop_black_24dp"
         android:tooltipText="@string/title_offer"
         android:title=""/>
 </menu>

@@ -1,6 +1,7 @@
 package ua.com.dquality.udrive;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -31,11 +32,13 @@ import ua.com.dquality.udrive.fragments.ProfitFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    private DrawerLayout drawerLayout;
-    private ActionBarDrawerToggle drawerToggle;
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mDrawerToggle;
 
-    private Fragment fragment;
-    private FragmentManager fragmentManager;
+    private Fragment mFragment;
+    private FragmentManager mFragmentManager;
+
+    private Intent mDrawerIntent;
 
     private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -45,17 +48,17 @@ public class MainActivity extends AppCompatActivity {
             int id = item.getItemId();
             switch (id){
                 case R.id.navigation_home:
-                    fragment = new HomeFragment();
+                    mFragment = new HomeFragment();
                     break;
                 case R.id.navigation_profit:
-                    fragment = new ProfitFragment();
+                    mFragment = new ProfitFragment();
                     break;
                 case R.id.navigation_udrive_shop:
-                    fragment = new UdriveShopFragment();
+                    mFragment = new UdriveShopFragment();
                     break;
             }
-            final FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.replace(R.id.frameContainer, fragment).commit();
+            final FragmentTransaction transaction = mFragmentManager.beginTransaction();
+            transaction.replace(R.id.frameContainer, mFragment).commit();
             return true;
         }
     };
@@ -67,22 +70,33 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             int id = item.getItemId();
             switch (id){
-                case R.id.navigation_1:
-                    fragment = new ProfitFragment();
+                case R.id.navigation_drawer_home:
+                    mDrawerIntent = new Intent(MainActivity.this, MainActivity.class);
                     break;
-                case R.id.navigation_2:
-                    fragment = new ProfitFragment();
+                case R.id.navigation_drawer_settings:
+                    mDrawerIntent = new Intent(MainActivity.this, SettingsActivity.class);
                     break;
-                case R.id.navigation_3:
-                    fragment = new ProfitFragment();
+                case R.id.navigation_drawer_question_answer:
+                    mDrawerIntent = new Intent(MainActivity.this, QuestionAnswerActivity.class);
+                    break;
+                case R.id.navigation_drawer_public_offer:
+                    mDrawerIntent = new Intent(MainActivity.this, PublicOfferActivity.class);
+                    break;
+                case R.id.navigation_drawer_addresses:
+                    mDrawerIntent = new Intent(MainActivity.this, AddressesActivity.class);
+                    break;
+                case R.id.navigation_drawer_support:
+                    mDrawerIntent = new Intent(MainActivity.this, SupportActivity.class);
                     break;
             }
-            final FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.replace(R.id.frameContainer, fragment).commit();
+
+            if (mDrawerIntent != null) {
+                MainActivity.this.startActivity(mDrawerIntent);
+            }
 
             item.setChecked(true);
 
-            drawerLayout.closeDrawers();
+            mDrawerLayout.closeDrawers();
             return true;
         }
     };
@@ -92,29 +106,36 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        drawerLayout = findViewById(R.id.drawer_layout);
-        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
+        initDrawerNavigation();
+
+        initBottomNavigation();
+
+        initNetworkClient();
+    }
+
+
+    private void initDrawerNavigation(){
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 R.string.drawer_open, R.string.drawer_close);
 
-        drawerLayout.setDrawerListener(drawerToggle);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
+        if(actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+        }
 
         NavigationView drawerNavigation = findViewById(R.id.navigation_drawer);
         drawerNavigation.setNavigationItemSelectedListener(onDrawerNavigationItemSelectedListener);
-        drawerNavigation.setSelected(true);
+    }
+
+    private void initBottomNavigation(){
+
+        mFragmentManager = getSupportFragmentManager();
 
         BottomNavigationView bottomNavigation = findViewById(R.id.navigation);
-        fragmentManager = getSupportFragmentManager();
-
-        OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
-                .addNetworkInterceptor(new StethoInterceptor())
-                .build();
-        AndroidNetworking.initialize(getApplicationContext(),okHttpClient);
-        AndroidNetworking.setParserFactory(new JacksonParserFactory());
-
 
         BottomNavigationViewHelper.disableShiftMode(bottomNavigation);
 
@@ -123,24 +144,32 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.setSelectedItemId(R.id.navigation_home);
     }
 
+    private void initNetworkClient(){
+        OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
+                .addNetworkInterceptor(new StethoInterceptor())
+                .build();
+        AndroidNetworking.initialize(getApplicationContext(),okHttpClient);
+        AndroidNetworking.setParserFactory(new JacksonParserFactory());
+    }
+
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
-        drawerToggle.syncState();
+        mDrawerToggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        drawerToggle.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Pass the event to ActionBarDrawerToggle, if it returns
         // true, then it has handled the app icon touch event
-        if (drawerToggle.onOptionsItemSelected(item)) {
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
         // Handle your other action bar items...

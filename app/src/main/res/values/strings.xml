@@ -3,9 +3,15 @@
     <string name="title_home">Главная</string>
     <string name="title_profit">Доходы</string>
     <string name="title_offer">Предложения</string>
-    <string name="title_additional_menu">Доп меню</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
+    <string name="title_drawer_home">Личный кабинет</string>
+    <string name="title_drawer_settings">Настройки</string>
+    <string name="title_drawer_question_answer">Вопрос - Ответ</string>
+    <string name="title_drawer_public_offer">Публичная аферта</string>
+    <string name="title_drawer_addresses">Адреса офисов</string>
+    <string name="title_drawer_support">Служба поддержки</string>
+    <string name="title_drawer_exit">Выход</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 
