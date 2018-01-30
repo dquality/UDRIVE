@@ -20,10 +20,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SettingsActivity" />
-        <activity android:name=".QuestionAnswerActivity" />
-        <activity android:name=".PublicOfferActivity" />
-        <activity android:name=".AddressesActivity" />
-        <activity android:name=".SupportActivity" />
+        <activity android:name=".SettingsActivity" android:parentActivityName=".MainActivity" >
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="ua.com.dquality.udrive.MainActivity" />
+        </activity>
+        <activity android:name=".QuestionAnswerActivity" android:parentActivityName=".MainActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="ua.com.dquality.udrive.MainActivity" />
+        </activity>
+        <activity android:name=".PublicOfferActivity" android:parentActivityName=".MainActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="ua.com.dquality.udrive.MainActivity" />
+        </activity>
+        <activity android:name=".AddressesActivity" android:parentActivityName=".MainActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="ua.com.dquality.udrive.MainActivity" />
+        </activity>
+        <activity android:name=".SupportActivity" android:parentActivityName=".MainActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="ua.com.dquality.udrive.MainActivity" />
+        </activity>
     </application>
 </manifest>
