@@ -9,6 +9,7 @@ import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -98,8 +99,6 @@ public class MainActivity extends AppCompatActivity {
             if (mDrawerIntent != null) {
                 MainActivity.this.startActivity(mDrawerIntent);
             }
-
-            item.setChecked(true);
 
             mDrawerLayout.closeDrawers();
             return true;

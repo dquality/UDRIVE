@@ -20,19 +20,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SettingsActivity" android:parentActivityName=".MainActivity" >
+        <activity android:name=".SettingsActivity" android:parentActivityName=".MainActivity" android:label="@string/title_drawer_settings">
             <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="ua.com.dquality.udrive.MainActivity" />
         </activity>
-        <activity android:name=".QuestionAnswerActivity" android:parentActivityName=".MainActivity">
+        <activity android:name=".QuestionAnswerActivity" android:parentActivityName=".MainActivity" android:label="@string/title_drawer_question_answer">
             <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="ua.com.dquality.udrive.MainActivity" />
         </activity>
-        <activity android:name=".PublicOfferActivity" android:parentActivityName=".MainActivity">
+        <activity android:name=".PublicOfferActivity" android:parentActivityName=".MainActivity" android:label="@string/title_drawer_public_offer">
             <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="ua.com.dquality.udrive.MainActivity" />
         </activity>
-        <activity android:name=".AddressesActivity" android:parentActivityName=".MainActivity">
+        <activity android:name=".AddressesActivity" android:parentActivityName=".MainActivity" android:label="@string/title_drawer_addresses">
             <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="ua.com.dquality.udrive.MainActivity" />
         </activity>
-        <activity android:name=".SupportActivity" android:parentActivityName=".MainActivity">
+        <activity android:name=".SupportActivity" android:parentActivityName=".MainActivity" android:label="@string/title_drawer_support">
             <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="ua.com.dquality.udrive.MainActivity" />
         </activity>
     </application>
