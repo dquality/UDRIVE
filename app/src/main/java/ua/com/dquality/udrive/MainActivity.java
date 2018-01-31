@@ -22,7 +22,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.androidnetworking.AndroidNetworking;
 import com.jacksonandroidnetworking.JacksonParserFactory;
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Fragment mFragment;
     private FragmentManager mFragmentManager;
+    private View mShopBadge;
 
     private Intent mDrawerIntent;
 
@@ -60,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.navigation_udrive_shop:
                     mFragment = new UdriveShopFragment();
+                    mShopBadge.setVisibility(View.INVISIBLE);
                     break;
             }
             final FragmentTransaction transaction = mFragmentManager.beginTransaction();
@@ -141,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigation = findViewById(R.id.navigation);
 
-        BottomNavigationViewHelper.disableShiftMode(bottomNavigation);
+        mShopBadge = BottomNavigationViewHelper.extendView(bottomNavigation, getLayoutInflater());
 
         bottomNavigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
 
@@ -193,7 +197,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static class BottomNavigationViewHelper {
         @SuppressLint("RestrictedApi")
-        public static void disableShiftMode(BottomNavigationView view) {
+        public static View extendView(BottomNavigationView view, LayoutInflater layoutInflater) {
+            View shopBadge = null;
             BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
             try {
                 Field shiftingMode = menuView.getClass().getDeclaredField("mShiftingMode");
@@ -203,6 +208,12 @@ public class MainActivity extends AppCompatActivity {
                 for (int i = 0; i < menuView.getChildCount(); i++) {
                     BottomNavigationItemView item = (BottomNavigationItemView) menuView.getChildAt(i);
 
+                    if(item.getItemData().getItemId() == R.id.navigation_udrive_shop){
+                        shopBadge = layoutInflater
+                                .inflate(R.layout.bottom_navigation_shop_badge, menuView, false);
+
+                        item.addView(shopBadge);
+                    }
                     //noinspection RestrictedApi
                     item.setShiftingMode(false);
                     // set once again checked value, so view will be updated
@@ -214,6 +225,7 @@ public class MainActivity extends AppCompatActivity {
             } catch (IllegalAccessException e) {
                 Log.e("BNVHelper", "Unable to change value of shift mode", e);
             }
+            return shopBadge;
         }
     }
 }
