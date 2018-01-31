@@ -7,32 +7,32 @@
         />
     <item
         android:id="@+id/navigation_drawer_settings"
-        android:icon="@drawable/ic_account_box_black_24dp"
+        android:icon="@drawable/ic_settings_black_24dp"
         android:title="@string/title_drawer_settings"
         />
     <item
         android:id="@+id/navigation_drawer_question_answer"
-        android:icon="@drawable/ic_account_box_black_24dp"
+        android:icon="@drawable/ic_help_black_24dp"
         android:title="@string/title_drawer_question_answer"
         />
     <item
         android:id="@+id/navigation_drawer_public_offer"
-        android:icon="@drawable/ic_account_box_black_24dp"
+        android:icon="@drawable/ic_document_black_24dp"
         android:title="@string/title_drawer_public_offer"
         />
     <item
         android:id="@+id/navigation_drawer_addresses"
-        android:icon="@drawable/ic_account_box_black_24dp"
+        android:icon="@drawable/ic_place_black_24dp"
         android:title="@string/title_drawer_addresses"
         />
     <item
         android:id="@+id/navigation_drawer_support"
-        android:icon="@drawable/ic_account_box_black_24dp"
+        android:icon="@drawable/ic_support_black_24dp"
         android:title="@string/title_drawer_support"
         />
     <item
         android:id="@+id/navigation_drawer_exit"
-        android:icon="@drawable/ic_account_box_black_24dp"
+        android:icon="@drawable/ic_exit_to_app_black_24dp"
         android:title="@string/title_drawer_exit"
         />
 </menu>
