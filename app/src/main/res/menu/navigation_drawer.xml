@@ -4,42 +4,35 @@
         android:id="@+id/navigation_drawer_home"
         android:icon="@drawable/ic_account_box_black_24dp"
         android:title="@string/title_drawer_home"
-        android:checkable="true"
         />
     <item
         android:id="@+id/navigation_drawer_settings"
         android:icon="@drawable/ic_account_box_black_24dp"
         android:title="@string/title_drawer_settings"
-        android:checkable="true"
         />
     <item
         android:id="@+id/navigation_drawer_question_answer"
         android:icon="@drawable/ic_account_box_black_24dp"
         android:title="@string/title_drawer_question_answer"
-        android:checkable="true"
         />
     <item
         android:id="@+id/navigation_drawer_public_offer"
         android:icon="@drawable/ic_account_box_black_24dp"
         android:title="@string/title_drawer_public_offer"
-        android:checkable="true"
         />
     <item
         android:id="@+id/navigation_drawer_addresses"
         android:icon="@drawable/ic_account_box_black_24dp"
         android:title="@string/title_drawer_addresses"
-        android:checkable="true"
         />
     <item
         android:id="@+id/navigation_drawer_support"
         android:icon="@drawable/ic_account_box_black_24dp"
         android:title="@string/title_drawer_support"
-        android:checkable="true"
         />
     <item
         android:id="@+id/navigation_drawer_exit"
         android:icon="@drawable/ic_account_box_black_24dp"
         android:title="@string/title_drawer_exit"
-        android:checkable="true"
         />
 </menu>
