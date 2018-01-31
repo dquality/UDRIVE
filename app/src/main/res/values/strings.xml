@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">UDRIVE</string>
+    <string name="title_app_name">UBERDRIVE</string>
     <string name="title_home">Главная</string>
     <string name="title_profit">Доходы</string>
     <string name="title_offer">Предложения</string>
-    <string name="drawer_open">Open</string>
-    <string name="drawer_close">Close</string>
+    <string name="drawer_open">Открыть</string>
+    <string name="drawer_close">Закрыть</string>
     <string name="title_drawer_home">Личный кабинет</string>
     <string name="title_drawer_settings">Настройки</string>
     <string name="title_drawer_question_answer">Вопрос - Ответ</string>
@@ -12,23 +13,4 @@
     <string name="title_drawer_addresses">Адреса офисов</string>
     <string name="title_drawer_support">Служба поддержки</string>
     <string name="title_drawer_exit">Выход</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-
-    <string-array name="sports_array">
-        <item>Shuttle Badminton</item>
-        <item>Tennis</item>
-        <item>FootBall</item>
-        <item>Basket Ball</item>
-        <item>Table Tennis</item>
-        <item>Chess</item>
-        <item>Scroll 1</item>
-        <item>Scroll 2</item>
-        <item>Scroll 3</item>
-        <item>Scroll 4</item>
-        <item>Scroll 5</item>
-        <item>Scroll 6</item>
-    </string-array>
-
-
 </resources>
