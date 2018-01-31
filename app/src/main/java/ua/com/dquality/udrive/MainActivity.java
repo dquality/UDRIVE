@@ -3,6 +3,7 @@ package ua.com.dquality.udrive;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationItemView;
@@ -20,6 +21,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 
 import com.androidnetworking.AndroidNetworking;
@@ -200,6 +202,7 @@ public class MainActivity extends AppCompatActivity {
                 shiftingMode.setAccessible(false);
                 for (int i = 0; i < menuView.getChildCount(); i++) {
                     BottomNavigationItemView item = (BottomNavigationItemView) menuView.getChildAt(i);
+
                     //noinspection RestrictedApi
                     item.setShiftingMode(false);
                     // set once again checked value, so view will be updated
