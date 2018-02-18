@@ -13,4 +13,6 @@
     <string name="title_drawer_addresses">Адреса офисов</string>
     <string name="title_drawer_support">Служба поддержки</string>
     <string name="title_drawer_exit">Выход</string>
+    <string name="card_type">Classic</string>
+    <string name="account_fullname">Артем Новиков</string>
 </resources>
