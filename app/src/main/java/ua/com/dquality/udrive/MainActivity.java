@@ -1,35 +1,29 @@
 package ua.com.dquality.udrive;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.internal.BottomNavigationItemView;
-import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.TaskStackBuilder;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 import com.androidnetworking.AndroidNetworking;
 import com.jacksonandroidnetworking.JacksonParserFactory;
 
-import java.lang.reflect.Field;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 
 import okhttp3.OkHttpClient;
@@ -46,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
     private Fragment mFragment;
     private FragmentManager mFragmentManager;
     private View mShopBadge;
+
+
+    private boolean mStatusDefault = false;
+    private AppCompatButton mStatus;
 
     private Intent mDrawerIntent;
 
@@ -112,6 +110,13 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    private View.OnClickListener onStatusClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v){
+            setStatus(!mStatusDefault);
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,11 +129,13 @@ public class MainActivity extends AppCompatActivity {
         initNetworkClient();
     }
 
-
     private void initDrawerNavigation(){
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        mStatus = findViewById(R.id.status_button);
+        mStatus.setOnClickListener(onStatusClickListener);
+        setStatus(true);
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar,
@@ -151,6 +158,14 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
 
         bottomNavigation.setSelectedItemId(R.id.navigation_home);
+    }
+
+    public void setStatus(boolean active){
+        if(mStatus != null){
+            mStatusDefault = active;
+            mStatus.setText(active ? R.string.active : R.string.notactive);
+            mStatus.setBackgroundResource(active ? R.drawable.status_active_background : R.drawable.status_notactive_background);
+        }
     }
 
     private void initNetworkClient(){
