@@ -11,4 +11,7 @@
     <color name="colorDivider">#282828</color>
     <color name="colorBorder">#282828</color>
     <color name="colorExtra">#fffac1</color>
+
+    <color name="colorClassicStart">#b24976</color>
+    <color name="colorClassicEnd">#5d29b4</color>
 </resources>

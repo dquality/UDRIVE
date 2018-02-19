@@ -23,19 +23,57 @@
         <!-- MAIN CONTENT -->
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/main"
+            android:layout_height="match_parent">
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="Main Content"
-                android:clickable="true"
-                android:focusable="false"
-                android:focusableInTouchMode="true"
-                android:textSize="16sp" />
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:id="@+id/card_holder_state"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    sld:layout_constraintEnd_toEndOf="parent"
+                    sld:layout_constraintStart_toStartOf="parent"
+                    sld:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginRight="@dimen/nav_header_vertical_spacing"
+                    android:layout_marginLeft="@dimen/nav_header_vertical_spacing"
+                    android:padding="@dimen/corner_radius">
+
+                    <TextView
+                        android:id="@+id/card_month_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                        android:textAllCaps="true"
+                        />
+                    <TextView
+                        android:id="@+id/card_type_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/card_month_text"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                        android:textAllCaps="true"
+                        />
+                    <ImageView
+                        android:id="@+id/card_barcode_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:layout_alignParentRight="true"
+                        android:tint="@color/colorPrimaryLight"
+                        app:srcCompat="@drawable/ic_help_black_24dp"
+                        />
+                    <TextView
+                        android:id="@+id/card_barcode_number_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@id/card_barcode_image"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                        android:textAllCaps="true"
+                        />
+                </RelativeLayout>
+            </android.support.constraint.ConstraintLayout>
         </FrameLayout>
 
         <!-- SLIDING LAYOUT -->

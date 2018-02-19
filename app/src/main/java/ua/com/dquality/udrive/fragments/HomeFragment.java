@@ -29,6 +29,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,13 +38,19 @@ import ua.com.dquality.udrive.helpers.SlidingUpPanelLayout.PanelSlideListener;
 import ua.com.dquality.udrive.helpers.SlidingUpPanelLayout.PanelState;
 
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
 public class HomeFragment extends Fragment {
     private static final String TAG = "DemoActivity";
 
     private SlidingUpPanelLayout mLayout;
+    private TextView mCardCodeNumber;
+    private TextView mCardType;
+    private TextView mCardMonthText;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,7 +58,16 @@ public class HomeFragment extends Fragment {
 
         View ret = inflater.inflate(R.layout.fragment_home, container, false);
 
-/*        ListView lv =  ret.findViewById(R.id.list);
+        initSlidePanel(ret);
+
+        initCardHolderState(ret);
+
+        // Inflate the layout for this fragment
+        return ret;
+    }
+
+    private void initSlidePanel(View parentView){
+        /*        ListView lv =  ret.findViewById(R.id.list);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -98,7 +114,7 @@ public class HomeFragment extends Fragment {
 
         lv.setAdapter(arrayAdapter);*/
 
-        mLayout = ret.findViewById(R.id.sliding_layout);
+        mLayout = parentView.findViewById(R.id.sliding_layout);
         mLayout.addPanelSlideListener(new PanelSlideListener() {
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
@@ -117,72 +133,35 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        TextView t = ret.findViewById(R.id.name);
+        TextView t = parentView.findViewById(R.id.name);
         t.setText("Slide up");
 
-        // Inflate the layout for this fragment
-        return ret;
+    }
+
+    private void initCardHolderState(View parentView){
+        RelativeLayout cardHolderState =  parentView.findViewById(R.id.card_holder_state);
+        mCardCodeNumber = parentView.findViewById(R.id.card_barcode_number_text);
+        mCardType = parentView.findViewById(R.id.card_type_text);
+        mCardMonthText = parentView.findViewById(R.id.card_month_text);
+
+        if(cardHolderState != null) {
+            cardHolderState.setBackgroundResource(R.drawable.card_classic_background);
+        }
+        if(mCardType != null){
+            mCardType.setText("Classic");
+        }
+        if(mCardCodeNumber != null){
+            mCardCodeNumber.setText("3356 4673 7990 5332");
+        }
+        if(mCardMonthText != null){
+            mCardMonthText.setText("Февраль");
+        }
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
-/*    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.demo, menu);
-        MenuItem item = menu.findItem(R.id.action_toggle);
-        if (mLayout != null) {
-            if (mLayout.getPanelState() == PanelState.HIDDEN) {
-                item.setTitle(R.string.action_show);
-            } else {
-                item.setTitle(R.string.action_hide);
-            }
-        }
-        return true;
-    }*/
-
-/*    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.action_toggle: {
-                if (mLayout != null) {
-                    if (mLayout.getPanelState() != PanelState.HIDDEN) {
-                        mLayout.setPanelState(PanelState.HIDDEN);
-                        item.setTitle(R.string.action_show);
-                    } else {
-                        mLayout.setPanelState(PanelState.COLLAPSED);
-                        item.setTitle(R.string.action_hide);
-                    }
-                }
-                return true;
-            }
-            case R.id.action_anchor: {
-                if (mLayout != null) {
-                    if (mLayout.getAnchorPoint() == 1.0f) {
-                        mLayout.setAnchorPoint(0.7f);
-                        mLayout.setPanelState(PanelState.ANCHORED);
-                        item.setTitle(R.string.action_anchor_disable);
-                    } else {
-                        mLayout.setAnchorPoint(1.0f);
-                        mLayout.setPanelState(PanelState.COLLAPSED);
-                        item.setTitle(R.string.action_anchor_enable);
-                    }
-                }
-                return true;
-            }
-        }
-        return super.onOptionsItemSelected(item);
-    }*/
-
-
 
     @Override
     public void onPause() {

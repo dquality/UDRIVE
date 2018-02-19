@@ -122,11 +122,27 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        initStatus();
+
         initDrawerNavigation();
 
         initBottomNavigation();
 
         initNetworkClient();
+    }
+
+    private void initStatus(){
+        mStatus = findViewById(R.id.status_button);
+        mStatus.setOnClickListener(onStatusClickListener);
+        setStatus(true);
+    }
+
+    public void setStatus(boolean active){
+        if(mStatus != null){
+            mStatusDefault = active;
+            mStatus.setText(active ? R.string.active : R.string.notactive);
+            mStatus.setBackgroundResource(active ? R.drawable.status_active_background : R.drawable.status_notactive_background);
+        }
     }
 
     private void initDrawerNavigation(){
@@ -158,14 +174,6 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
 
         bottomNavigation.setSelectedItemId(R.id.navigation_home);
-    }
-
-    public void setStatus(boolean active){
-        if(mStatus != null){
-            mStatusDefault = active;
-            mStatus.setText(active ? R.string.active : R.string.notactive);
-            mStatus.setBackgroundResource(active ? R.drawable.status_active_background : R.drawable.status_notactive_background);
-        }
     }
 
     private void initNetworkClient(){
