@@ -58,7 +58,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:itemBackground="@drawable/bottom_navigation_state_background"
+                app:itemBackground="@drawable/selector_bottom_navigation_state_background"
                 app:itemTextColor="@color/bottom_navigation_state_item_text"
                 app:itemIconTint="@color/bottom_navigation_state_item_icon"
                 android:textAlignment="center"

@@ -3,45 +3,20 @@ package ua.com.dquality.udrive.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SlidingPaneLayout;
-import android.support.v4.widget.ViewDragHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import ua.com.dquality.udrive.R;
 
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.text.Html;
-import android.text.method.LinkMovementMethod;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import ua.com.dquality.udrive.helpers.SlidingUpPanelLayout;
 import ua.com.dquality.udrive.helpers.SlidingUpPanelLayout.PanelSlideListener;
 import ua.com.dquality.udrive.helpers.SlidingUpPanelLayout.PanelState;
-
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
 
 public class HomeFragment extends Fragment {
@@ -145,7 +120,7 @@ public class HomeFragment extends Fragment {
         mCardMonthText = parentView.findViewById(R.id.card_month_text);
 
         if(cardHolderState != null) {
-            cardHolderState.setBackgroundResource(R.drawable.card_classic_background);
+            cardHolderState.setBackgroundResource(R.drawable.selector_card_classic_background);
         }
         if(mCardType != null){
             mCardType.setText("Classic");

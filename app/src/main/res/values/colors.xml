@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimaryDark">#000000</color>
-    <color name="colorPrimary">#242437</color>
+    <color name="colorPrimary">#242337</color>
     <color name="colorAccent">#68b549</color>
     <color name="colorPrimaryLight">#f9f9f9</color>
 
@@ -12,6 +12,12 @@
     <color name="colorBorder">#282828</color>
     <color name="colorExtra">#fffac1</color>
 
-    <color name="colorClassicStart">#b24976</color>
-    <color name="colorClassicEnd">#5d29b4</color>
+    <color name="colorClassicStart">#d25673</color>
+    <color name="colorClassicEnd">#612bc5</color>
+
+    <color name="colorGoldStart">#fac957</color>
+    <color name="colorGoldEnd">#f76b1c</color>
+
+    <color name="colorPlatinumStart">#fdfdfd</color>
+    <color name="colorPlatinumEnd">#cccccc</color>
 </resources>

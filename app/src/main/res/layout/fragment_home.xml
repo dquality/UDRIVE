@@ -35,9 +35,9 @@
                     sld:layout_constraintEnd_toEndOf="parent"
                     sld:layout_constraintStart_toStartOf="parent"
                     sld:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginRight="@dimen/nav_header_vertical_spacing"
-                    android:layout_marginLeft="@dimen/nav_header_vertical_spacing"
-                    android:padding="@dimen/corner_radius">
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:padding="@dimen/activity_vertical_margin">
 
                     <TextView
                         android:id="@+id/card_month_text"
@@ -52,17 +52,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/card_month_text"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                        android:textStyle="bold"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
                         android:textAllCaps="true"
                         />
                     <ImageView
                         android:id="@+id/card_barcode_image"
                         android:layout_width="wrap_content"
-                        android:layout_height="36dp"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:tint="@color/colorPrimaryLight"
-                        app:srcCompat="@drawable/ic_help_black_24dp"
-                        />
+                        sld:srcCompat="@drawable/ic_bar_code_114dp" />
                     <TextView
                         android:id="@+id/card_barcode_number_text"
                         android:layout_width="wrap_content"
@@ -73,6 +73,7 @@
                         android:textAllCaps="true"
                         />
                 </RelativeLayout>
+
             </android.support.constraint.ConstraintLayout>
         </FrameLayout>
 
