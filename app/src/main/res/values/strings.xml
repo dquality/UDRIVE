@@ -17,4 +17,6 @@
     <string name="account_fullname">Артем Новиков</string>
     <string name="active">Активен</string>
     <string name="notactive">Не Активен</string>
+    <string name="title_card_barcode">Barcode</string>
+    <string name="title_circle_ucoins">ucoins</string>
 </resources>

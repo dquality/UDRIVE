@@ -26,7 +26,9 @@
             android:layout_height="match_parent">
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin">
 
                 <RelativeLayout
                     android:id="@+id/card_holder_state"
@@ -34,9 +36,9 @@
                     android:layout_height="wrap_content"
                     sld:layout_constraintEnd_toEndOf="parent"
                     sld:layout_constraintStart_toStartOf="parent"
+                    sld:layout_constraintLeft_toLeftOf="parent"
+                    sld:layout_constraintRight_toRightOf="parent"
                     sld:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:padding="@dimen/activity_vertical_margin">
 
                     <TextView
@@ -44,35 +46,53 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                        android:textAllCaps="true"
-                        />
+                        android:textAllCaps="true"/>
                     <TextView
                         android:id="@+id/card_type_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
                         android:layout_below="@id/card_month_text"
                         android:textStyle="bold"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
                         android:textAllCaps="true"
+                        android:layout_toEndOf="@id/card_month_text"
+                        android:layout_toRightOf="@id/card_month_text"
                         />
                     <ImageView
                         android:id="@+id/card_barcode_image"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
                         android:tint="@color/colorPrimaryLight"
-                        sld:srcCompat="@drawable/ic_bar_code_114dp" />
+                        sld:srcCompat="@drawable/ic_bar_code_114dp"
+                        android:contentDescription="@string/title_card_barcode"/>
                     <TextView
                         android:id="@+id/card_barcode_number_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
                         android:layout_below="@id/card_barcode_image"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textAllCaps="true"
-                        />
+                        android:layout_toStartOf="@id/card_barcode_image"
+                        android:layout_toLeftOf="@id/card_barcode_image"/>
                 </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/circle_state"
+                    android:layout_width="192dp"
+                    android:layout_height="192dp"
+                    android:layout_marginTop="@dimen/element_vertical_margin"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:textSize="@dimen/abc_text_size_title_material"
+                    sld:layout_constraintStart_toStartOf="parent"
+                    sld:layout_constraintTop_toBottomOf="@id/card_holder_state"></TextView>
 
             </android.support.constraint.ConstraintLayout>
         </FrameLayout>
@@ -84,7 +104,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:clickable="true"
-            android:focusable="false"
+            android:focusable="true"
             >
 
             <TextView

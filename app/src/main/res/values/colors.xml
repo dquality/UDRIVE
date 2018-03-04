@@ -4,10 +4,8 @@
     <color name="colorPrimary">#242337</color>
     <color name="colorAccent">#68b549</color>
     <color name="colorPrimaryLight">#f9f9f9</color>
-
     <color name="colorError">#e94556</color>
-    <color name="colorWhite">#ffffff</color>
-    <color name="colorBlack">#000000</color>
+
     <color name="colorDivider">#282828</color>
     <color name="colorBorder">#282828</color>
     <color name="colorExtra">#fffac1</color>
@@ -16,8 +14,15 @@
     <color name="colorClassicEnd">#612bc5</color>
 
     <color name="colorGoldStart">#fac957</color>
+    <color name="colorGoldStart2">#fad961</color>
     <color name="colorGoldEnd">#f76b1c</color>
 
     <color name="colorPlatinumStart">#fdfdfd</color>
     <color name="colorPlatinumEnd">#cccccc</color>
+
+    <color name="colorCircleCenterStart">#474747</color>
+    <color name="colorCircleCenterEnd">#161616</color>
+
+    <color name="colorCircleGoldDefault">#4d4d56</color>
+    <color name="colorCirclePlatinumDefault">#3b3b44</color>
 </resources>

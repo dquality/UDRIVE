@@ -1,8 +1,14 @@
 package ua.com.dquality.udrive.fragments;
 
+import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.SpannableString;
+import android.text.TextUtils;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +20,17 @@ import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+import ua.com.dquality.udrive.helpers.CircleStatusDrawable;
 import ua.com.dquality.udrive.helpers.SlidingUpPanelLayout;
 import ua.com.dquality.udrive.helpers.SlidingUpPanelLayout.PanelSlideListener;
 import ua.com.dquality.udrive.helpers.SlidingUpPanelLayout.PanelState;
+import ua.com.dquality.udrive.viewmodels.StatusLevel;
+
+import static android.text.Spanned.SPAN_INCLUSIVE_INCLUSIVE;
 
 
 public class HomeFragment extends Fragment {
@@ -26,6 +40,7 @@ public class HomeFragment extends Fragment {
     private TextView mCardCodeNumber;
     private TextView mCardType;
     private TextView mCardMonthText;
+    private TextView mCircleState;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,6 +52,7 @@ public class HomeFragment extends Fragment {
 
         initCardHolderState(ret);
 
+        initCircleState(ret);
         // Inflate the layout for this fragment
         return ret;
     }
@@ -129,7 +145,45 @@ public class HomeFragment extends Fragment {
             mCardCodeNumber.setText("3356 4673 7990 5332");
         }
         if(mCardMonthText != null){
-            mCardMonthText.setText("Февраль");
+            String month = new SimpleDateFormat("LLLL", new Locale("ru")).format(new Date());
+            mCardMonthText.setText(month);
+        }
+    }
+
+    private void initCircleState(View parentView){
+        mCircleState =  parentView.findViewById(R.id.circle_state);
+        if(mCircleState != null){
+
+            setCircleValue(337);
+
+            setCircleDrawable();
+        }
+    }
+
+    private void setCircleValue(int ucoins){
+        if(mCircleState != null) {
+
+            int[] textSizeAttr = {android.R.attr.textSize};
+            TypedArray headLineTextAppStyle = getContext().obtainStyledAttributes(R.style.TextAppearance_AppCompat_Headline, textSizeAttr);
+            TypedArray titleTextAppStyle = getContext().obtainStyledAttributes(R.style.TextAppearance_AppCompat_Medium, textSizeAttr);
+
+            String ucVals = String.valueOf(ucoins);
+            SpannableString spanVal = new SpannableString(ucVals);
+            spanVal.setSpan(new AbsoluteSizeSpan(headLineTextAppStyle.getDimensionPixelSize(0, 0)), 0, ucVals.length(), SPAN_INCLUSIVE_INCLUSIVE);
+            spanVal.setSpan(new StyleSpan(Typeface.BOLD), 0, ucVals.length(), SPAN_INCLUSIVE_INCLUSIVE);
+
+
+            String ucTitle = getString(R.string.title_circle_ucoins);
+            SpannableString titleSpan = new SpannableString(ucTitle);
+            titleSpan.setSpan(new AbsoluteSizeSpan(titleTextAppStyle.getDimensionPixelSize(0, 0)), 0, ucTitle.length(), SPAN_INCLUSIVE_INCLUSIVE);
+
+            mCircleState.setText(TextUtils.concat(spanVal, "\n", titleSpan));
+        }
+    }
+
+    private void setCircleDrawable(){
+        if(mCircleState != null){
+            mCircleState.setBackgroundDrawable(new CircleStatusDrawable(getContext(), StatusLevel.Classic, 80));
         }
     }
 
