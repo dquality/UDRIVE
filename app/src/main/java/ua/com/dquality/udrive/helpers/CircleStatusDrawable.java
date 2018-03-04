@@ -116,7 +116,7 @@ public class CircleStatusDrawable extends Drawable {
             public Shader resize(int width, int height) {
                 LinearGradient lg = new LinearGradient(0 , 0 , width, height,
                         mColorGoldStart, mColorGoldEnd,
-                        Shader.TileMode.REPEAT);
+                        Shader.TileMode.CLAMP);
                 return lg;
             }
         };
