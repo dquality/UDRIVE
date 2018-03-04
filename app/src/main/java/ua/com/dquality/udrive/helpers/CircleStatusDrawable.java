@@ -7,6 +7,7 @@ import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.RadialGradient;
+import android.graphics.Rect;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
@@ -68,84 +69,86 @@ public class CircleStatusDrawable extends Drawable {
         switch (mStatusLevel){
             case Classic:
             {
-                ShapeDrawable mDrawable3 = new ShapeDrawable(new ArcShape(-90, 360));
-                mDrawable3.getPaint().setColor(mColorPlatinumDefault);
-                mDrawable3.setBounds(left - 2 * arcWidth, top - 2 * arcWidth, (int)(left + 2 * radius + 2 * arcWidth), (int)(top + 2 * radius + 2 * arcWidth));
-                mDrawable3.draw(canvas);
+                Rect rect = new Rect(left - 2 * arcWidth, top - 2 * arcWidth, (int)(left + 2 * radius + 2 * arcWidth), (int)(top + 2 * radius + 2 * arcWidth));
+                DrawArcColor(canvas, rect, mColorPlatinumDefault);
                 break;
             }
             case Gold:
             case Platinum:{
                 if(mStatusLevel == StatusLevel.Gold) {
-                    ShapeDrawable mDrawable3 = new ShapeDrawable(new ArcShape(-90, 360));
-                    mDrawable3.getPaint().setColor(mColorPlatinumDefault);
-                    mDrawable3.setBounds(left - 2 * arcWidth, top - 2 * arcWidth, (int)(left + 2 * radius + 2 * arcWidth), (int)(top + 2 * radius + 2 * arcWidth));
-                    mDrawable3.draw(canvas);
+                    Rect rect = new Rect(left - 2 * arcWidth, top - 2 * arcWidth, (int)(left + 2 * radius + 2 * arcWidth), (int)(top + 2 * radius + 2 * arcWidth));
+                    DrawArcColor(canvas, rect, mColorPlatinumDefault);
                 }
 
-                ShapeDrawable mDrawable31 = new ShapeDrawable(new ArcShape(-90, mStatusLevel == StatusLevel.Gold ? sweepAngel : 360));
-                ShapeDrawable.ShaderFactory sf3 = new ShapeDrawable.ShaderFactory() {
+                Rect rect = new Rect(left - 2 * arcWidth, top - 2 * arcWidth, (int)(left + 2 * radius + 2 * arcWidth), (int)(top + 2 * radius + 2 * arcWidth));
+                ShapeDrawable.ShaderFactory shaderFactory = new ShapeDrawable.ShaderFactory() {
                     @Override
                     public Shader resize(int width, int height) {
-                        LinearGradient lg = new LinearGradient(0 , 0 , width, height,
+                        return new LinearGradient(0 , 0 , width, height,
                                 mColorPlatinumStart, mColorPlatinumEnd,
                                 Shader.TileMode.CLAMP);
-                        return lg;
                     }
                 };
-
-                mDrawable31.setShaderFactory(sf3);
-                mDrawable31.setBounds(left - 2 * arcWidth, top - 2 * arcWidth, (int)(left + 2 * radius + 2 * arcWidth), (int)(top + 2 * radius + 2 * arcWidth));
-                mDrawable31.draw(canvas);
+                DrawArcGradient(canvas, rect, shaderFactory, mStatusLevel == StatusLevel.Gold ? sweepAngel : 360);
                 break;
             }
         }
 
 
         if(mStatusLevel == StatusLevel.Classic) {
-            ShapeDrawable mDrawable2 = new ShapeDrawable(new ArcShape(-90, 360));
-            mDrawable2.getPaint().setColor(mColorGoldDefault);
-            mDrawable2.setBounds(left - arcWidth, top - arcWidth, (int)(left + 2 * radius + arcWidth), (int)(top + 2 * radius + arcWidth));
-            mDrawable2.draw(canvas);
+            Rect rect = new Rect(left - arcWidth, top - arcWidth, (int)(left + 2 * radius + arcWidth), (int)(top + 2 * radius + arcWidth));
+            DrawArcColor(canvas, rect, mColorGoldDefault);
         }
 
-        ShapeDrawable mDrawable21 = new ShapeDrawable(new ArcShape(-90, mStatusLevel == StatusLevel.Classic ? sweepAngel : 360));
-
-        ShapeDrawable.ShaderFactory sf2 = new ShapeDrawable.ShaderFactory() {
+        Rect rect = new Rect(left - arcWidth, top - arcWidth, (int)(left + 2 * radius + arcWidth), (int)(top + 2 * radius + arcWidth));
+        ShapeDrawable.ShaderFactory shaderFactory = new ShapeDrawable.ShaderFactory() {
             @Override
             public Shader resize(int width, int height) {
-                LinearGradient lg = new LinearGradient(0 , 0 , width, height,
+                return new LinearGradient(0 , 0 , width, height,
                         mColorGoldStart, mColorGoldEnd,
                         Shader.TileMode.CLAMP);
-                return lg;
             }
         };
-        mDrawable21.setShaderFactory(sf2);
-
-        mDrawable21.setBounds(left - arcWidth, top - arcWidth, (int)(left + 2 * radius + arcWidth), (int)(top + 2 * radius + arcWidth));
-        mDrawable21.draw(canvas);
+        DrawArcGradient(canvas, rect, shaderFactory, mStatusLevel == StatusLevel.Classic ? sweepAngel : 360);
 
 
-        ShapeDrawable mDrawable = new ShapeDrawable(new OvalShape());
-        ShapeDrawable.ShaderFactory sf = new ShapeDrawable.ShaderFactory() {
+
+        rect = new Rect(left, top, (int)(left + 2 * radius), (int)(top + 2 * radius));
+        shaderFactory = new ShapeDrawable.ShaderFactory() {
             @Override
             public Shader resize(int width, int height) {
-                LinearGradient lg = new LinearGradient(width/2, 0, width/2, height,
+                return new LinearGradient(width/2, 0, width/2, height,
                         new int[]{ mColorCircleCenterStart, mColorCircleCenterStart, mColorCircleCenterEnd, mColorCircleCenterEnd },
                         null,
                         Shader.TileMode.CLAMP);
-                return lg;
             }
         };
-        mDrawable.setShaderFactory(sf);
-        // If the color isn't set, the shape uses black as the default.
-        //mDrawable.getPaint().setColor(ContextCompat.getColor(mContext, R.color.colorCircleCenterEnd));
-        // If the bounds aren't set, the shape can't be drawn.
+        DrawOvalGradient(canvas, rect, shaderFactory);
+    }
 
+    private void DrawArcColor(Canvas canvas, Rect rect, int colorIdentifier){
+        DrawArcColor(canvas, rect, colorIdentifier, 360);
+    }
 
-        mDrawable.setBounds(left, top, (int)(left + 2 * radius), (int)(top + 2 * radius));
+    private void DrawArcColor(Canvas canvas, Rect rect, int colorIdentifier, int sweepAngel){
+        ShapeDrawable drawable = new ShapeDrawable(new ArcShape(-90, sweepAngel));
+        drawable.getPaint().setColor(colorIdentifier);
+        drawable.setBounds(rect);
+        drawable.draw(canvas);
+    }
 
-        mDrawable.draw(canvas);
+    private void DrawArcGradient(Canvas canvas, Rect rec, ShapeDrawable.ShaderFactory shaderFactory, int sweepAngel){
+        ShapeDrawable drawable = new ShapeDrawable(new ArcShape(-90, sweepAngel));
+        drawable.setShaderFactory(shaderFactory);
+        drawable.setBounds(rec);
+        drawable.draw(canvas);
+    }
+
+    private void DrawOvalGradient(Canvas canvas, Rect rec, ShapeDrawable.ShaderFactory shaderFactory){
+        ShapeDrawable drawable = new ShapeDrawable(new OvalShape());
+        drawable.setShaderFactory(shaderFactory);
+        drawable.setBounds(rec);
+        drawable.draw(canvas);
     }
 
     @Override
