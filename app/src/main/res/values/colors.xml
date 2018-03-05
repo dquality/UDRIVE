@@ -25,4 +25,7 @@
 
     <color name="colorCircleGoldDefault">#4d4d56</color>
     <color name="colorCirclePlatinumDefault">#3b3b44</color>
+
+    <color name="colorTextTitlePlatinum">#737377</color>
+    <color name="colorTextTitleGold">#fad45e</color>
 </resources>

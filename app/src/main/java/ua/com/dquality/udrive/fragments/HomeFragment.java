@@ -1,13 +1,16 @@
 package ua.com.dquality.udrive.fragments;
 
+import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,10 +20,12 @@ import ua.com.dquality.udrive.R;
 
 import android.util.Log;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -35,12 +40,32 @@ import static android.text.Spanned.SPAN_INCLUSIVE_INCLUSIVE;
 
 public class HomeFragment extends Fragment {
     private static final String TAG = "DemoActivity";
+    private static final String CULTURE = "ru";
+
+    private StatusLevel mLevel;
+    private int mNextLevelPercentage;
+    private int mUcoinsVal;
+    private String mBarcodeVal;
+    private int mPrevMonthTripsCountVal;
+    private int mTodayTripsCountVal;
+    private int mRemainsTripsCountVal;
 
     private SlidingUpPanelLayout mLayout;
+    private ImageView mCardBarcodeImage;
     private TextView mCardCodeNumber;
     private TextView mCardType;
     private TextView mCardMonthText;
+
     private TextView mCircleState;
+
+    private TextView mPrevMonthTripsTitle;
+    private TextView mPrevMonthTripsCount;
+    private TextView mTodayTripsCount;
+    private TextView mRemainsTripsTitle;
+    private TextView mRemainsTripsCount;
+    private TextView mFinalStatusTitle;
+    private TextView mFinalStatusName;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,13 +73,29 @@ public class HomeFragment extends Fragment {
 
         View ret = inflater.inflate(R.layout.fragment_home, container, false);
 
+        initModelParams();
+
         initSlidePanel(ret);
 
         initCardHolderState(ret);
 
         initCircleState(ret);
-        // Inflate the layout for this fragment
+
+        initTripTitleAndCounterStats(ret);
+
         return ret;
+    }
+
+    private void initModelParams(){
+        mLevel = StatusLevel.Classic;
+        mNextLevelPercentage = 60;
+        mUcoinsVal = 337;
+        mBarcodeVal = "3356 4673 7990 5332";
+
+        mPrevMonthTripsCountVal = 2456;
+        mTodayTripsCountVal = 4;
+        mRemainsTripsCountVal = 52;
+
     }
 
     private void initSlidePanel(View parentView){
@@ -131,22 +172,51 @@ public class HomeFragment extends Fragment {
 
     private void initCardHolderState(View parentView){
         RelativeLayout cardHolderState =  parentView.findViewById(R.id.card_holder_state);
+        mCardBarcodeImage= parentView.findViewById(R.id.card_barcode_image);
         mCardCodeNumber = parentView.findViewById(R.id.card_barcode_number_text);
         mCardType = parentView.findViewById(R.id.card_type_text);
         mCardMonthText = parentView.findViewById(R.id.card_month_text);
 
         if(cardHolderState != null) {
-            cardHolderState.setBackgroundResource(R.drawable.selector_card_classic_background);
+            switch (mLevel){
+                case Classic:
+                    cardHolderState.setBackgroundResource(R.drawable.selector_card_classic_background);
+                    break;
+                case Gold:
+                    cardHolderState.setBackgroundResource(R.drawable.selector_card_gold_background);
+                    break;
+                case Platinum:
+                    cardHolderState.setBackgroundResource(R.drawable.selector_card_platinum_background);
+                    break;
+            }
         }
         if(mCardType != null){
-            mCardType.setText("Classic");
+            mCardType.setText(getStatusLevel(mLevel));
         }
         if(mCardCodeNumber != null){
-            mCardCodeNumber.setText("3356 4673 7990 5332");
+            mCardCodeNumber.setText(mBarcodeVal);
         }
         if(mCardMonthText != null){
-            String month = new SimpleDateFormat("LLLL", new Locale("ru")).format(new Date());
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.MONTH, -1);
+            String month = new SimpleDateFormat("LLLL", new Locale(CULTURE)).format(cal.getTime());
             mCardMonthText.setText(month);
+        }
+
+        Context ctx = getContext();
+        if(mLevel == StatusLevel.Platinum){
+            int platColor = ContextCompat.getColor(ctx, R.color.colorTextTitlePlatinum);
+            mCardCodeNumber.setTextColor(platColor);
+            mCardType.setTextColor(platColor);
+            mCardMonthText.setTextColor(platColor);
+            mCardBarcodeImage.setImageResource(R.drawable.ic_bar_code_plat_114dp);
+        }
+        else{
+            int defColor = ContextCompat.getColor(ctx, R.color.colorPrimaryLight);
+            mCardCodeNumber.setTextColor(defColor);
+            mCardType.setTextColor(defColor);
+            mCardMonthText.setTextColor(defColor);
+            mCardBarcodeImage.setImageResource(R.drawable.ic_bar_code_114dp);
         }
     }
 
@@ -154,7 +224,7 @@ public class HomeFragment extends Fragment {
         mCircleState =  parentView.findViewById(R.id.circle_state);
         if(mCircleState != null){
 
-            setCircleValue(337);
+            setCircleValue(mUcoinsVal);
 
             setCircleDrawable();
         }
@@ -181,10 +251,87 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    private void initTripTitleAndCounterStats(View parentView){
+        mPrevMonthTripsTitle = parentView.findViewById(R.id.prev_month_trips_title);
+        mPrevMonthTripsCount = parentView.findViewById(R.id.prev_month_trips_count);
+
+        mTodayTripsCount = parentView.findViewById(R.id.today_trips_count);
+
+        mRemainsTripsTitle = parentView.findViewById(R.id.remains_trips_title);
+        mRemainsTripsCount = parentView.findViewById(R.id.remains_trips_count);
+
+        mFinalStatusTitle = parentView.findViewById(R.id.final_status_title);
+        mFinalStatusName = parentView.findViewById(R.id.final_status_name);
+
+        setPrevMonthTripTitle();
+
+        setRemainsBlock(mLevel);
+
+        setTripsCount();
+    }
+
+    private void setRemainsBlock(StatusLevel current){
+        if(mRemainsTripsTitle != null && mRemainsTripsCount != null && mFinalStatusTitle != null && mFinalStatusName != null){
+
+            if(mLevel == StatusLevel.Platinum){
+                mFinalStatusTitle.setVisibility(View.VISIBLE);
+                mFinalStatusName.setVisibility(View.VISIBLE);
+
+                mRemainsTripsTitle.setVisibility(View.GONE);
+                mRemainsTripsCount.setVisibility(View.GONE);
+            }
+            else{
+                mFinalStatusTitle.setVisibility(View.GONE);
+                mFinalStatusName.setVisibility(View.GONE);
+
+                mRemainsTripsTitle.setVisibility(View.VISIBLE);
+                mRemainsTripsCount.setVisibility(View.VISIBLE);
+
+                String remainTripStr = getString(R.string.remain_trips_title ).toUpperCase();
+                StatusLevel nextLevel = mLevel.next();
+                Context ctx  = getContext();
+                int lvlColor = nextLevel == StatusLevel.Gold ? ContextCompat.getColor(ctx, R.color.colorTextTitleGold) : ContextCompat.getColor(ctx, R.color.colorTextTitlePlatinum);
+                String lvlStr = getStatusLevel(nextLevel);
+                SpannableString lvlSpan = new SpannableString(lvlStr.toUpperCase());
+                lvlSpan.setSpan(new StyleSpan(Typeface.BOLD), 0, lvlStr.length(), SPAN_INCLUSIVE_INCLUSIVE);
+                lvlSpan.setSpan(new ForegroundColorSpan(lvlColor), 0, lvlStr.length(), SPAN_INCLUSIVE_INCLUSIVE);
+
+                mRemainsTripsTitle.setText(TextUtils.concat(remainTripStr, " ", lvlSpan));
+            }
+        }
+    }
+
+    private void setPrevMonthTripTitle(){
+        if(mPrevMonthTripsTitle != null){
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.MONTH, -1);
+            String prevMonth = new SimpleDateFormat("LLLL", new Locale(CULTURE)).format(cal.getTime());
+            mPrevMonthTripsTitle.setText(String.format(getString(R.string.prev_month_trip_title_tmpl), prevMonth));
+        }
+    }
+
+    private void setTripsCount(){
+        if(mPrevMonthTripsCount != null) mPrevMonthTripsCount.setText(String.valueOf(mPrevMonthTripsCountVal));
+        if(mTodayTripsCount != null) mTodayTripsCount.setText(String.valueOf(mTodayTripsCountVal));
+        if(mRemainsTripsCount != null) mRemainsTripsCount.setText(String.valueOf(mRemainsTripsCountVal));
+    }
+
     private void setCircleDrawable(){
         if(mCircleState != null){
-            mCircleState.setBackgroundDrawable(new CircleStatusDrawable(getContext(), StatusLevel.Classic, 80));
+            mCircleState.setBackgroundDrawable(new CircleStatusDrawable(getContext(), mLevel, mNextLevelPercentage));
         }
+    }
+
+    private String getStatusLevel(StatusLevel lvl){
+        switch (lvl){
+            case Classic:
+                return getString(R.string.title_status_classic);
+            case Gold:
+                return getString(R.string.title_status_gold);
+            case Platinum:
+                return getString(R.string.title_status_platinum);
+        }
+        return null;
     }
 
     @Override
