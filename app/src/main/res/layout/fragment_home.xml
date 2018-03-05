@@ -198,6 +198,44 @@
                 android:text="@string/title_status_platinum"
                 android:visibility="gone"/>
 
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/accrual_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/element_vertical_margin"
+                android:padding="@dimen/activity_horizontal_margin"
+                sld:layout_constraintStart_toStartOf="parent"
+                sld:layout_constraintTop_toBottomOf="@id/circle_state"
+                android:text="@string/accrual_button_title"
+                android:textAllCaps="true"
+                android:background="@drawable/selector_add_accrual_background"/>
+
+                <TextView
+                    android:id="@+id/balance_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                    android:textAllCaps="true"
+                    android:layout_marginTop="@dimen/element_vertical_margin"
+                    android:gravity="end"
+                    sld:layout_constraintLeft_toRightOf="@id/accrual_button"
+                    sld:layout_constraintStart_toEndOf="@id/accrual_button"
+                    sld:layout_constraintTop_toBottomOf="@id/circle_state"
+                    android:text="@string/balance_title"/>
+
+                <TextView
+                    android:id="@+id/balance_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:textColor="@color/colorAccent"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+                    android:textStyle="bold"
+                    sld:layout_constraintLeft_toRightOf="@id/balance_title"
+                    sld:layout_constraintStart_toEndOf="@id/balance_title"
+                    sld:layout_constraintTop_toBottomOf="@id/balance_title"
+                    android:text="-"/>
+
         </android.support.constraint.ConstraintLayout>
         </ScrollView>
 

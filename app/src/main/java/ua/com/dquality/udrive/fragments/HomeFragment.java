@@ -24,8 +24,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Currency;
 import java.util.Date;
 import java.util.Locale;
 
@@ -49,6 +51,7 @@ public class HomeFragment extends Fragment {
     private int mPrevMonthTripsCountVal;
     private int mTodayTripsCountVal;
     private int mRemainsTripsCountVal;
+    private double mBalanceVal;
 
     private SlidingUpPanelLayout mLayout;
     private ImageView mCardBarcodeImage;
@@ -65,6 +68,8 @@ public class HomeFragment extends Fragment {
     private TextView mRemainsTripsCount;
     private TextView mFinalStatusTitle;
     private TextView mFinalStatusName;
+
+    private TextView mBalanceAmount;
 
 
     @Override
@@ -83,6 +88,8 @@ public class HomeFragment extends Fragment {
 
         initTripTitleAndCounterStats(ret);
 
+        initBalance(ret);
+
         return ret;
     }
 
@@ -95,7 +102,7 @@ public class HomeFragment extends Fragment {
         mPrevMonthTripsCountVal = 2456;
         mTodayTripsCountVal = 4;
         mRemainsTripsCountVal = 52;
-
+        mBalanceVal = -16245.4;
     }
 
     private void initSlidePanel(View parentView){
@@ -203,21 +210,11 @@ public class HomeFragment extends Fragment {
             mCardMonthText.setText(month);
         }
 
-        Context ctx = getContext();
-        if(mLevel == StatusLevel.Platinum){
-            int platColor = ContextCompat.getColor(ctx, R.color.colorTextTitlePlatinum);
-            mCardCodeNumber.setTextColor(platColor);
-            mCardType.setTextColor(platColor);
-            mCardMonthText.setTextColor(platColor);
-            mCardBarcodeImage.setImageResource(R.drawable.ic_bar_code_plat_114dp);
-        }
-        else{
-            int defColor = ContextCompat.getColor(ctx, R.color.colorPrimaryLight);
-            mCardCodeNumber.setTextColor(defColor);
-            mCardType.setTextColor(defColor);
-            mCardMonthText.setTextColor(defColor);
-            mCardBarcodeImage.setImageResource(R.drawable.ic_bar_code_114dp);
-        }
+        int cardTextColor = ContextCompat.getColor(getContext(), mLevel == StatusLevel.Platinum ? R.color.colorTextTitlePlatinum : R.color.colorPrimaryLight);
+        mCardCodeNumber.setTextColor(cardTextColor);
+        mCardType.setTextColor(cardTextColor);
+        mCardMonthText.setTextColor(cardTextColor);
+        mCardBarcodeImage.setImageResource(mLevel == StatusLevel.Platinum ? R.drawable.ic_bar_code_plat_114dp :R.drawable.ic_bar_code_114dp);
     }
 
     private void initCircleState(View parentView){
@@ -332,6 +329,20 @@ public class HomeFragment extends Fragment {
                 return getString(R.string.title_status_platinum);
         }
         return null;
+    }
+
+    private void initBalance(View parentView){
+        mBalanceAmount = parentView.findViewById(R.id.balance_amount);
+
+        setBalanceAmount();
+    }
+
+    private void setBalanceAmount(){
+        if(mBalanceAmount != null){
+            Context ctx  = getContext();
+            mBalanceAmount.setTextColor(ContextCompat.getColor(ctx, mBalanceVal < 0 ? R.color.colorError : R.color.colorAccent));
+            mBalanceAmount.setText(String.format("%1$,.2f",mBalanceVal));
+        }
     }
 
     @Override

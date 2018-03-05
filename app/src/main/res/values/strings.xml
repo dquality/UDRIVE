@@ -26,4 +26,6 @@
     <string name="today_trips_title">поездок сегодня</string>
     <string name="remain_trips_title">осталось поездок\nдо статуса</string>
     <string name="final_status_title">максимальный\nстатус</string>
+    <string name="balance_title">ваш баланс</string>
+    <string name="accrual_button_title">+ пополнить баланс</string>
 </resources>
