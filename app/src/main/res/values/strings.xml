@@ -4,6 +4,7 @@
     <string name="title_home">Главная</string>
     <string name="title_profit">Доходы</string>
     <string name="title_offer">Предложения</string>
+    <string name="title_other">Другое</string>
     <string name="drawer_open">Открыть</string>
     <string name="drawer_close">Закрыть</string>
     <string name="title_drawer_home">Личный кабинет</string>
@@ -28,4 +29,9 @@
     <string name="final_status_title">максимальный\nстатус</string>
     <string name="balance_title">ваш баланс</string>
     <string name="accrual_button_title">+ пополнить баланс</string>
+    <string name="profit_history_button_title">история</string>
+    <string name="profit_statement_button_title">ведомости</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

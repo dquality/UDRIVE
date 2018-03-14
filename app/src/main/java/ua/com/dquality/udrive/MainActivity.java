@@ -24,6 +24,7 @@ import com.jacksonandroidnetworking.JacksonParserFactory;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 
 import okhttp3.OkHttpClient;
+import ua.com.dquality.udrive.fragments.OtherFragment;
 import ua.com.dquality.udrive.fragments.UdriveShopFragment;
 import ua.com.dquality.udrive.fragments.HomeFragment;
 import ua.com.dquality.udrive.fragments.ProfitFragment;
@@ -57,10 +58,14 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_profit:
                     mFragment = new ProfitFragment();
                     break;
-                case R.id.navigation_udrive_shop:
-                    mFragment = new UdriveShopFragment();
-                    mShopBadge.setVisibility(View.INVISIBLE);
+                case R.id.navigation_other:
+                    mFragment = new OtherFragment();
                     break;
+//TODO Uncomment Shop
+//                case R.id.navigation_udrive_shop:
+//                    mFragment = new UdriveShopFragment();
+//                    mShopBadge.setVisibility(View.INVISIBLE);
+//                    break;
             }
             final FragmentTransaction transaction = mFragmentManager.beginTransaction();
             transaction.replace(R.id.frameContainer, mFragment).commit();

@@ -28,13 +28,13 @@ public final class BottomNavigationViewHelper {
             shiftingMode.setAccessible(false);
             for (int i = 0; i < menuView.getChildCount(); i++) {
                 BottomNavigationItemView item = (BottomNavigationItemView) menuView.getChildAt(i);
-
-                if(item.getItemData().getItemId() == R.id.navigation_udrive_shop){
-                    shopBadge = layoutInflater
-                            .inflate(R.layout.bottom_navigation_shop_badge, menuView, false);
-
-                    item.addView(shopBadge);
-                }
+//TODO Uncomment Shop
+//                if(item.getItemData().getItemId() == R.id.navigation_udrive_shop){
+//                    shopBadge = layoutInflater
+//                            .inflate(R.layout.bottom_navigation_shop_badge, menuView, false);
+//
+//                    item.addView(shopBadge);
+//                }
                 //noinspection RestrictedApi
                 item.setShiftingMode(false);
                 // set once again checked value, so view will be updated

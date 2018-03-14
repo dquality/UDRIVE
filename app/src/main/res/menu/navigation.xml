@@ -14,10 +14,17 @@
         android:checkable="true"
         android:title="@string/title_profit"
         android:tooltipText="@string/title_profit"/>
+    <!--TODO Uncomment Shop-->
+    <!--<item-->
+        <!--android:id="@+id/navigation_udrive_shop"-->
+        <!--android:icon="@drawable/ic_shopping_cart_black_24dp"-->
+        <!--android:checkable="true"-->
+        <!--android:title="@string/title_offer"-->
+        <!--android:tooltipText="@string/title_offer"/>-->
     <item
-        android:id="@+id/navigation_udrive_shop"
-        android:icon="@drawable/ic_shopping_cart_black_24dp"
+        android:id="@+id/navigation_other"
+        android:icon="@drawable/ic_other_24dp"
         android:checkable="true"
-        android:title="@string/title_offer"
-        android:tooltipText="@string/title_offer"/>
+        android:title="@string/title_other"
+        android:tooltipText="@string/title_other"/>
 </menu>

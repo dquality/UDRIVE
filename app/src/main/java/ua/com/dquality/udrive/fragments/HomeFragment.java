@@ -72,6 +72,10 @@ public class HomeFragment extends Fragment {
     private TextView mBalanceAmount;
 
 
+    public HomeFragment() {
+        // Required empty public constructor
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -95,14 +99,14 @@ public class HomeFragment extends Fragment {
 
     private void initModelParams(){
         mLevel = StatusLevel.Classic;
-        mNextLevelPercentage = 60;
-        mUcoinsVal = 337;
+        mNextLevelPercentage = 20;
+        mUcoinsVal = 444;
         mBarcodeVal = "3356 4673 7990 5332";
 
-        mPrevMonthTripsCountVal = 2456;
-        mTodayTripsCountVal = 4;
-        mRemainsTripsCountVal = 52;
-        mBalanceVal = -16245.4;
+        mPrevMonthTripsCountVal = 1450;
+        mTodayTripsCountVal = 1;
+        mRemainsTripsCountVal = 80;
+        mBalanceVal = 16245.4;
     }
 
     private void initSlidePanel(View parentView){

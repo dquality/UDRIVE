@@ -14,10 +14,10 @@
     <color name="colorClassicEnd">#612bc5</color>
 
     <color name="colorGoldStart">#fac957</color>
-    <color name="colorGoldStart2">#fad961</color>
     <color name="colorGoldEnd">#f76b1c</color>
 
     <color name="colorPlatinumStart">#fdfdfd</color>
+    <color name="colorPlatinumMiddle">#e1e1e1</color>
     <color name="colorPlatinumEnd">#cccccc</color>
 
     <color name="colorCircleCenterStart">#474747</color>
