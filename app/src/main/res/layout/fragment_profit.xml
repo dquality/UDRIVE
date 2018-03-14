@@ -18,7 +18,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/element_vertical_margin"
                 android:layout_marginLeft="@dimen/activity_vertical_margin"
-                android:padding="@dimen/activity_horizontal_margin"
+                android:padding="@dimen/corner_radius"
                 android:text="@string/profit_history_button_title"
                 android:textAllCaps="true"
                 android:gravity="center"
@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/element_vertical_margin"
                 android:layout_marginRight="@dimen/activity_vertical_margin"
-                android:padding="@dimen/activity_horizontal_margin"
+                android:padding="@dimen/corner_radius"
                 android:text="@string/profit_statement_button_title"
                 android:textAllCaps="true"
                 android:gravity="center"
@@ -44,6 +44,7 @@
 
         <android.support.v4.view.ViewPager
             android:id="@+id/profit_view_pager"
+            android:layout_marginTop="@dimen/element_vertical_margin"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 </LinearLayout>
