@@ -32,6 +32,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import ua.com.dquality.udrive.helpers.CircleStatusDrawable;
+import ua.com.dquality.udrive.helpers.Const;
 import ua.com.dquality.udrive.helpers.SlidingUpPanelLayout;
 import ua.com.dquality.udrive.helpers.SlidingUpPanelLayout.PanelSlideListener;
 import ua.com.dquality.udrive.helpers.SlidingUpPanelLayout.PanelState;
@@ -42,7 +43,6 @@ import static android.text.Spanned.SPAN_INCLUSIVE_INCLUSIVE;
 
 public class HomeFragment extends Fragment {
     private static final String TAG = "DemoActivity";
-    private static final String CULTURE = "ru";
 
     private StatusLevel mLevel;
     private int mNextLevelPercentage;
@@ -210,7 +210,7 @@ public class HomeFragment extends Fragment {
         if(mCardMonthText != null){
             Calendar cal = Calendar.getInstance();
             cal.add(Calendar.MONTH, -1);
-            String month = new SimpleDateFormat("LLLL", new Locale(CULTURE)).format(cal.getTime());
+            String month = new SimpleDateFormat("LLLL", new Locale(Const.CULTURE)).format(cal.getTime());
             mCardMonthText.setText(month);
         }
 
@@ -306,7 +306,7 @@ public class HomeFragment extends Fragment {
         if(mPrevMonthTripsTitle != null){
             Calendar cal = Calendar.getInstance();
             cal.add(Calendar.MONTH, -1);
-            String prevMonth = new SimpleDateFormat("LLLL", new Locale(CULTURE)).format(cal.getTime());
+            String prevMonth = new SimpleDateFormat("LLLL", new Locale(Const.CULTURE)).format(cal.getTime());
             mPrevMonthTripsTitle.setText(String.format(getString(R.string.prev_month_trip_title_tmpl), prevMonth));
         }
     }

@@ -5,6 +5,7 @@
     <color name="colorAccent">#68b549</color>
     <color name="colorPrimaryLight">#f9f9f9</color>
     <color name="colorError">#e94556</color>
+    <color name="colorYellow">#ffcc01</color>
 
     <color name="colorDivider">#282828</color>
     <color name="colorBorder">#282828</color>
@@ -28,4 +29,5 @@
 
     <color name="colorTextTitlePlatinum">#737377</color>
     <color name="colorTextTitleGold">#fad45e</color>
+
 </resources>
