@@ -1,14 +1,6 @@
 package ua.com.dquality.udrive.helpers;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-
 import android.content.Context;
-import android.database.DataSetObserver;
 import android.graphics.Typeface;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -17,29 +9,35 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import ua.com.dquality.udrive.R;
 import ua.com.dquality.udrive.viewmodels.ProfitHistoryGroupModel;
 import ua.com.dquality.udrive.viewmodels.ProfitHistoryItemModel;
 import ua.com.dquality.udrive.viewmodels.ProfitHistoryItemType;
+import ua.com.dquality.udrive.viewmodels.ProfitStatementModel;
 
-public class ExpandableProfitHistoryAdapter extends BaseExpandableListAdapter {
+public class ExpandableProfitStatementAdapter extends BaseExpandableListAdapter {
 
     private Context mContext;
-    private List<ProfitHistoryGroupModel> mGroupItemData;
+    private ProfitStatementModel profitStatementModel;
 
-    public ExpandableProfitHistoryAdapter(Context context) {
+    public ExpandableProfitStatementAdapter(Context context) {
         this.mContext = context;
-        this.mGroupItemData = new ArrayList<>();
+        this.profitStatementModel = new ProfitStatementModel();
     }
-    public void setGroupItemData(List<ProfitHistoryGroupModel> groupItemData){
-        this.mGroupItemData = groupItemData;
+
+    public void setGroupItemData(ProfitStatementModel profitStatementModel){
+        this.profitStatementModel = profitStatementModel;
         this.notifyDataSetChanged();
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosititon) {
-        return this.mGroupItemData.get(groupPosition).Items
-                .get(childPosititon);
+        return 0;
+//        return this.profitStatementModel.get(groupPosition).Items
+//                .get(childPosititon);
     }
 
     @Override
@@ -80,18 +78,21 @@ public class ExpandableProfitHistoryAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return this.mGroupItemData.get(groupPosition).Items
-                .size();
+        return 0;
+//        return this.profitStatementModel.get(groupPosition).Items
+//                .size();
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return this.mGroupItemData.get(groupPosition);
+        return 0;
+        //return this.profitStatementModel.get(groupPosition);
     }
 
     @Override
     public int getGroupCount() {
-        return this.mGroupItemData.size();
+        return 0;
+        //return this.profitStatementModel.size();
     }
 
     @Override

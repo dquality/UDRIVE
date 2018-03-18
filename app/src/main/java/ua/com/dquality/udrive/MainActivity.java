@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
         initDrawerNavigation();
 
-        initBottomNavigation();
+        initBottomNavigation(savedInstanceState);
 
         initNetworkClient();
     }
@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
         drawerNavigation.setNavigationItemSelectedListener(onDrawerNavigationItemSelectedListener);
     }
 
-    private void initBottomNavigation(){
+    private void initBottomNavigation(Bundle savedInstanceState){
 
         mFragmentManager = getSupportFragmentManager();
 
@@ -175,7 +175,9 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
 
-        bottomNavigation.setSelectedItemId(R.id.navigation_home);
+        if(savedInstanceState == null){
+            bottomNavigation.setSelectedItemId(bottomNavigation.getSelectedItemId());
+        }
     }
 
     private void initNetworkClient(){
