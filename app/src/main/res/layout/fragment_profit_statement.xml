@@ -5,27 +5,19 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         tools:context="ua.com.dquality.udrive.fragments.ProfitStatementFragment">
-        <!--<CalendarView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="0dp"-->
-            <!--android:layout_weight="2"-->
-            <!--android:layout_gravity="top"-->
-            <!--&gt;</CalendarView>-->
-        <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/calendarView"
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/profit_statement_pick_date_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:mcv_calendarMode="week"
-            app:mcv_arrowColor="@color/colorAccent"
-            app:mcv_weekDayTextAppearance="@style/Base.TextAppearance.AppCompat.Large"
-            />
-        <!-- TODO: Update blank fragment layout -->
+            android:layout_marginLeft="@dimen/activity_vertical_margin"
+            android:layout_marginRight="@dimen/activity_vertical_margin"
+            android:padding="@dimen/corner_radius"
+            android:textAllCaps="true"
+            android:gravity="center" />
+
         <ExpandableListView
             android:id="@+id/profit_statement_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
-            android:scrollbars="vertical"
-            />
+            android:scrollbars="vertical" />
 </LinearLayout>
