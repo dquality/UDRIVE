@@ -63,9 +63,6 @@ public class DateRangePickerFragment extends DialogFragment {
         mCalendar.setFirstDayOfWeek(mCalendarView.getFirstDayOfWeek());
 
         mCalendarView.setSelectionMode(SELECTION_MODE_RANGE);
-        mCalendarView.setVerticalScrollBarEnabled(true);
-        mCalendarView.setHorizontalScrollBarEnabled(true);
-
 
         CalendarDay initialDay = initialSingleWeekDay == null ? CalendarDay.from(mCalendar): initialSingleWeekDay;
         mCalendarView.setCurrentDate(initialDay);

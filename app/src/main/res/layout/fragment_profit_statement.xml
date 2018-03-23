@@ -13,7 +13,8 @@
             android:layout_marginRight="@dimen/corner_radius"
             android:padding="@dimen/corner_radius"
             android:textAllCaps="true"
-            android:gravity="center" />
+            android:gravity="center"
+            android:background="@drawable/selector_date_range_statement_button"/>
 
         <ExpandableListView
             android:id="@+id/profit_statement_list"
