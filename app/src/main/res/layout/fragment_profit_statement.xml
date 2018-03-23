@@ -9,8 +9,8 @@
             android:id="@+id/profit_statement_pick_date_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/activity_vertical_margin"
-            android:layout_marginRight="@dimen/activity_vertical_margin"
+            android:layout_marginLeft="@dimen/corner_radius"
+            android:layout_marginRight="@dimen/corner_radius"
             android:padding="@dimen/corner_radius"
             android:textAllCaps="true"
             android:gravity="center" />

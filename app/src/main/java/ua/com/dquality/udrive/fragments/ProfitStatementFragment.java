@@ -66,19 +66,24 @@ public class ProfitStatementFragment extends Fragment implements DateRangePicker
         mPickDateButton = ret.findViewById(R.id.profit_statement_pick_date_button);
         mPickDateButton.setOnClickListener(this);
 
-        mInitialDay = CalendarDay.from(Calendar.getInstance());
+        Calendar calendar = Calendar.getInstance();
 
+        CalendarDay[] initDays = DateRangePickerFragment.calculateStartEndWeekDate(CalendarDay.from(calendar), calendar);
+        setDateRange(initDays[0], initDays[1]);
         return ret;
+    }
+
+    private void setDateRange( CalendarDay startDate, CalendarDay endDate){
+        String fromDateString = new SimpleDateFormat("dd MMMM yyyy", new Locale(Const.CULTURE)).format(startDate.getDate());
+        String toDateString = new SimpleDateFormat("dd MMMM yyyy", new Locale(Const.CULTURE)).format(endDate.getDate());
+        mInitialDay = startDate;
+        mPickDateButton.setText(fromDateString + "    -    " + toDateString);
+        mViewModelData.changePeriod(startDate, endDate);
     }
 
     @Override
     public void onDateRangeSet(MaterialCalendarView view, CalendarDay startDate, CalendarDay endDate) {
-        //mPickDateButton.setText(String.format("Year: %d  Month: %d Day: %d",  year, month, dayOfMonth));
-        String fromDateString = new SimpleDateFormat("dd MMMM yy", new Locale(Const.CULTURE)).format(startDate.getDate());
-        String toDateString = new SimpleDateFormat("dd MMMM yy", new Locale(Const.CULTURE)).format(endDate.getDate());
-        mInitialDay = startDate;
-        mPickDateButton.setText(fromDateString + " - " + toDateString);
-        mViewModelData.changePeriod(startDate, endDate);
+        setDateRange(startDate, endDate);
     }
 
     @Override

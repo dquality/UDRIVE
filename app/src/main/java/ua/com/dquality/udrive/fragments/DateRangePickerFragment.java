@@ -2,7 +2,6 @@ package ua.com.dquality.udrive.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -10,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.DatePicker;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
@@ -43,7 +41,7 @@ public class DateRangePickerFragment extends DialogFragment {
         Activity activity = getActivity();
 
         LayoutInflater layoutInflater = activity.getLayoutInflater();
-        View viewContent = layoutInflater.inflate(R.layout.statement_week_veiw, null);
+        View viewContent = layoutInflater.inflate(R.layout.statement_date_range_picker_veiw, null);
 
         AlertDialog dialog = new AlertDialog.Builder(activity)
                 .setPositiveButton("OK",
@@ -71,7 +69,9 @@ public class DateRangePickerFragment extends DialogFragment {
 
         CalendarDay initialDay = initialSingleWeekDay == null ? CalendarDay.from(mCalendar): initialSingleWeekDay;
         mCalendarView.setCurrentDate(initialDay);
-        calculateStartEndWeekDate(initialDay);
+        CalendarDay[] initRet = calculateStartEndWeekDate(initialDay, mCalendar);
+        mStartDate = initRet[0];
+        mEndDate = initRet[1];
         mCalendarView.selectRange(mStartDate, mEndDate);
 
 
@@ -79,7 +79,9 @@ public class DateRangePickerFragment extends DialogFragment {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
 
-                calculateStartEndWeekDate(date);
+                CalendarDay[] ret = calculateStartEndWeekDate(date, mCalendar);
+                mStartDate = ret[0];
+                mEndDate = ret[1];
                 widget.clearSelection();
                 if(selected){
                     widget.selectRange(mStartDate, mEndDate);
@@ -90,16 +92,18 @@ public class DateRangePickerFragment extends DialogFragment {
         return dialog;
     }
 
-    private void calculateStartEndWeekDate(CalendarDay date){
-        mCalendar.set(date.getYear(), date.getMonth(), date.getDay());
+    public static CalendarDay[] calculateStartEndWeekDate(CalendarDay date, Calendar calendar){
+        CalendarDay[] ret = new CalendarDay[2];
+        calendar.set(date.getYear(), date.getMonth(), date.getDay());
 
-        mCalendar.get(Calendar.DAY_OF_WEEK);
+        calendar.get(Calendar.DAY_OF_WEEK);
 
-        int firstDayOfWeek = mCalendar.getFirstDayOfWeek();
-        mCalendar.set(Calendar.DAY_OF_WEEK, firstDayOfWeek);
-        mStartDate = CalendarDay.from(mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DATE));
-        mCalendar.set(Calendar.DAY_OF_WEEK, firstDayOfWeek + 6);
-        mEndDate = CalendarDay.from(mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DATE));
+        int firstDayOfWeek = calendar.getFirstDayOfWeek();
+        calendar.set(Calendar.DAY_OF_WEEK, firstDayOfWeek);
+        ret[0] = CalendarDay.from(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE));
+        calendar.set(Calendar.DAY_OF_WEEK, firstDayOfWeek + 6);
+        ret[1] = CalendarDay.from(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE));
+        return ret;
     }
 
     public interface OnDateRangeSetListener {
