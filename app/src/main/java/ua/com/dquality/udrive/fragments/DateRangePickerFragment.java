@@ -28,17 +28,13 @@ public class DateRangePickerFragment extends DialogFragment {
     private CalendarDay mEndDate;
     private Calendar mCalendar;
     private com.prolificinteractive.materialcalendarview.MaterialCalendarView mCalendarView;
+    private CalendarDay initialSingleWeekDay;
 
     private DateRangePickerFragment.OnDateRangeSetListener mDateRangeSetListener;
 
     public void initDateRangePickerFragment(DateRangePickerFragment.OnDateRangeSetListener listener, CalendarDay singleWeekDay){
         mDateRangeSetListener = listener;
-        mCalendar = Calendar.getInstance();
-        if(singleWeekDay == null)
-        {
-            singleWeekDay = CalendarDay.from(mCalendar);
-        }
-        calculateStartEndWeekDate(singleWeekDay);
+        initialSingleWeekDay = singleWeekDay;
     }
 
     @Override
@@ -62,10 +58,23 @@ public class DateRangePickerFragment extends DialogFragment {
                 .setView(viewContent)
                 .create();
 
+        mCalendar = Calendar.getInstance();
+
         mCalendarView = viewContent.findViewById(R.id.statement_week_view);
+
         mCalendar.setFirstDayOfWeek(mCalendarView.getFirstDayOfWeek());
+
         mCalendarView.setSelectionMode(SELECTION_MODE_RANGE);
+        mCalendarView.setVerticalScrollBarEnabled(true);
+        mCalendarView.setHorizontalScrollBarEnabled(true);
+
+
+        CalendarDay initialDay = initialSingleWeekDay == null ? CalendarDay.from(mCalendar): initialSingleWeekDay;
+        mCalendarView.setCurrentDate(initialDay);
+        calculateStartEndWeekDate(initialDay);
         mCalendarView.selectRange(mStartDate, mEndDate);
+
+
         mCalendarView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {

@@ -17,7 +17,12 @@ import android.widget.ExpandableListView;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
 import ua.com.dquality.udrive.R;
+import ua.com.dquality.udrive.helpers.Const;
 import ua.com.dquality.udrive.helpers.ExpandableProfitStatementAdapter;
 import ua.com.dquality.udrive.viewmodels.ProfitStatementModel;
 import ua.com.dquality.udrive.viewmodels.ProfitStatementViewModel;
@@ -32,6 +37,7 @@ public class ProfitStatementFragment extends Fragment implements DateRangePicker
     private ExpandableProfitStatementAdapter mExpandableListAdapter;
     private ExpandableListView mExpandableListView;
     private AppCompatButton mPickDateButton;
+    private CalendarDay mInitialDay;
 
     public ProfitStatementFragment() {
         // Required empty public constructor
@@ -60,19 +66,25 @@ public class ProfitStatementFragment extends Fragment implements DateRangePicker
         mPickDateButton = ret.findViewById(R.id.profit_statement_pick_date_button);
         mPickDateButton.setOnClickListener(this);
 
+        mInitialDay = CalendarDay.from(Calendar.getInstance());
+
         return ret;
     }
 
     @Override
     public void onDateRangeSet(MaterialCalendarView view, CalendarDay startDate, CalendarDay endDate) {
         //mPickDateButton.setText(String.format("Year: %d  Month: %d Day: %d",  year, month, dayOfMonth));
-
+        String fromDateString = new SimpleDateFormat("dd MMMM yy", new Locale(Const.CULTURE)).format(startDate.getDate());
+        String toDateString = new SimpleDateFormat("dd MMMM yy", new Locale(Const.CULTURE)).format(endDate.getDate());
+        mInitialDay = startDate;
+        mPickDateButton.setText(fromDateString + " - " + toDateString);
+        mViewModelData.changePeriod(startDate, endDate);
     }
 
     @Override
     public void onClick(View v) {
-        DateRangePickerFragment newFragment = new DateRangePickerFragment();
-        newFragment.initDateRangePickerFragment(this, null);
-        newFragment.show(getActivity().getSupportFragmentManager(), "statementPeriodDatePicker");
+        DateRangePickerFragment dateRangeFragment = new DateRangePickerFragment();
+        dateRangeFragment.initDateRangePickerFragment(this, mInitialDay);
+        dateRangeFragment.show(getActivity().getSupportFragmentManager(), "statementPeriodDatePicker");
     }
 }
