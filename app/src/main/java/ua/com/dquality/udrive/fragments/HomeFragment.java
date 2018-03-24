@@ -185,8 +185,8 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        TextView t = parentView.findViewById(R.id.name);
-        t.setText("Slide up");
+        //ImageView t = parentView.findViewById(R.id.name);
+
 
     }
 

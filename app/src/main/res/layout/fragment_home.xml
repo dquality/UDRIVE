@@ -253,12 +253,13 @@
             android:focusable="true"
             >
 
-            <TextView
+            <ImageView
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:textSize="14sp"
-                android:gravity="center_vertical|center_horizontal"/>
+                android:tint="@color/colorCirclePlatinumDefault"
+                android:gravity="top"
+                app:srcCompat="@drawable/ic_arrow_drop_up_black_24dp"/>
 
 
             <!--<ListView
