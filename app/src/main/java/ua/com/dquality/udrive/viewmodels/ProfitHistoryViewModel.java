@@ -3,12 +3,13 @@ package ua.com.dquality.udrive.viewmodels;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
+
+import ua.com.dquality.udrive.viewmodels.models.ProfitHistoryGroupModel;
+import ua.com.dquality.udrive.viewmodels.models.ProfitHistoryItemModel;
+import ua.com.dquality.udrive.viewmodels.models.ProfitHistoryItemType;
 
 public class ProfitHistoryViewModel extends ViewModel {
 

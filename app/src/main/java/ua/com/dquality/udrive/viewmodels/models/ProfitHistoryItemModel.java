@@ -1,6 +1,4 @@
-package ua.com.dquality.udrive.viewmodels;
-
-import android.util.TypedValue;
+package ua.com.dquality.udrive.viewmodels.models;
 
 import java.util.Date;
 

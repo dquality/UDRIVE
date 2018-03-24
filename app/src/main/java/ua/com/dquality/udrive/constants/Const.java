@@ -1,4 +1,4 @@
-package ua.com.dquality.udrive.helpers;
+package ua.com.dquality.udrive.constants;
 
 /**
  * Created by IPFAM on 3/18/2018.

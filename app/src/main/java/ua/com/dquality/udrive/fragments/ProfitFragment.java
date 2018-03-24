@@ -3,7 +3,6 @@ package ua.com.dquality.udrive.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.AppCompatButton;
 import android.view.LayoutInflater;
@@ -11,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import ua.com.dquality.udrive.R;
-import ua.com.dquality.udrive.helpers.ProfitPageAdapter;
+import ua.com.dquality.udrive.adapters.ProfitPageAdapter;
 
 public class ProfitFragment extends Fragment {
 

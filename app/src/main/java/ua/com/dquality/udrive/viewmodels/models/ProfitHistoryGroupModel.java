@@ -1,4 +1,4 @@
-package ua.com.dquality.udrive.viewmodels;
+package ua.com.dquality.udrive.viewmodels.models;
 
 import java.util.Date;
 import java.util.List;

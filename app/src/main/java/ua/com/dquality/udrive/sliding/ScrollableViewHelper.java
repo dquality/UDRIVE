@@ -1,4 +1,4 @@
-package ua.com.dquality.udrive.helpers;
+package ua.com.dquality.udrive.sliding;
 
 /**
  * Created by IPFAM on 1/31/2018.

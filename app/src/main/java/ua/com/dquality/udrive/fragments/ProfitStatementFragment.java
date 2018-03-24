@@ -1,7 +1,6 @@
 package ua.com.dquality.udrive.fragments;
 
 
-import android.app.DatePickerDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
@@ -11,7 +10,6 @@ import android.support.v7.widget.AppCompatButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 import android.widget.ExpandableListView;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
@@ -22,9 +20,10 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import ua.com.dquality.udrive.R;
-import ua.com.dquality.udrive.helpers.Const;
-import ua.com.dquality.udrive.helpers.ExpandableProfitStatementAdapter;
-import ua.com.dquality.udrive.viewmodels.ProfitStatementModel;
+import ua.com.dquality.udrive.fragments.dialogs.DateRangePickerFragment;
+import ua.com.dquality.udrive.constants.Const;
+import ua.com.dquality.udrive.adapters.ExpandableProfitStatementAdapter;
+import ua.com.dquality.udrive.viewmodels.models.ProfitStatementModel;
 import ua.com.dquality.udrive.viewmodels.ProfitStatementViewModel;
 
 /**

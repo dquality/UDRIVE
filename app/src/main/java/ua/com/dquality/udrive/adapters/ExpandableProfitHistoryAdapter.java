@@ -1,14 +1,11 @@
-package ua.com.dquality.udrive.helpers;
+package ua.com.dquality.udrive.adapters;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
 import android.content.Context;
-import android.database.DataSetObserver;
 import android.graphics.Typeface;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -18,9 +15,10 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import ua.com.dquality.udrive.R;
-import ua.com.dquality.udrive.viewmodels.ProfitHistoryGroupModel;
-import ua.com.dquality.udrive.viewmodels.ProfitHistoryItemModel;
-import ua.com.dquality.udrive.viewmodels.ProfitHistoryItemType;
+import ua.com.dquality.udrive.constants.Const;
+import ua.com.dquality.udrive.viewmodels.models.ProfitHistoryGroupModel;
+import ua.com.dquality.udrive.viewmodels.models.ProfitHistoryItemModel;
+import ua.com.dquality.udrive.viewmodels.models.ProfitHistoryItemType;
 
 public class ExpandableProfitHistoryAdapter extends BaseExpandableListAdapter {
 

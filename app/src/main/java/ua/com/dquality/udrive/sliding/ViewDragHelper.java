@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package ua.com.dquality.udrive.helpers;
+package ua.com.dquality.udrive.sliding;
 
 
 

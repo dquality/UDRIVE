@@ -3,13 +3,11 @@ package ua.com.dquality.udrive.fragments;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.gesture.Gesture;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatButton;
 import android.text.SpannableString;
@@ -17,38 +15,30 @@ import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
-import android.view.GestureDetector;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import ua.com.dquality.udrive.MainActivity;
 import ua.com.dquality.udrive.R;
 
 import android.util.Log;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Currency;
-import java.util.Date;
 import java.util.Locale;
 
 import ua.com.dquality.udrive.helpers.CircleStatusDrawable;
-import ua.com.dquality.udrive.helpers.Const;
+import ua.com.dquality.udrive.constants.Const;
 import ua.com.dquality.udrive.helpers.OnSwipeTouchListener;
-import ua.com.dquality.udrive.helpers.SlidingUpPanelLayout;
-import ua.com.dquality.udrive.helpers.SlidingUpPanelLayout.PanelSlideListener;
-import ua.com.dquality.udrive.helpers.SlidingUpPanelLayout.PanelState;
+import ua.com.dquality.udrive.sliding.SlidingUpPanelLayout;
+import ua.com.dquality.udrive.sliding.SlidingUpPanelLayout.PanelSlideListener;
+import ua.com.dquality.udrive.sliding.SlidingUpPanelLayout.PanelState;
 import ua.com.dquality.udrive.viewmodels.StatusLevel;
 
 import static android.text.Spanned.SPAN_INCLUSIVE_INCLUSIVE;

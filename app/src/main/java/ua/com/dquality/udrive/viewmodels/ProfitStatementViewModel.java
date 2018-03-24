@@ -5,9 +5,7 @@ import android.arch.lifecycle.ViewModel;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import ua.com.dquality.udrive.viewmodels.models.ProfitStatementModel;
 
 public class ProfitStatementViewModel extends ViewModel {
 

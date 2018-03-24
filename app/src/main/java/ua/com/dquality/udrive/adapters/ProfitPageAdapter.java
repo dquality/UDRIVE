@@ -1,4 +1,4 @@
-package ua.com.dquality.udrive.helpers;
+package ua.com.dquality.udrive.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

@@ -1,4 +1,4 @@
-package ua.com.dquality.udrive.fragments;
+package ua.com.dquality.udrive.fragments.dialogs;
 
 import android.app.Activity;
 import android.app.AlertDialog;
