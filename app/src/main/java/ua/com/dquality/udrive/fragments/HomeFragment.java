@@ -39,7 +39,7 @@ import ua.com.dquality.udrive.helpers.OnSwipeTouchListener;
 import ua.com.dquality.udrive.sliding.SlidingUpPanelLayout;
 import ua.com.dquality.udrive.sliding.SlidingUpPanelLayout.PanelSlideListener;
 import ua.com.dquality.udrive.sliding.SlidingUpPanelLayout.PanelState;
-import ua.com.dquality.udrive.viewmodels.StatusLevel;
+import ua.com.dquality.udrive.viewmodels.models.StatusLevel;
 
 import static android.text.Spanned.SPAN_INCLUSIVE_INCLUSIVE;
 

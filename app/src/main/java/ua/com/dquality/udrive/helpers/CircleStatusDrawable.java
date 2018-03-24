@@ -4,21 +4,17 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.LinearGradient;
-import android.graphics.Paint;
 import android.graphics.PixelFormat;
-import android.graphics.RadialGradient;
 import android.graphics.Rect;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.ArcShape;
 import android.graphics.drawable.shapes.OvalShape;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 
 import ua.com.dquality.udrive.R;
-import ua.com.dquality.udrive.viewmodels.StatusLevel;
+import ua.com.dquality.udrive.viewmodels.models.StatusLevel;
 
 public class CircleStatusDrawable extends Drawable {
     private StatusLevel mStatusLevel;
