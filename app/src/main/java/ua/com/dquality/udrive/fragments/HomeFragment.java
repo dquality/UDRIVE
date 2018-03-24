@@ -3,6 +3,7 @@ package ua.com.dquality.udrive.fragments;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.gesture.Gesture;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
+import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -43,6 +45,7 @@ import java.util.Locale;
 
 import ua.com.dquality.udrive.helpers.CircleStatusDrawable;
 import ua.com.dquality.udrive.helpers.Const;
+import ua.com.dquality.udrive.helpers.OnSwipeTouchListener;
 import ua.com.dquality.udrive.helpers.SlidingUpPanelLayout;
 import ua.com.dquality.udrive.helpers.SlidingUpPanelLayout.PanelSlideListener;
 import ua.com.dquality.udrive.helpers.SlidingUpPanelLayout.PanelState;
@@ -241,19 +244,16 @@ public class HomeFragment extends Fragment {
     private View.OnClickListener onCardHolderClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
-            Dialog dialog = new Dialog(getActivity(), R.style.CardHolderPopupStyle);
+            final Dialog dialog = new Dialog(getActivity(), R.style.CardHolderPopupStyle);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
             View dialogView = dialog.getLayoutInflater().inflate(R.layout.bar_code_popup_view, null);
 
-            dialogView.setOnTouchListener(new View.OnTouchListener() {
+            dialogView.setOnTouchListener(new OnSwipeTouchListener(getContext()) {
                 @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    if(event.getAction() == MotionEvent.ACTION_MOVE){
-
-                    }
-                    return true;
+                public void onSwipeUp() {
+                    super.onSwipeUp();
+                    dialog.cancel();
                 }
             });
 
