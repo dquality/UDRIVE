@@ -18,6 +18,7 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -244,20 +245,17 @@ public class HomeFragment extends Fragment {
             Dialog dialog = new Dialog(getActivity(), R.style.CardHolderPopupStyle);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-//            Window w = dialog.getWindow();
-//            w.setLayout(WindowManager.LayoutParams.MATCH_PARENT,
-//                    WindowManager.LayoutParams.MATCH_PARENT);
-//            w.setGravity(Gravity.CENTER);
-
             View dialogView = dialog.getLayoutInflater().inflate(R.layout.bar_code_popup_view, null);
 
-//            AppCompatButton accrualButton = dialogView.findViewById(R.id.dialog_accrual_button);
-//            accrualButton.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Toast.makeText(MainActivity.this, R.string.accrual_button_title, Toast.LENGTH_SHORT).show();
-//                }
-//            });
+            dialogView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if(event.getAction() == MotionEvent.ACTION_MOVE){
+
+                    }
+                    return true;
+                }
+            });
 
             dialog.setContentView(dialogView);
             dialog.setCancelable(true);

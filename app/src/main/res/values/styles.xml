@@ -24,7 +24,7 @@
     </style>
 
     <style name="CardHolderPopupStyle" parent="NotActiveStatusPopupStyle">
-        <item name="android:fitsSystemWindows">true</item>
+        <!--<item name="android:fitsSystemWindows">true</item>-->
         <item name="android:windowAnimationStyle">@style/PopupAnimationStyle</item>
     </style>
 
