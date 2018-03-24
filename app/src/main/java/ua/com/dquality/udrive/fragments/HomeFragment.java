@@ -127,53 +127,6 @@ public class HomeFragment extends Fragment {
     }
 
     private void initSlidePanel(View parentView){
-        /*        ListView lv =  ret.findViewById(R.id.list);
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), "Set panel state anchored", Toast.LENGTH_SHORT).show();
-                mLayout.setAnchorPoint(0.7f);
-                mLayout.setPanelState(PanelState.ANCHORED);
-            }
-        });
-
-        List<String> your_array_list = Arrays.asList(
-                "This",
-                "Is",
-                "An",
-                "Example",
-                "ListView",
-                "That",
-                "You",
-                "Can",
-                "Scroll",
-                ".",
-                "It",
-                "Shows",
-                "How",
-                "Any",
-                "Scrollable",
-                "View",
-                "Can",
-                "Be",
-                "Included",
-                "As",
-                "A",
-                "Child",
-                "Of",
-                "SlidingUpPanelLayout"
-        );
-
-        // This is the array adapter, it takes the context of the activity as a
-        // first parameter, the type of list view as a second parameter and your
-        // array as a third parameter.
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                getContext(),
-                android.R.layout.simple_list_item_1,
-                your_array_list );
-
-        lv.setAdapter(arrayAdapter);*/
-
         mLayout = parentView.findViewById(R.id.sliding_layout);
         mLayout.addPanelSlideListener(new PanelSlideListener() {
             @Override
@@ -192,10 +145,6 @@ public class HomeFragment extends Fragment {
                 mLayout.setPanelState(PanelState.COLLAPSED);
             }
         });
-
-        //ImageView t = parentView.findViewById(R.id.name);
-
-
     }
 
     private void initCardHolderState(View parentView){
