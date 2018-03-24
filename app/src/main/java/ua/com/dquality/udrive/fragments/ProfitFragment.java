@@ -76,14 +76,9 @@ public class ProfitFragment extends Fragment {
     };
 
     private void selectProfitButton(int position){
-        int colorPrimary = ContextCompat.getColor(getContext(), R.color.colorPrimary);
-        int colorPrimaryLight = ContextCompat.getColor(getContext(), R.color.colorPrimaryLight);
-
         boolean isLeftPosition = position == 0;
         mProfitHistoryButton.setSelected(isLeftPosition);
-        mProfitHistoryButton.setTextColor(isLeftPosition ? colorPrimary : colorPrimaryLight);
 
         mProfitStatementButton.setSelected(!isLeftPosition);
-        mProfitStatementButton.setTextColor(!isLeftPosition ? colorPrimary : colorPrimaryLight);
     }
 }

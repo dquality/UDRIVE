@@ -1,5 +1,6 @@
 package ua.com.dquality.udrive;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private View mShopBadge;
 
 
-    private boolean mStatusDefault = false;
+    private boolean mStatusActive = false;
     private AppCompatButton mStatus;
 
     private Intent mDrawerIntent;
@@ -115,7 +116,11 @@ public class MainActivity extends AppCompatActivity {
     private View.OnClickListener onStatusClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v){
-            setStatus(!mStatusDefault);
+            if(!mStatusActive){
+//                Dialog dialog = new Dialog(MainActivity.this);
+//                dialog.
+            }
+            setStatus(!mStatusActive);
         }
     };
 
@@ -141,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void setStatus(boolean active){
         if(mStatus != null){
-            mStatusDefault = active;
+            mStatusActive = active;
             mStatus.setText(active ? R.string.active : R.string.notactive);
             mStatus.setBackgroundResource(active ? R.drawable.selector_status_active_background : R.drawable.selector_status_notactive_background);
         }

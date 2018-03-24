@@ -1,10 +1,10 @@
-<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        tools:context="ua.com.dquality.udrive.fragments.ProfitStatementFragment">
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="ua.com.dquality.udrive.fragments.ProfitStatementFragment">
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/profit_statement_pick_date_button"
             android:layout_width="match_parent"
@@ -14,7 +14,8 @@
             android:padding="@dimen/corner_radius"
             android:textAllCaps="true"
             android:gravity="center"
-            android:background="@drawable/selector_date_range_statement_button"/>
+            android:background="@drawable/selector_date_range_statement_background"
+            android:textColor="@drawable/selector_date_range_statement_text"/>
 
         <ExpandableListView
             android:id="@+id/profit_statement_list"

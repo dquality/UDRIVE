@@ -44,7 +44,7 @@ public class DateRangePickerFragment extends DialogFragment {
         View viewContent = layoutInflater.inflate(R.layout.statement_date_range_picker_veiw, null);
 
         AlertDialog dialog = new AlertDialog.Builder(activity)
-                .setPositiveButton("OK",
+                .setPositiveButton(R.string.OK,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 if(mDateRangeSetListener !=null)
@@ -52,7 +52,7 @@ public class DateRangePickerFragment extends DialogFragment {
                             }
                         }
                 )
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton(R.string.Cancel, null)
                 .setView(viewContent)
                 .create();
 

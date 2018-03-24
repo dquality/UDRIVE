@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
@@ -23,6 +25,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -71,6 +74,8 @@ public class HomeFragment extends Fragment {
 
     private TextView mBalanceAmount;
 
+    private SwipeRefreshLayout mRefreshMainSwipe;
+
 
     public HomeFragment() {
         // Required empty public constructor
@@ -93,6 +98,8 @@ public class HomeFragment extends Fragment {
         initTripTitleAndCounterStats(ret);
 
         initBalance(ret);
+
+        initSwipeToRefreshAction(ret);
 
         return ret;
     }
@@ -339,6 +346,29 @@ public class HomeFragment extends Fragment {
         mBalanceAmount = parentView.findViewById(R.id.balance_amount);
 
         setBalanceAmount();
+    }
+
+    private void initSwipeToRefreshAction(View parentView) {
+
+        mRefreshMainSwipe = parentView.findViewById(R.id.refresh_main_swipe);
+
+        mRefreshMainSwipe.setOnRefreshListener(
+            new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+
+                    new Thread(new Runnable() {
+                        public void run() {
+                            mRefreshMainSwipe.postDelayed(new Runnable() {
+                                public void run() {
+                                    mRefreshMainSwipe.setRefreshing(false);
+                                }
+                            }, 5000);
+                        }
+                    }).start();
+                }
+            }
+        );
     }
 
     private void setBalanceAmount(){

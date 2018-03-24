@@ -23,6 +23,7 @@
                 android:textAllCaps="true"
                 android:gravity="center"
                 android:background="@drawable/selector_profit_button_state_left"
+                android:textColor="@drawable/selector_profit_button_state_text"
                 android:layout_weight="1"
                 />
 
@@ -37,8 +38,8 @@
                 android:textAllCaps="true"
                 android:gravity="center"
                 android:background="@drawable/selector_profit_button_state_right"
+                android:textColor="@drawable/selector_profit_button_state_text"
                 android:layout_weight="1"
-                android:foregroundTint="@color/colorError"
                 />
         </LinearLayout>
 
