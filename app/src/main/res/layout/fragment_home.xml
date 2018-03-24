@@ -25,223 +25,225 @@
             android:id="@+id/refresh_main_swipe"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin">
 
-            <RelativeLayout
-                android:id="@+id/card_holder_state"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                sld:layout_constraintEnd_toEndOf="parent"
-                sld:layout_constraintStart_toStartOf="parent"
-                sld:layout_constraintLeft_toLeftOf="parent"
-                sld:layout_constraintRight_toRightOf="parent"
-                sld:layout_constraintTop_toTopOf="parent"
-                android:padding="@dimen/activity_vertical_margin">
-
-                <TextView
-                    android:id="@+id/card_month_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                    android:textAllCaps="true"/>
-                <TextView
-                    android:id="@+id/card_type_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@id/card_month_text"
-                    android:textStyle="bold"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
-                    android:textAllCaps="true"
-                    android:layout_toEndOf="@id/card_month_text"
-                    android:layout_toRightOf="@id/card_month_text"
-                    />
-                <ImageView
-                    android:id="@+id/card_barcode_image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
-                    sld:srcCompat="@drawable/ic_bar_code_114dp"
-                    android:contentDescription="@string/title_card_barcode"/>
-                <TextView
-                    android:id="@+id/card_barcode_number_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_below="@id/card_barcode_image"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                    android:textAllCaps="true"
-                    android:layout_toStartOf="@id/card_barcode_image"
-                    android:layout_toLeftOf="@id/card_barcode_image"/>
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/circle_state"
-                android:layout_width="192dp"
-                android:layout_height="192dp"
-                android:layout_marginTop="@dimen/element_vertical_margin"
-                android:gravity="center_vertical|center_horizontal"
-                sld:layout_constraintStart_toStartOf="parent"
-                sld:layout_constraintTop_toBottomOf="@id/card_holder_state"/>
-
-            <TextView
-                android:id="@+id/prev_month_trips_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                android:textAllCaps="true"
-                android:layout_marginTop="@dimen/element_vertical_margin"
-                android:gravity="end"
-                sld:layout_constraintLeft_toRightOf="@id/circle_state"
-                sld:layout_constraintStart_toEndOf="@id/circle_state"
-                sld:layout_constraintTop_toBottomOf="@id/card_holder_state"
-                android:text="@string/prev_month_trip_title_tmpl"/>
-
-            <TextView
-                android:id="@+id/prev_month_trips_count"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:text="-"
-                android:textAllCaps="true"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
-                android:textStyle="bold"
-                sld:layout_constraintLeft_toRightOf="@id/prev_month_trips_title"
-                sld:layout_constraintStart_toEndOf="@id/prev_month_trips_title"
-                sld:layout_constraintTop_toBottomOf="@id/prev_month_trips_title" />
-
-            <TextView
-                android:id="@+id/today_trips_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                android:textAllCaps="true"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:gravity="end"
-                sld:layout_constraintLeft_toRightOf="@id/circle_state"
-                sld:layout_constraintStart_toEndOf="@id/circle_state"
-                sld:layout_constraintTop_toBottomOf="@id/prev_month_trips_count"
-                android:text="@string/today_trips_title"/>
-
-            <TextView
-                android:id="@+id/today_trips_count"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:text="-"
-                android:textAllCaps="true"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
-                android:textStyle="bold"
-                sld:layout_constraintLeft_toRightOf="@id/today_trips_title"
-                sld:layout_constraintStart_toEndOf="@id/today_trips_title"
-                sld:layout_constraintTop_toBottomOf="@id/today_trips_title" />
-
-            <TextView
-                android:id="@+id/remains_trips_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:gravity="end"
-                sld:layout_constraintLeft_toRightOf="@id/circle_state"
-                sld:layout_constraintStart_toEndOf="@id/circle_state"
-                sld:layout_constraintTop_toBottomOf="@id/today_trips_count"
-                android:visibility="visible"/>
-
-            <TextView
-                android:id="@+id/remains_trips_count"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:text="-"
-                android:textAllCaps="true"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
-                android:textStyle="bold"
-                sld:layout_constraintLeft_toRightOf="@id/remains_trips_title"
-                sld:layout_constraintStart_toEndOf="@id/remains_trips_title"
-                sld:layout_constraintTop_toBottomOf="@id/remains_trips_title"
-                android:visibility="visible"/>
-
-            <TextView
-                android:id="@+id/final_status_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                android:textAllCaps="true"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:gravity="end"
-                sld:layout_constraintLeft_toRightOf="@id/circle_state"
-                sld:layout_constraintStart_toEndOf="@id/circle_state"
-                sld:layout_constraintTop_toBottomOf="@id/today_trips_count"
-                android:text="@string/final_status_title"
-                android:visibility="gone"/>
-
-            <TextView
-                android:id="@+id/final_status_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:textColor="@color/colorTextTitlePlatinum"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
-                android:textStyle="bold"
-                sld:layout_constraintLeft_toRightOf="@id/final_status_title"
-                sld:layout_constraintStart_toEndOf="@id/final_status_title"
-                sld:layout_constraintTop_toBottomOf="@id/final_status_title"
-                android:text="@string/title_status_platinum"
-                android:visibility="gone"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/accrual_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/element_vertical_margin"
-                android:padding="@dimen/activity_horizontal_margin"
-                sld:layout_constraintStart_toStartOf="parent"
-                sld:layout_constraintTop_toBottomOf="@id/circle_state"
-                android:text="@string/accrual_button_title"
-                android:textAllCaps="true"
-                android:background="@drawable/selector_add_accrual_background"/>
-
-                <TextView
-                    android:id="@+id/balance_title"
+                <ScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                    android:textAllCaps="true"
-                    android:layout_marginTop="@dimen/element_vertical_margin"
-                    android:gravity="end"
-                    sld:layout_constraintLeft_toRightOf="@id/accrual_button"
-                    sld:layout_constraintStart_toEndOf="@id/accrual_button"
-                    sld:layout_constraintTop_toBottomOf="@id/circle_state"
-                    android:text="@string/balance_title"/>
+                    android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/balance_amount"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:textColor="@color/colorAccent"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
-                    android:textStyle="bold"
-                    sld:layout_constraintLeft_toRightOf="@id/balance_title"
-                    sld:layout_constraintStart_toEndOf="@id/balance_title"
-                    sld:layout_constraintTop_toBottomOf="@id/balance_title"
-                    android:text="-"/>
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin">
+
+                        <RelativeLayout
+                            android:id="@+id/card_holder_state"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            sld:layout_constraintEnd_toEndOf="parent"
+                            sld:layout_constraintStart_toStartOf="parent"
+                            sld:layout_constraintLeft_toLeftOf="parent"
+                            sld:layout_constraintRight_toRightOf="parent"
+                            sld:layout_constraintTop_toTopOf="parent"
+                            android:padding="@dimen/activity_vertical_margin">
+
+                            <TextView
+                                android:id="@+id/card_month_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                                android:textAllCaps="true"/>
+                            <TextView
+                                android:id="@+id/card_type_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:layout_below="@id/card_month_text"
+                                android:textStyle="bold"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+                                android:textAllCaps="true"
+                                android:layout_toEndOf="@id/card_month_text"
+                                android:layout_toRightOf="@id/card_month_text"
+                                />
+                            <ImageView
+                                android:id="@+id/card_barcode_image"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_alignParentEnd="true"
+                                sld:srcCompat="@drawable/ic_bar_code_114dp"
+                                android:contentDescription="@string/title_card_barcode"/>
+                            <TextView
+                                android:id="@+id/card_barcode_number_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_alignParentEnd="true"
+                                android:layout_below="@id/card_barcode_image"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                                android:textAllCaps="true"
+                                android:layout_toStartOf="@id/card_barcode_image"
+                                android:layout_toLeftOf="@id/card_barcode_image"/>
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/circle_state"
+                            android:layout_width="192dp"
+                            android:layout_height="192dp"
+                            android:layout_marginTop="@dimen/element_vertical_margin"
+                            android:gravity="center_vertical|center_horizontal"
+                            sld:layout_constraintStart_toStartOf="parent"
+                            sld:layout_constraintTop_toBottomOf="@id/card_holder_state"/>
+
+                        <TextView
+                            android:id="@+id/prev_month_trips_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                            android:textAllCaps="true"
+                            android:layout_marginTop="@dimen/element_vertical_margin"
+                            android:gravity="end"
+                            sld:layout_constraintLeft_toRightOf="@id/circle_state"
+                            sld:layout_constraintStart_toEndOf="@id/circle_state"
+                            sld:layout_constraintTop_toBottomOf="@id/card_holder_state"
+                            android:text="@string/prev_month_trip_title_tmpl"/>
+
+                        <TextView
+                            android:id="@+id/prev_month_trips_count"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            android:text="-"
+                            android:textAllCaps="true"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+                            android:textStyle="bold"
+                            sld:layout_constraintLeft_toRightOf="@id/prev_month_trips_title"
+                            sld:layout_constraintStart_toEndOf="@id/prev_month_trips_title"
+                            sld:layout_constraintTop_toBottomOf="@id/prev_month_trips_title" />
+
+                        <TextView
+                            android:id="@+id/today_trips_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                            android:textAllCaps="true"
+                            android:layout_marginTop="@dimen/activity_vertical_margin"
+                            android:gravity="end"
+                            sld:layout_constraintLeft_toRightOf="@id/circle_state"
+                            sld:layout_constraintStart_toEndOf="@id/circle_state"
+                            sld:layout_constraintTop_toBottomOf="@id/prev_month_trips_count"
+                            android:text="@string/today_trips_title"/>
+
+                        <TextView
+                            android:id="@+id/today_trips_count"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            android:text="-"
+                            android:textAllCaps="true"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+                            android:textStyle="bold"
+                            sld:layout_constraintLeft_toRightOf="@id/today_trips_title"
+                            sld:layout_constraintStart_toEndOf="@id/today_trips_title"
+                            sld:layout_constraintTop_toBottomOf="@id/today_trips_title" />
+
+                        <TextView
+                            android:id="@+id/remains_trips_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                            android:layout_marginTop="@dimen/activity_vertical_margin"
+                            android:gravity="end"
+                            sld:layout_constraintLeft_toRightOf="@id/circle_state"
+                            sld:layout_constraintStart_toEndOf="@id/circle_state"
+                            sld:layout_constraintTop_toBottomOf="@id/today_trips_count"
+                            android:visibility="visible"/>
+
+                        <TextView
+                            android:id="@+id/remains_trips_count"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            android:text="-"
+                            android:textAllCaps="true"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+                            android:textStyle="bold"
+                            sld:layout_constraintLeft_toRightOf="@id/remains_trips_title"
+                            sld:layout_constraintStart_toEndOf="@id/remains_trips_title"
+                            sld:layout_constraintTop_toBottomOf="@id/remains_trips_title"
+                            android:visibility="visible"/>
+
+                        <TextView
+                            android:id="@+id/final_status_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                            android:textAllCaps="true"
+                            android:layout_marginTop="@dimen/activity_vertical_margin"
+                            android:gravity="end"
+                            sld:layout_constraintLeft_toRightOf="@id/circle_state"
+                            sld:layout_constraintStart_toEndOf="@id/circle_state"
+                            sld:layout_constraintTop_toBottomOf="@id/today_trips_count"
+                            android:text="@string/final_status_title"
+                            android:visibility="gone"/>
+
+                        <TextView
+                            android:id="@+id/final_status_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            android:textColor="@color/colorTextTitlePlatinum"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+                            android:textStyle="bold"
+                            sld:layout_constraintLeft_toRightOf="@id/final_status_title"
+                            sld:layout_constraintStart_toEndOf="@id/final_status_title"
+                            sld:layout_constraintTop_toBottomOf="@id/final_status_title"
+                            android:text="@string/title_status_platinum"
+                            android:visibility="gone"/>
+
+                        <android.support.v7.widget.AppCompatButton
+                            android:id="@+id/accrual_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/element_vertical_margin"
+                            android:padding="@dimen/activity_horizontal_margin"
+                            sld:layout_constraintStart_toStartOf="parent"
+                            sld:layout_constraintTop_toBottomOf="@id/circle_state"
+                            android:text="@string/accrual_button_title"
+                            android:textAllCaps="true"
+                            android:background="@drawable/selector_add_accrual_background"/>
+
+                        <TextView
+                            android:id="@+id/balance_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                            android:textAllCaps="true"
+                            android:layout_marginTop="@dimen/element_vertical_margin"
+                            android:gravity="end"
+                            sld:layout_constraintLeft_toRightOf="@id/accrual_button"
+                            sld:layout_constraintStart_toEndOf="@id/accrual_button"
+                            sld:layout_constraintTop_toBottomOf="@id/circle_state"
+                            android:text="@string/balance_title"/>
+
+                        <TextView
+                            android:id="@+id/balance_amount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            android:textColor="@color/colorAccent"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+                            android:textStyle="bold"
+                            sld:layout_constraintLeft_toRightOf="@id/balance_title"
+                            sld:layout_constraintStart_toEndOf="@id/balance_title"
+                            sld:layout_constraintTop_toBottomOf="@id/balance_title"
+                            android:text="-"/>
 
         </android.support.constraint.ConstraintLayout>
-        </ScrollView>
+                </ScrollView>
         </android.support.v4.widget.SwipeRefreshLayout>
         <!-- SLIDING LAYOUT -->
         <LinearLayout
@@ -257,28 +259,23 @@
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:tint="@color/colorCirclePlatinumDefault"
-                android:gravity="top"
-                app:srcCompat="@drawable/ic_arrow_drop_up_black_24dp"/>
+                android:tint="@color/colorCircleGoldDefault"
+                android:gravity="top|center_horizontal"
+                android:scaleType="center"
+                sld:srcCompat="@drawable/ic_up_arrow_24dp" />
 
-
-            <!--<ListView
-                android:id="@+id/list"
+            <ScrollView
+                android:id="@+id/sv"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1">
-            </ListView>-->
-
-            <ScrollView
-            android:id="@+id/sv"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
                 <TextView
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="The standard Lorem Ipsum passage, used since the 1500Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Section 1.10.32 of  written by Cicero in 45 t perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?1914 translation by H. RackhamBut I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete accouof the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat."/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ucoins_umarket_content"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"/>
             </ScrollView>
         </LinearLayout>
     </ua.com.dquality.udrive.helpers.SlidingUpPanelLayout>

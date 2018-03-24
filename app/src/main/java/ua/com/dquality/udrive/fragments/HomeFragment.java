@@ -1,5 +1,6 @@
 package ua.com.dquality.udrive.fragments;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
@@ -15,6 +16,7 @@ import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +26,8 @@ import ua.com.dquality.udrive.R;
 
 import android.util.Log;
 import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -192,6 +196,8 @@ public class HomeFragment extends Fragment {
 
     private void initCardHolderState(View parentView){
         RelativeLayout cardHolderState =  parentView.findViewById(R.id.card_holder_state);
+        cardHolderState.setOnClickListener(onCardHolderClickListener);
+
         mCardBarcodeImage= parentView.findViewById(R.id.card_barcode_image);
         mCardCodeNumber = parentView.findViewById(R.id.card_barcode_number_text);
         mCardType = parentView.findViewById(R.id.card_type_text);
@@ -228,7 +234,36 @@ public class HomeFragment extends Fragment {
         mCardType.setTextColor(cardTextColor);
         mCardMonthText.setTextColor(cardTextColor);
         mCardBarcodeImage.setImageResource(mLevel == StatusLevel.Platinum ? R.drawable.ic_bar_code_plat_114dp :R.drawable.ic_bar_code_114dp);
+
     }
+
+    private View.OnClickListener onCardHolderClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            Dialog dialog = new Dialog(getActivity(), R.style.CardHolderPopupStyle);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+//            Window w = dialog.getWindow();
+//            w.setLayout(WindowManager.LayoutParams.MATCH_PARENT,
+//                    WindowManager.LayoutParams.MATCH_PARENT);
+//            w.setGravity(Gravity.CENTER);
+
+            View dialogView = dialog.getLayoutInflater().inflate(R.layout.bar_code_popup_view, null);
+
+//            AppCompatButton accrualButton = dialogView.findViewById(R.id.dialog_accrual_button);
+//            accrualButton.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Toast.makeText(MainActivity.this, R.string.accrual_button_title, Toast.LENGTH_SHORT).show();
+//                }
+//            });
+
+            dialog.setContentView(dialogView);
+            dialog.setCancelable(true);
+            dialog.show();
+        }
+    };
 
     private void initCircleState(View parentView){
         mCircleState =  parentView.findViewById(R.id.circle_state);

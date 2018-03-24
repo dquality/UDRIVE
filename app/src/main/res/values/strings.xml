@@ -33,4 +33,5 @@
     <string name="profit_statement_button_title">ведомости</string>
     <string name="OK">OK</string>
     <string name="Cancel">Cancel</string>
+    <string name="ucoins_umarket_content">Вы сможете использовать накопленные UСoins, в нашем UMarket для ваших будущих покупок</string>
 </resources>
