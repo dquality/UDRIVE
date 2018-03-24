@@ -13,7 +13,7 @@
         app:mcv_calendarMode="month"
         app:mcv_selectionColor="@color/colorAccent"
         app:mcv_arrowColor="@color/colorPrimaryDark"
-        app:mcv_weekDayTextAppearance="@style/CalendarHeaderTextApp"
-        app:mcv_headerTextAppearance="@style/CalendarHeaderTextApp"/>
+        app:mcv_weekDayTextAppearance="@style/CalendarHeaderTextStyle"
+        app:mcv_headerTextAppearance="@style/CalendarHeaderTextStyle"/>
 </ScrollView>
 

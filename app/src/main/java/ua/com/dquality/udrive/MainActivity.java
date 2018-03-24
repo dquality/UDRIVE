@@ -16,8 +16,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
 import com.jacksonandroidnetworking.JacksonParserFactory;
@@ -117,12 +121,32 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v){
             if(!mStatusActive){
-//                Dialog dialog = new Dialog(MainActivity.this);
-//                dialog.
+                Dialog dialog = new Dialog(MainActivity.this, R.style.NotActiveStatusPopupStyle);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+                Window w = dialog.getWindow();
+                w.setLayout(WindowManager.LayoutParams.MATCH_PARENT,
+                        WindowManager.LayoutParams.WRAP_CONTENT);
+                w.setGravity(Gravity.TOP);
+
+                View dialogView = dialog.getLayoutInflater().inflate(R.layout.top_up_balance_veiw, null);
+
+                AppCompatButton accrualButton =  dialogView.findViewById(R.id.dialog_accrual_button);
+                accrualButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(MainActivity.this, R.string.accrual_button_title,Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                dialog.setContentView(dialogView);
+                dialog.setCancelable(true);
+                dialog.show();
             }
             setStatus(!mStatusActive);
         }
     };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

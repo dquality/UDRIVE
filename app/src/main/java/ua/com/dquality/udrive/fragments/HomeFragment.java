@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.AppCompatButton;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
@@ -18,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import ua.com.dquality.udrive.MainActivity;
 import ua.com.dquality.udrive.R;
 
 import android.util.Log;
@@ -344,6 +346,14 @@ public class HomeFragment extends Fragment {
 
     private void initBalance(View parentView){
         mBalanceAmount = parentView.findViewById(R.id.balance_amount);
+
+        AppCompatButton accrualButton =  parentView.findViewById(R.id.accrual_button);
+        accrualButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), R.string.accrual_button_title,Toast.LENGTH_SHORT).show();
+            }
+        });
 
         setBalanceAmount();
     }
