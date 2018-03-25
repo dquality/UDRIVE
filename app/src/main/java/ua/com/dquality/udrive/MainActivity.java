@@ -1,10 +1,13 @@
 package ua.com.dquality.udrive;
 
 import android.app.Dialog;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -29,14 +32,20 @@ import com.jacksonandroidnetworking.JacksonParserFactory;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 
 import okhttp3.OkHttpClient;
+import ua.com.dquality.udrive.adapters.ExpandableProfitStatementAdapter;
 import ua.com.dquality.udrive.fragments.OtherFragment;
 import ua.com.dquality.udrive.fragments.UdriveShopFragment;
 import ua.com.dquality.udrive.fragments.HomeFragment;
 import ua.com.dquality.udrive.fragments.ProfitFragment;
 import ua.com.dquality.udrive.helpers.BottomNavigationViewHelper;
+import ua.com.dquality.udrive.viewmodels.ActiveViewModel;
+import ua.com.dquality.udrive.viewmodels.ProfitStatementViewModel;
+import ua.com.dquality.udrive.viewmodels.models.ActiveModel;
+import ua.com.dquality.udrive.viewmodels.models.ProfitStatementModel;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ActiveViewModel mViewModelData;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
 
@@ -44,8 +53,6 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager mFragmentManager;
     private View mShopBadge;
 
-
-    private boolean mStatusActive = false;
     private AppCompatButton mStatus;
 
     private Intent mDrawerIntent;
@@ -120,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
     private View.OnClickListener onStatusClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v){
-            if(!mStatusActive){
+            if(!mViewModelData.getActiveData().getValue().IsActive){
                 Dialog dialog = new Dialog(MainActivity.this, R.style.NotActiveStatusPopupStyle);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
@@ -143,7 +150,6 @@ public class MainActivity extends AppCompatActivity {
                 dialog.setCancelable(true);
                 dialog.show();
             }
-            setStatus(!mStatusActive);
         }
     };
 
@@ -153,13 +159,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mViewModelData = ViewModelProviders.of(this).get(ActiveViewModel.class);
+
+        mViewModelData.getActiveData().observe(this, new Observer<ActiveModel>() {
+            @Override
+            public void onChanged(@Nullable ActiveModel activeModel) {
+                setStatus(activeModel.IsActive);
+            }
+        });
+
         initStatus();
 
         initDrawerNavigation();
 
         initBottomNavigation(savedInstanceState);
-
-        initNetworkClient();
     }
 
     private void initStatus(){
@@ -170,7 +183,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void setStatus(boolean active){
         if(mStatus != null){
-            mStatusActive = active;
             mStatus.setText(active ? R.string.active : R.string.notactive);
             mStatus.setBackgroundResource(active ? R.drawable.selector_status_active_background : R.drawable.selector_status_notactive_background);
         }
@@ -209,14 +221,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void initNetworkClient(){
-        OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
-                .addNetworkInterceptor(new StethoInterceptor())
-                .build();
-        AndroidNetworking.initialize(getApplicationContext(),okHttpClient);
-        AndroidNetworking.setParserFactory(new JacksonParserFactory());
-    }
-
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -250,7 +254,4 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
-
-
-
 }

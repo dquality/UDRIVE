@@ -43,6 +43,7 @@ import ua.com.dquality.udrive.sliding.SlidingUpPanelLayout;
 import ua.com.dquality.udrive.sliding.SlidingUpPanelLayout.PanelSlideListener;
 import ua.com.dquality.udrive.sliding.SlidingUpPanelLayout.PanelState;
 import ua.com.dquality.udrive.viewmodels.HomeViewModel;
+import ua.com.dquality.udrive.viewmodels.MainDataProvider;
 import ua.com.dquality.udrive.viewmodels.ProfitStatementViewModel;
 import ua.com.dquality.udrive.viewmodels.models.HomeModel;
 import ua.com.dquality.udrive.viewmodels.models.ProfitStatementModel;
@@ -155,7 +156,7 @@ public class HomeFragment extends Fragment {
 
                         new Thread(new Runnable() {
                             public void run() {
-                                mViewModelData.refreshData();
+                                new MainDataProvider(getActivity()).refreshData();
                                 mRefreshMainSwipe.postDelayed(new Runnable() {
                                     public void run() {
                                         mRefreshMainSwipe.setRefreshing(false);
