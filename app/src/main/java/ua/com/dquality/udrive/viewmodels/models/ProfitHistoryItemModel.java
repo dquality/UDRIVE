@@ -2,10 +2,6 @@ package ua.com.dquality.udrive.viewmodels.models;
 
 import java.util.Date;
 
-/**
- * Created by IPFAM on 3/18/2018.
- */
-
 public class ProfitHistoryItemModel {
     public Date Date;
     public String Name;

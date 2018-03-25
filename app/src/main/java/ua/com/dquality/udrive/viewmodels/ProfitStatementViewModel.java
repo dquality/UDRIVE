@@ -15,13 +15,17 @@ public class ProfitStatementViewModel extends ViewModel {
         if(mData == null)
         {
             mData = new MutableLiveData<>();
-            mData.setValue(new ProfitStatementModel());
+            mData.setValue(getData());
         }
 
         return mData;
     }
 
     public void changePeriod(CalendarDay fromDay, CalendarDay toDay){
-        mData.setValue(new ProfitStatementModel());
+        mData.setValue(getData());
+    }
+
+    private ProfitStatementModel getData(){
+        return new ProfitStatementModel();
     }
 }

@@ -1,6 +1,9 @@
 package ua.com.dquality.udrive.fragments;
 
 import android.app.Dialog;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
@@ -39,24 +42,26 @@ import ua.com.dquality.udrive.helpers.OnSwipeTouchListener;
 import ua.com.dquality.udrive.sliding.SlidingUpPanelLayout;
 import ua.com.dquality.udrive.sliding.SlidingUpPanelLayout.PanelSlideListener;
 import ua.com.dquality.udrive.sliding.SlidingUpPanelLayout.PanelState;
+import ua.com.dquality.udrive.viewmodels.HomeViewModel;
+import ua.com.dquality.udrive.viewmodels.ProfitStatementViewModel;
+import ua.com.dquality.udrive.viewmodels.models.HomeModel;
+import ua.com.dquality.udrive.viewmodels.models.ProfitStatementModel;
 import ua.com.dquality.udrive.viewmodels.models.StatusLevel;
 
 import static android.text.Spanned.SPAN_INCLUSIVE_INCLUSIVE;
+import static ua.com.dquality.udrive.viewmodels.models.StatusLevel.Classic;
+import static ua.com.dquality.udrive.viewmodels.models.StatusLevel.Gold;
+import static ua.com.dquality.udrive.viewmodels.models.StatusLevel.Platinum;
 
 
 public class HomeFragment extends Fragment {
-    private static final String TAG = "DemoActivity";
+    private HomeViewModel mViewModelData;
 
-    private StatusLevel mLevel;
-    private int mNextLevelPercentage;
-    private int mUcoinsVal;
-    private String mBarcodeVal;
-    private int mPrevMonthTripsCountVal;
-    private int mTodayTripsCountVal;
-    private int mRemainsTripsCountVal;
-    private double mBalanceVal;
+    private View mParentView;
 
     private SlidingUpPanelLayout mLayout;
+    private  RelativeLayout cardHolderState;
+
     private ImageView mCardBarcodeImage;
     private TextView mCardCodeNumber;
     private TextView mCardType;
@@ -85,48 +90,21 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View ret = inflater.inflate(R.layout.fragment_home, container, false);
+        mParentView = inflater.inflate(R.layout.fragment_home, container, false);
 
-        initModelParams();
+        mViewModelData = ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
 
-        initSlidePanel(ret);
+        mLayout = mParentView.findViewById(R.id.sliding_layout);
 
-        initCardHolderState(ret);
-
-        initCircleState(ret);
-
-        initTripTitleAndCounterStats(ret);
-
-        initBalance(ret);
-
-        initSwipeToRefreshAction(ret);
-
-        return ret;
-    }
-
-    private void initModelParams(){
-        mLevel = StatusLevel.Classic;
-        mNextLevelPercentage = 20;
-        mUcoinsVal = 444;
-        mBarcodeVal = "3356 4673 7990 5332";
-
-        mPrevMonthTripsCountVal = 1450;
-        mTodayTripsCountVal = 1;
-        mRemainsTripsCountVal = 80;
-        mBalanceVal = 16245.4;
-    }
-
-    private void initSlidePanel(View parentView){
-        mLayout = parentView.findViewById(R.id.sliding_layout);
         mLayout.addPanelSlideListener(new PanelSlideListener() {
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
-                Log.i(TAG, "onPanelSlide, offset " + slideOffset);
+                Log.i("DemoActivity", "onPanelSlide, offset " + slideOffset);
             }
 
             @Override
             public void onPanelStateChanged(View panel, PanelState previousState, PanelState newState) {
-                Log.i(TAG, "onPanelStateChanged " + newState);
+                Log.i("DemoActivity", "onPanelStateChanged " + newState);
             }
         });
         mLayout.setFadeOnClickListener(new OnClickListener() {
@@ -135,19 +113,95 @@ public class HomeFragment extends Fragment {
                 mLayout.setPanelState(PanelState.COLLAPSED);
             }
         });
-    }
 
-    private void initCardHolderState(View parentView){
-        RelativeLayout cardHolderState =  parentView.findViewById(R.id.card_holder_state);
+
+        cardHolderState =  mParentView.findViewById(R.id.card_holder_state);
         cardHolderState.setOnClickListener(onCardHolderClickListener);
 
-        mCardBarcodeImage= parentView.findViewById(R.id.card_barcode_image);
-        mCardCodeNumber = parentView.findViewById(R.id.card_barcode_number_text);
-        mCardType = parentView.findViewById(R.id.card_type_text);
-        mCardMonthText = parentView.findViewById(R.id.card_month_text);
+        mCardBarcodeImage = mParentView.findViewById(R.id.card_barcode_image);
+        mCardCodeNumber = mParentView.findViewById(R.id.card_barcode_number_text);
+        mCardType = mParentView.findViewById(R.id.card_type_text);
+        mCardMonthText = mParentView.findViewById(R.id.card_month_text);
+
+        mCircleState =  mParentView.findViewById(R.id.circle_state);
+
+        mPrevMonthTripsTitle = mParentView.findViewById(R.id.prev_month_trips_title);
+        mPrevMonthTripsCount = mParentView.findViewById(R.id.prev_month_trips_count);
+
+        mTodayTripsCount = mParentView.findViewById(R.id.today_trips_count);
+
+        mRemainsTripsTitle = mParentView.findViewById(R.id.remains_trips_title);
+        mRemainsTripsCount = mParentView.findViewById(R.id.remains_trips_count);
+
+        mFinalStatusTitle = mParentView.findViewById(R.id.final_status_title);
+        mFinalStatusName = mParentView.findViewById(R.id.final_status_name);
+
+        mBalanceAmount = mParentView.findViewById(R.id.balance_amount);
+
+        AppCompatButton accrualButton =  mParentView.findViewById(R.id.accrual_button);
+        accrualButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), R.string.accrual_button_title,Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mRefreshMainSwipe = mParentView.findViewById(R.id.refresh_main_swipe);
+
+        mRefreshMainSwipe.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+
+                        new Thread(new Runnable() {
+                            public void run() {
+                                mViewModelData.refreshData();
+                                mRefreshMainSwipe.postDelayed(new Runnable() {
+                                    public void run() {
+                                        mRefreshMainSwipe.setRefreshing(false);
+                                    }
+                                }, 0);
+                            }
+                        }).start();
+                    }
+                }
+        );
+
+        mViewModelData.getHomeData().observe(this, new Observer<HomeModel>() {
+            @Override
+            public void onChanged(@Nullable HomeModel profitStatementModel) {
+                updateHomeData();
+            }
+        });
+
+        return mParentView;
+    }
+
+    private void updateHomeData(){
+
+        updateCardHolderState();
+
+        updateCircleState();
+
+        updateTripTitleAndCounterStats();
+
+        updateBalance();
+    }
+
+    private HomeModel getDataModel(){
+        return mViewModelData.getHomeData().getValue();
+    }
+
+    private StatusLevel getCurrentLevel(){
+        return getDataModel().Level;
+    }
+
+    public void updateCardHolderState(){
+
+        StatusLevel lvl  = getCurrentLevel();
 
         if(cardHolderState != null) {
-            switch (mLevel){
+            switch (lvl){
                 case Classic:
                     cardHolderState.setBackgroundResource(R.drawable.selector_card_classic_background);
                     break;
@@ -160,10 +214,10 @@ public class HomeFragment extends Fragment {
             }
         }
         if(mCardType != null){
-            mCardType.setText(getStatusLevel(mLevel));
+            mCardType.setText(getStatusLevel(lvl));
         }
         if(mCardCodeNumber != null){
-            mCardCodeNumber.setText(mBarcodeVal);
+            mCardCodeNumber.setText(getDataModel().Barcode);
         }
         if(mCardMonthText != null){
             Calendar cal = Calendar.getInstance();
@@ -172,11 +226,11 @@ public class HomeFragment extends Fragment {
             mCardMonthText.setText(month);
         }
 
-        int cardTextColor = ContextCompat.getColor(getContext(), mLevel == StatusLevel.Platinum ? R.color.colorTextTitlePlatinum : R.color.colorPrimaryLight);
+        int cardTextColor = ContextCompat.getColor(getContext(), lvl == Platinum ? R.color.colorTextTitlePlatinum : R.color.colorPrimaryLight);
         mCardCodeNumber.setTextColor(cardTextColor);
         mCardType.setTextColor(cardTextColor);
         mCardMonthText.setTextColor(cardTextColor);
-        mCardBarcodeImage.setImageResource(mLevel == StatusLevel.Platinum ? R.drawable.ic_bar_code_plat_114dp :R.drawable.ic_bar_code_114dp);
+        mCardBarcodeImage.setImageResource(lvl == Platinum ? R.drawable.ic_bar_code_plat_114dp :R.drawable.ic_bar_code_114dp);
 
     }
 
@@ -202,11 +256,11 @@ public class HomeFragment extends Fragment {
         }
     };
 
-    private void initCircleState(View parentView){
-        mCircleState =  parentView.findViewById(R.id.circle_state);
+    public void updateCircleState(){
+
         if(mCircleState != null){
 
-            setCircleValue(mUcoinsVal);
+            setCircleValue(getDataModel().UcoinsCount);
 
             setCircleDrawable();
         }
@@ -233,29 +287,29 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private void initTripTitleAndCounterStats(View parentView){
-        mPrevMonthTripsTitle = parentView.findViewById(R.id.prev_month_trips_title);
-        mPrevMonthTripsCount = parentView.findViewById(R.id.prev_month_trips_count);
-
-        mTodayTripsCount = parentView.findViewById(R.id.today_trips_count);
-
-        mRemainsTripsTitle = parentView.findViewById(R.id.remains_trips_title);
-        mRemainsTripsCount = parentView.findViewById(R.id.remains_trips_count);
-
-        mFinalStatusTitle = parentView.findViewById(R.id.final_status_title);
-        mFinalStatusName = parentView.findViewById(R.id.final_status_name);
+    public void updateTripTitleAndCounterStats(){
 
         setPrevMonthTripTitle();
 
-        setRemainsBlock(mLevel);
+        setRemainsBlock();
 
         setTripsCount();
     }
 
-    private void setRemainsBlock(StatusLevel current){
+    private void setPrevMonthTripTitle(){
+        if(mPrevMonthTripsTitle != null){
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.MONTH, -1);
+            String prevMonth = new SimpleDateFormat("LLLL", new Locale(Const.CULTURE)).format(cal.getTime());
+            mPrevMonthTripsTitle.setText(String.format(getString(R.string.prev_month_trip_title_tmpl), prevMonth));
+        }
+    }
+
+    private void setRemainsBlock(){
+        StatusLevel lvl = getCurrentLevel();
         if(mRemainsTripsTitle != null && mRemainsTripsCount != null && mFinalStatusTitle != null && mFinalStatusName != null){
 
-            if(mLevel == StatusLevel.Platinum){
+            if(lvl == Platinum){
                 mFinalStatusTitle.setVisibility(View.VISIBLE);
                 mFinalStatusName.setVisibility(View.VISIBLE);
 
@@ -270,9 +324,9 @@ public class HomeFragment extends Fragment {
                 mRemainsTripsCount.setVisibility(View.VISIBLE);
 
                 String remainTripStr = getString(R.string.remain_trips_title ).toUpperCase();
-                StatusLevel nextLevel = mLevel.next();
+                StatusLevel nextLevel = lvl.next();
                 Context ctx  = getContext();
-                int lvlColor = nextLevel == StatusLevel.Gold ? ContextCompat.getColor(ctx, R.color.colorTextTitleGold) : ContextCompat.getColor(ctx, R.color.colorTextTitlePlatinum);
+                int lvlColor = nextLevel == Gold ? ContextCompat.getColor(ctx, R.color.colorTextTitleGold) : ContextCompat.getColor(ctx, R.color.colorTextTitlePlatinum);
                 String lvlStr = getStatusLevel(nextLevel);
                 SpannableString lvlSpan = new SpannableString(lvlStr.toUpperCase());
                 lvlSpan.setSpan(new StyleSpan(Typeface.BOLD), 0, lvlStr.length(), SPAN_INCLUSIVE_INCLUSIVE);
@@ -283,24 +337,15 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private void setPrevMonthTripTitle(){
-        if(mPrevMonthTripsTitle != null){
-            Calendar cal = Calendar.getInstance();
-            cal.add(Calendar.MONTH, -1);
-            String prevMonth = new SimpleDateFormat("LLLL", new Locale(Const.CULTURE)).format(cal.getTime());
-            mPrevMonthTripsTitle.setText(String.format(getString(R.string.prev_month_trip_title_tmpl), prevMonth));
-        }
-    }
-
     private void setTripsCount(){
-        if(mPrevMonthTripsCount != null) mPrevMonthTripsCount.setText(String.valueOf(mPrevMonthTripsCountVal));
-        if(mTodayTripsCount != null) mTodayTripsCount.setText(String.valueOf(mTodayTripsCountVal));
-        if(mRemainsTripsCount != null) mRemainsTripsCount.setText(String.valueOf(mRemainsTripsCountVal));
+        if(mPrevMonthTripsCount != null) mPrevMonthTripsCount.setText(String.valueOf(getDataModel().PrevMonthTripsCount));
+        if(mTodayTripsCount != null) mTodayTripsCount.setText(String.valueOf(getDataModel().TodayTripsCount));
+        if(mRemainsTripsCount != null) mRemainsTripsCount.setText(String.valueOf(getDataModel().RemainsTripsCount));
     }
 
     private void setCircleDrawable(){
         if(mCircleState != null){
-            mCircleState.setBackgroundDrawable(new CircleStatusDrawable(getContext(), mLevel, mNextLevelPercentage));
+            mCircleState.setBackgroundDrawable(new CircleStatusDrawable(getContext(), getCurrentLevel(), getDataModel().NextLevelPercentage));
         }
     }
 
@@ -316,48 +361,17 @@ public class HomeFragment extends Fragment {
         return null;
     }
 
-    private void initBalance(View parentView){
-        mBalanceAmount = parentView.findViewById(R.id.balance_amount);
-
-        AppCompatButton accrualButton =  parentView.findViewById(R.id.accrual_button);
-        accrualButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), R.string.accrual_button_title,Toast.LENGTH_SHORT).show();
-            }
-        });
+    public void updateBalance(){
 
         setBalanceAmount();
-    }
-
-    private void initSwipeToRefreshAction(View parentView) {
-
-        mRefreshMainSwipe = parentView.findViewById(R.id.refresh_main_swipe);
-
-        mRefreshMainSwipe.setOnRefreshListener(
-            new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
-
-                    new Thread(new Runnable() {
-                        public void run() {
-                            mRefreshMainSwipe.postDelayed(new Runnable() {
-                                public void run() {
-                                    mRefreshMainSwipe.setRefreshing(false);
-                                }
-                            }, 5000);
-                        }
-                    }).start();
-                }
-            }
-        );
     }
 
     private void setBalanceAmount(){
         if(mBalanceAmount != null){
             Context ctx  = getContext();
-            mBalanceAmount.setTextColor(ContextCompat.getColor(ctx, mBalanceVal < 0 ? R.color.colorError : R.color.colorAccent));
-            mBalanceAmount.setText(String.format("%1$,.2f",mBalanceVal));
+            double balanceAmount = getDataModel().BalanceAmount;
+            mBalanceAmount.setTextColor(ContextCompat.getColor(ctx, balanceAmount < 0 ? R.color.colorError : R.color.colorAccent));
+            mBalanceAmount.setText(String.format("%1$,.2f",balanceAmount));
         }
     }
 

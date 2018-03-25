@@ -19,12 +19,13 @@ public class ProfitHistoryViewModel extends ViewModel {
         if(mData == null)
         {
             mData = new MutableLiveData<>();
-            popuplateTestData();
+            mData.setValue(getData());
         }
 
         return mData;
     }
-    private void popuplateTestData(){
+    private List<ProfitHistoryGroupModel> getData(){
+        // For testing purpouse only
         List<ProfitHistoryGroupModel> data = new ArrayList<>();
 
         Calendar cal = Calendar.getInstance();
@@ -65,6 +66,6 @@ public class ProfitHistoryViewModel extends ViewModel {
         data.add(group2);
         data.add(group3);
 
-        mData.setValue(data);
+        return data;
     }
 }
