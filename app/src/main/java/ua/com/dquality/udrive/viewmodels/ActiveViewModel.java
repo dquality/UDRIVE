@@ -15,18 +15,16 @@ public class ActiveViewModel extends ViewModel {
         if(mData == null)
         {
             mData = new MutableLiveData<>();
-            mData.setValue(getData());
+            mData.setValue(getDefaultData());
         }
 
         return mData;
     }
 
-    public void refreshData(){
-        ActiveModel data = getData();
-        data.IsActive = true;
-        mData.postValue(data);
+    public void updateData(ActiveModel model){
+        mData.postValue(model == null ? getDefaultData() : model);
     }
-    private ActiveModel getData(){
+    private ActiveModel getDefaultData(){
         return new ActiveModel();
     }
 }

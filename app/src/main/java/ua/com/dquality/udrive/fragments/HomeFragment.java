@@ -156,7 +156,7 @@ public class HomeFragment extends Fragment {
 
                         new Thread(new Runnable() {
                             public void run() {
-                                new MainDataProvider(getActivity()).refreshData();
+                                new MainDataProvider(getActivity()).refreshAllData();
                                 mRefreshMainSwipe.postDelayed(new Runnable() {
                                     public void run() {
                                         mRefreshMainSwipe.setRefreshing(false);
@@ -201,7 +201,7 @@ public class HomeFragment extends Fragment {
 
         StatusLevel lvl  = getCurrentLevel();
 
-        if(cardHolderState != null) {
+        if(cardHolderState != null && lvl != null) {
             switch (lvl){
                 case Classic:
                     cardHolderState.setBackgroundResource(R.drawable.selector_card_classic_background);
@@ -308,7 +308,7 @@ public class HomeFragment extends Fragment {
 
     private void setRemainsBlock(){
         StatusLevel lvl = getCurrentLevel();
-        if(mRemainsTripsTitle != null && mRemainsTripsCount != null && mFinalStatusTitle != null && mFinalStatusName != null){
+        if(lvl != null && mRemainsTripsTitle != null && mRemainsTripsCount != null && mFinalStatusTitle != null && mFinalStatusName != null){
 
             if(lvl == Platinum){
                 mFinalStatusTitle.setVisibility(View.VISIBLE);
@@ -351,13 +351,15 @@ public class HomeFragment extends Fragment {
     }
 
     private String getStatusLevel(StatusLevel lvl){
-        switch (lvl){
-            case Classic:
-                return getString(R.string.title_status_classic);
-            case Gold:
-                return getString(R.string.title_status_gold);
-            case Platinum:
-                return getString(R.string.title_status_platinum);
+        if(lvl != null){
+            switch (lvl){
+                case Classic:
+                    return getString(R.string.title_status_classic);
+                case Gold:
+                    return getString(R.string.title_status_gold);
+                case Platinum:
+                    return getString(R.string.title_status_platinum);
+            }
         }
         return null;
     }

@@ -32,7 +32,7 @@ public class CircleStatusDrawable extends Drawable {
     private int mColorPlatinumDefault;
 
     public CircleStatusDrawable(Context ctx, StatusLevel level, int percentage) {
-        mStatusLevel = level;
+        mStatusLevel = level == null ? StatusLevel.Classic : level;
         mPercentage = percentage;
 
         mColorCircleCenterStart = ContextCompat.getColor(ctx, R.color.colorCircleCenterStart);

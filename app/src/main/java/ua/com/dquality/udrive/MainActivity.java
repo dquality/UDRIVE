@@ -43,7 +43,7 @@ import ua.com.dquality.udrive.viewmodels.ProfitStatementViewModel;
 import ua.com.dquality.udrive.viewmodels.models.ActiveModel;
 import ua.com.dquality.udrive.viewmodels.models.ProfitStatementModel;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AuthenticateBaseActivity {
 
     private ActiveViewModel mViewModelData;
     private DrawerLayout mDrawerLayout;
@@ -157,6 +157,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(mLoggedInUserId == null || mLoggedInUserId.isEmpty()){
+            return;
+        }
         setContentView(R.layout.activity_main);
 
         mViewModelData = ViewModelProviders.of(this).get(ActiveViewModel.class);

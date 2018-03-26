@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingLeft="@dimen/activity_vertical_margin"
+        android:paddingRight="@dimen/activity_vertical_margin">
+
+        <!-- Email Label -->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+            android:layout_marginBottom="@dimen/nav_header_vertical_spacing"
+            app:hintTextAppearance="@style/CustomHintTextAppearance"
+            android:textColorHint="@color/colorPrimaryLight">
+            <EditText android:id="@+id/input_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:theme="@style/CustomEditTextStyle"
+                android:textColor="@color/colorPrimaryLight"
+                android:textColorHint="@color/colorPrimaryLight"
+                android:hint="Email"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <!-- Password Label -->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+            android:layout_marginBottom="@dimen/nav_header_vertical_spacing"
+            app:hintTextAppearance="@style/CustomHintTextAppearance"
+            android:textColorHint="@color/colorPrimaryLight">
+            <EditText android:id="@+id/input_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberPassword"
+                android:theme="@style/CustomEditTextStyle"
+                android:textColor="@color/colorPrimaryLight"
+                android:textColorHint="@color/colorPrimaryLight"
+                android:hint="Code"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:textAllCaps="true"
+            android:background="@drawable/selector_login_button_background"
+
+            android:text="@string/get_code"/>
+
+    </LinearLayout>
+</ScrollView>

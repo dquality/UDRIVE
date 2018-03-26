@@ -13,6 +13,7 @@
     <string name="title_drawer_public_offer">Публичная аферта</string>
     <string name="title_drawer_addresses">Адреса офисов</string>
     <string name="title_drawer_support">Служба поддержки</string>
+    <string name="title_login">Вход</string>
     <string name="title_drawer_exit">Выход</string>
     <string name="card_type">Classic</string>
     <string name="account_fullname">Артем Новиков</string>
@@ -32,6 +33,9 @@
     <string name="profit_history_button_title">история</string>
     <string name="profit_statement_button_title">ведомости</string>
     <string name="OK">OK</string>
-    <string name="Cancel">Cancel</string>
+    <string name="Cancel">Отмена</string>
     <string name="ucoins_umarket_content">Вы сможете использовать накопленные UСoins, в нашем UMarket для ваших будущих покупок</string>
+    <string name="app_shared_prefs">ua.com.dquality.udrive.PREFERENCE_FILE_KEY</string>
+    <string name="login">Вход</string>
+    <string name="get_code">Получить SMS код</string>
 </resources>

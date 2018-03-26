@@ -23,6 +23,7 @@ import ua.com.dquality.udrive.R;
 import ua.com.dquality.udrive.fragments.dialogs.DateRangePickerFragment;
 import ua.com.dquality.udrive.constants.Const;
 import ua.com.dquality.udrive.adapters.ExpandableProfitStatementAdapter;
+import ua.com.dquality.udrive.viewmodels.MainDataProvider;
 import ua.com.dquality.udrive.viewmodels.models.ProfitStatementModel;
 import ua.com.dquality.udrive.viewmodels.ProfitStatementViewModel;
 
@@ -77,7 +78,7 @@ public class ProfitStatementFragment extends Fragment implements DateRangePicker
         String toDateString = new SimpleDateFormat("dd MMMM yyyy", new Locale(Const.CULTURE)).format(endDate.getDate());
         mInitialDay = startDate;
         mPickDateButton.setText(fromDateString + "    -    " + toDateString);
-        mViewModelData.changePeriod(startDate, endDate);
+        new MainDataProvider(getActivity()).changePeriod(startDate, endDate);
     }
 
     @Override

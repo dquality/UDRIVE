@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import ua.com.dquality.udrive.viewmodels.models.ActiveModel;
 import ua.com.dquality.udrive.viewmodels.models.ProfitHistoryGroupModel;
 import ua.com.dquality.udrive.viewmodels.models.ProfitHistoryItemModel;
 import ua.com.dquality.udrive.viewmodels.models.ProfitHistoryItemType;
@@ -19,12 +20,17 @@ public class ProfitHistoryViewModel extends ViewModel {
         if(mData == null)
         {
             mData = new MutableLiveData<>();
-            mData.setValue(getData());
+            mData.setValue(getDefaultData());
         }
 
         return mData;
     }
-    private List<ProfitHistoryGroupModel> getData(){
+
+    public void updateData(List<ProfitHistoryGroupModel> model){
+        mData.postValue(model == null ? getDefaultData() : model);
+    }
+
+    private List<ProfitHistoryGroupModel> getDefaultData(){
         // For testing purpouse only
         List<ProfitHistoryGroupModel> data = new ArrayList<>();
 

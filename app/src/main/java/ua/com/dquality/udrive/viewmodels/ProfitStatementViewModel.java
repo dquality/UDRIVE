@@ -2,9 +2,13 @@ package ua.com.dquality.udrive.viewmodels;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.support.v4.app.FragmentActivity;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 
+import java.util.List;
+
+import ua.com.dquality.udrive.viewmodels.models.ProfitHistoryGroupModel;
 import ua.com.dquality.udrive.viewmodels.models.ProfitStatementModel;
 
 public class ProfitStatementViewModel extends ViewModel {
@@ -15,17 +19,17 @@ public class ProfitStatementViewModel extends ViewModel {
         if(mData == null)
         {
             mData = new MutableLiveData<>();
-            mData.setValue(getData());
+            mData.setValue(getDefaultData());
         }
 
         return mData;
     }
 
-    public void changePeriod(CalendarDay fromDay, CalendarDay toDay){
-        mData.setValue(getData());
+    public void updateData(ProfitStatementModel model){
+        mData.postValue(model == null ? getDefaultData() : model);
     }
 
-    private ProfitStatementModel getData(){
+    private ProfitStatementModel getDefaultData(){
         return new ProfitStatementModel();
     }
 }

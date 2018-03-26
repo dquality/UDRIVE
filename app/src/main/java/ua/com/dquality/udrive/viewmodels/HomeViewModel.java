@@ -16,31 +16,16 @@ public class HomeViewModel extends ViewModel {
     public MutableLiveData<HomeModel> getHomeData() {
         if (mData == null) {
             mData = new MutableLiveData<>();
-            mData.setValue(getData());
+            mData.setValue(getDefaultData());
         }
         return mData;
     }
 
-    public void refreshData(){
-        //TODO uncomment
-        //mData.postValue(getData());
-
-        HomeModel model = new HomeModel();
-
-        model.Level = StatusLevel.Gold;
-        model.NextLevelPercentage = 45;
-        model.UcoinsCount = 128;
-        model.Barcode = "3356 4673 7990 5332";
-
-        model.PrevMonthTripsCount = 100;
-        model.TodayTripsCount = 15;
-        model.RemainsTripsCount = 800;
-        model.BalanceAmount = -895;
-
-        mData.postValue(model);
+    public void updateData(HomeModel model){
+        mData.postValue(model == null ? getDefaultData() : model);
     }
 
-    private HomeModel getData(){
+    private HomeModel getDefaultData(){
         HomeModel model = new HomeModel();
 
         model.Level = StatusLevel.Classic;
