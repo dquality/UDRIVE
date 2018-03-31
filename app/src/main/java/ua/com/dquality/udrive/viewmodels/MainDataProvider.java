@@ -80,4 +80,9 @@ public class MainDataProvider {
         AndroidNetworking.initialize(mFragmentActivity, mOkHttpClient);
         AndroidNetworking.setParserFactory(new JacksonParserFactory());
     }
+
+//    public String GetCode(){
+//        mOkHttpClient.newCall()
+//        builder.
+//    }
 }

@@ -14,24 +14,26 @@
 
         <!-- Email Label -->
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_phone_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/nav_header_vertical_spacing"
             android:layout_marginBottom="@dimen/nav_header_vertical_spacing"
             app:hintTextAppearance="@style/CustomHintTextAppearance"
             android:textColorHint="@color/colorPrimaryLight">
-            <EditText android:id="@+id/input_email"
+            <EditText android:id="@+id/input_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
+                android:inputType="phone"
                 android:theme="@style/CustomEditTextStyle"
                 android:textColor="@color/colorPrimaryLight"
                 android:textColorHint="@color/colorPrimaryLight"
-                android:hint="Email"/>
+                android:hint="Телефон"/>
         </android.support.design.widget.TextInputLayout>
 
         <!-- Password Label -->
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_code_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/nav_header_vertical_spacing"
@@ -45,19 +47,18 @@
                 android:theme="@style/CustomEditTextStyle"
                 android:textColor="@color/colorPrimaryLight"
                 android:textColorHint="@color/colorPrimaryLight"
-                android:hint="Code"/>
+                android:hint="Код"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:padding="@dimen/activity_horizontal_margin"
             android:textAllCaps="true"
             android:background="@drawable/selector_login_button_background"
-
             android:text="@string/get_code"/>
 
     </LinearLayout>
