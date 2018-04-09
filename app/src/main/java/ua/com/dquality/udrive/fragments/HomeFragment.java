@@ -2,7 +2,6 @@ package ua.com.dquality.udrive.fragments;
 
 import android.app.Dialog;
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -36,26 +35,25 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import ua.com.dquality.udrive.UDriveApplication;
+import ua.com.dquality.udrive.data.HttpDataProvider;
 import ua.com.dquality.udrive.helpers.CircleStatusDrawable;
 import ua.com.dquality.udrive.constants.Const;
 import ua.com.dquality.udrive.helpers.OnSwipeTouchListener;
+import ua.com.dquality.udrive.interfaces.OnRefreshHideListener;
 import ua.com.dquality.udrive.sliding.SlidingUpPanelLayout;
 import ua.com.dquality.udrive.sliding.SlidingUpPanelLayout.PanelSlideListener;
 import ua.com.dquality.udrive.sliding.SlidingUpPanelLayout.PanelState;
 import ua.com.dquality.udrive.viewmodels.HomeViewModel;
-import ua.com.dquality.udrive.viewmodels.MainDataProvider;
-import ua.com.dquality.udrive.viewmodels.ProfitStatementViewModel;
 import ua.com.dquality.udrive.viewmodels.models.HomeModel;
-import ua.com.dquality.udrive.viewmodels.models.ProfitStatementModel;
 import ua.com.dquality.udrive.viewmodels.models.StatusLevel;
 
 import static android.text.Spanned.SPAN_INCLUSIVE_INCLUSIVE;
-import static ua.com.dquality.udrive.viewmodels.models.StatusLevel.Classic;
 import static ua.com.dquality.udrive.viewmodels.models.StatusLevel.Gold;
 import static ua.com.dquality.udrive.viewmodels.models.StatusLevel.Platinum;
 
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements OnRefreshHideListener {
     private HomeViewModel mViewModelData;
 
     private View mParentView;
@@ -150,22 +148,7 @@ public class HomeFragment extends Fragment {
         mRefreshMainSwipe = mParentView.findViewById(R.id.refresh_main_swipe);
 
         mRefreshMainSwipe.setOnRefreshListener(
-                new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-
-                        new Thread(new Runnable() {
-                            public void run() {
-                                new MainDataProvider(getActivity()).refreshAllData();
-                                mRefreshMainSwipe.postDelayed(new Runnable() {
-                                    public void run() {
-                                        mRefreshMainSwipe.setRefreshing(false);
-                                    }
-                                }, 0);
-                            }
-                        }).start();
-                    }
-                }
+                () -> UDriveApplication.getHttpDataProvider().refreshAllData(getActivity(), HomeFragment.this)
         );
 
         mViewModelData.getHomeData().observe(this, new Observer<HomeModel>() {
@@ -390,6 +373,15 @@ public class HomeFragment extends Fragment {
                 (mLayout.getPanelState() == PanelState.EXPANDED || mLayout.getPanelState() == PanelState.ANCHORED)) {
             mLayout.setPanelState(PanelState.COLLAPSED);
         }
+    }
+
+    @Override
+    public void onRefreshHide() {
+        mRefreshMainSwipe.postDelayed(new Runnable() {
+            public void run() {
+                mRefreshMainSwipe.setRefreshing(false);
+            }
+        }, 0);
     }
 }
 

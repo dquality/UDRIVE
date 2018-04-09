@@ -17,14 +17,16 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import ua.com.dquality.udrive.R;
+import ua.com.dquality.udrive.UDriveApplication;
 import ua.com.dquality.udrive.fragments.dialogs.DateRangePickerFragment;
 import ua.com.dquality.udrive.constants.Const;
 import ua.com.dquality.udrive.adapters.ExpandableProfitStatementAdapter;
-import ua.com.dquality.udrive.viewmodels.MainDataProvider;
-import ua.com.dquality.udrive.viewmodels.models.ProfitStatementModel;
+import ua.com.dquality.udrive.data.HttpDataProvider;
+import ua.com.dquality.udrive.viewmodels.models.ProfitStatementGroupModel;
 import ua.com.dquality.udrive.viewmodels.ProfitStatementViewModel;
 
 /**
@@ -56,10 +58,10 @@ public class ProfitStatementFragment extends Fragment implements DateRangePicker
         mExpandableListAdapter = new ExpandableProfitStatementAdapter(getContext());
         mExpandableListView.setAdapter(mExpandableListAdapter);
 
-        mViewModelData.getProfitStatementData().observe(this, new Observer<ProfitStatementModel>() {
+        mViewModelData.getProfitStatementData().observe(this, new Observer<List<ProfitStatementGroupModel>>() {
             @Override
-            public void onChanged(@Nullable ProfitStatementModel profitStatementModel) {
-                mExpandableListAdapter.setGroupItemData(profitStatementModel);
+            public void onChanged(@Nullable List<ProfitStatementGroupModel> profitStatementGroupModel) {
+                mExpandableListAdapter.setGroupItemData(profitStatementGroupModel);
             }
         });
 
@@ -78,7 +80,7 @@ public class ProfitStatementFragment extends Fragment implements DateRangePicker
         String toDateString = new SimpleDateFormat("dd MMMM yyyy", new Locale(Const.CULTURE)).format(endDate.getDate());
         mInitialDay = startDate;
         mPickDateButton.setText(fromDateString + "    -    " + toDateString);
-        new MainDataProvider(getActivity()).changePeriod(startDate, endDate);
+        UDriveApplication.getHttpDataProvider().changePeriod(startDate, endDate, mViewModelData);
     }
 
     @Override

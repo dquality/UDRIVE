@@ -9,6 +9,8 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
+import ua.com.dquality.udrive.data.HttpDataProvider;
+
 public class LoginActivity extends AppCompatActivity {
 
     private EditText mInputPhone;
@@ -55,16 +57,21 @@ public class LoginActivity extends AppCompatActivity {
                     mGetCodeExecuted = true;
                 }
                 else{
-                    //Логин
+                    UDriveApplication.getHttpDataProvider().LogIn();
                 }
             }
-            String codeText = mInputCode.getText().toString();
-            codeTextWatcher.onTextChanged(codeText,0, 0, codeText.length());
 
-            String phoneText = mInputPhone.getText().toString();
-            phoneTextWatcher.onTextChanged(phoneText,0, 0, phoneText.length());
+            RaiseTextChangedEvents();
         }
     };
+
+    private void RaiseTextChangedEvents(){
+        String codeText = mInputCode.getText().toString();
+        codeTextWatcher.onTextChanged(codeText,0, 0, codeText.length());
+
+        String phoneText = mInputPhone.getText().toString();
+        phoneTextWatcher.onTextChanged(phoneText,0, 0, phoneText.length());
+    }
 
     private  TextWatcher codeTextWatcher = new TextWatcher() {
         @Override
@@ -129,4 +136,15 @@ public class LoginActivity extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
         mGetCodeExecuted = savedInstanceState.getBoolean("GetCodeExecuted");
     }
+
+//    private void LoginSuccessCallBack(){
+//        SharedPreferencesManager manager = new SharedPreferencesManager(getApplicationContext());
+//        manager.writeIsLoginPreference(true);
+//        manager.writeCookiesPreferences(HttpDataProvider.mCookies);
+//
+//        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        startActivity(intent);
+//        finish();
+//    }
 }

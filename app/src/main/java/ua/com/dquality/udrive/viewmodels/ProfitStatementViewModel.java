@@ -2,20 +2,17 @@ package ua.com.dquality.udrive.viewmodels;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
-import android.support.v4.app.FragmentActivity;
-
-import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 import java.util.List;
 
-import ua.com.dquality.udrive.viewmodels.models.ProfitHistoryGroupModel;
-import ua.com.dquality.udrive.viewmodels.models.ProfitStatementModel;
+import ua.com.dquality.udrive.UDriveApplication;
+import ua.com.dquality.udrive.viewmodels.models.ProfitStatementGroupModel;
 
 public class ProfitStatementViewModel extends ViewModel {
 
-    private MutableLiveData<ProfitStatementModel> mData;
+    private MutableLiveData<List<ProfitStatementGroupModel>> mData;
 
-    public MutableLiveData<ProfitStatementModel> getProfitStatementData(){
+    public MutableLiveData<List<ProfitStatementGroupModel>> getProfitStatementData(){
         if(mData == null)
         {
             mData = new MutableLiveData<>();
@@ -25,11 +22,11 @@ public class ProfitStatementViewModel extends ViewModel {
         return mData;
     }
 
-    public void updateData(ProfitStatementModel model){
-        mData.postValue(model == null ? getDefaultData() : model);
+    public void updateData(List<ProfitStatementGroupModel> model){
+        getProfitStatementData().postValue(model == null ? getDefaultData() : model);
     }
 
-    private ProfitStatementModel getDefaultData(){
-        return new ProfitStatementModel();
+    private List<ProfitStatementGroupModel> getDefaultData(){
+        return UDriveApplication.getHttpDataProvider().getDatas().ProfitStatementData;
     }
 }

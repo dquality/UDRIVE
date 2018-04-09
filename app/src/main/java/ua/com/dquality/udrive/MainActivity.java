@@ -13,7 +13,6 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -26,22 +25,13 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.androidnetworking.AndroidNetworking;
-import com.jacksonandroidnetworking.JacksonParserFactory;
-
-import com.facebook.stetho.okhttp3.StethoInterceptor;
-
-import okhttp3.OkHttpClient;
-import ua.com.dquality.udrive.adapters.ExpandableProfitStatementAdapter;
 import ua.com.dquality.udrive.fragments.OtherFragment;
-import ua.com.dquality.udrive.fragments.UdriveShopFragment;
 import ua.com.dquality.udrive.fragments.HomeFragment;
 import ua.com.dquality.udrive.fragments.ProfitFragment;
 import ua.com.dquality.udrive.helpers.BottomNavigationViewHelper;
 import ua.com.dquality.udrive.viewmodels.ActiveViewModel;
-import ua.com.dquality.udrive.viewmodels.ProfitStatementViewModel;
+import ua.com.dquality.udrive.data.HttpDataProvider;
 import ua.com.dquality.udrive.viewmodels.models.ActiveModel;
-import ua.com.dquality.udrive.viewmodels.models.ProfitStatementModel;
 
 public class MainActivity extends AuthenticateBaseActivity {
 

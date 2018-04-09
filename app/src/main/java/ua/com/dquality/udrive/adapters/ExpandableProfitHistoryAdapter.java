@@ -19,6 +19,7 @@ import ua.com.dquality.udrive.constants.Const;
 import ua.com.dquality.udrive.viewmodels.models.ProfitHistoryGroupModel;
 import ua.com.dquality.udrive.viewmodels.models.ProfitHistoryItemModel;
 import ua.com.dquality.udrive.viewmodels.models.ProfitHistoryItemType;
+import ua.com.dquality.udrive.viewmodels.models.ProfitStatementItemModel;
 
 public class ExpandableProfitHistoryAdapter extends BaseExpandableListAdapter {
 
@@ -78,8 +79,8 @@ public class ExpandableProfitHistoryAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return this.mGroupItemData.get(groupPosition).Items
-                .size();
+        List<ProfitHistoryItemModel> childItems = this.mGroupItemData.get(groupPosition).Items;
+        return childItems == null? 0:childItems.size();
     }
 
     @Override

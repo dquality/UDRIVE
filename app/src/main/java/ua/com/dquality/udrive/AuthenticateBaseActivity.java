@@ -1,12 +1,11 @@
 package ua.com.dquality.udrive;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import java.util.prefs.Preferences;
+import ua.com.dquality.udrive.data.HttpDataProvider;
+import ua.com.dquality.udrive.helpers.SharedPreferencesManager;
 
 public class AuthenticateBaseActivity extends AppCompatActivity {
 
@@ -32,12 +31,18 @@ public class AuthenticateBaseActivity extends AppCompatActivity {
     }
 
     private void checkUserAuthentication(){
-//        mLoggedInUserId = "ssadfsd";
-        SharedPreferences sharedPrefs = getApplicationContext().getSharedPreferences(getResources().getString(R.string.app_shared_prefs), Context.MODE_PRIVATE);
-        boolean isUserLoggedIn = sharedPrefs.getBoolean("loggedInState", false);
-
-        if(isUserLoggedIn){
-            mLoggedInUserId = sharedPrefs.getString("loggedInUserId", null);
+        SharedPreferencesManager manager = new SharedPreferencesManager(getApplicationContext());
+        if(manager.readIsLoginPreference()){
+            HttpDataProvider httpDataProvider = UDriveApplication.getHttpDataProvider();
+            mLoggedInUserId = httpDataProvider.mLoggedInUserId = manager.readUserIdPreference();
+            httpDataProvider.mCookies = manager.readCookiesPreferences();
+            if(httpDataProvider.getDatas() == null) {
+                httpDataProvider.initDefaultData();
+                Intent intent = new Intent(this, LoadActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+            }
         }
         else {
             mLoggedInUserId = null;

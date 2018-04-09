@@ -38,4 +38,7 @@
     <string name="app_shared_prefs">ua.com.dquality.udrive.PREFERENCE_FILE_KEY</string>
     <string name="login">Вход</string>
     <string name="get_code">Получить SMS код</string>
+    <string name="login_error_message">При попытке входа в систему, возникла ошибка. Обратитесь пожалуйста к Администратору</string>
+    <string name="network_error_message">При попытке обращения к серверу, возникла ошибка. Обратитесь пожалуйста к Администратору</string>
+    <string name="title_loading">Loading...</string>
 </resources>

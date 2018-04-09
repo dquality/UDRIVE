@@ -10,6 +10,8 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import ua.com.dquality.udrive.R;
@@ -17,28 +19,28 @@ import ua.com.dquality.udrive.constants.Const;
 import ua.com.dquality.udrive.viewmodels.models.ProfitHistoryGroupModel;
 import ua.com.dquality.udrive.viewmodels.models.ProfitHistoryItemModel;
 import ua.com.dquality.udrive.viewmodels.models.ProfitHistoryItemType;
-import ua.com.dquality.udrive.viewmodels.models.ProfitStatementModel;
+import ua.com.dquality.udrive.viewmodels.models.ProfitStatementGroupModel;
+import ua.com.dquality.udrive.viewmodels.models.ProfitStatementItemModel;
 
 public class ExpandableProfitStatementAdapter extends BaseExpandableListAdapter {
 
     private Context mContext;
-    private ProfitStatementModel profitStatementModel;
+    private List<ProfitStatementGroupModel> mGroupItemData;
 
     public ExpandableProfitStatementAdapter(Context context) {
         this.mContext = context;
-        this.profitStatementModel = new ProfitStatementModel();
+        this.mGroupItemData = new ArrayList<>();
     }
 
-    public void setGroupItemData(ProfitStatementModel profitStatementModel){
-        this.profitStatementModel = profitStatementModel;
+    public void setGroupItemData(List<ProfitStatementGroupModel> groupItemData){
+        this.mGroupItemData = groupItemData;
         this.notifyDataSetChanged();
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosititon) {
-        return 0;
-//        return this.profitStatementModel.get(groupPosition).Items
-//                .get(childPosititon);
+        return this.mGroupItemData.get(groupPosition).Items
+                .get(childPosititon);
     }
 
     @Override
@@ -79,21 +81,18 @@ public class ExpandableProfitStatementAdapter extends BaseExpandableListAdapter 
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return 0;
-//        return this.profitStatementModel.get(groupPosition).Items
-//                .size();
+        List<ProfitStatementItemModel> childItems = this.mGroupItemData.get(groupPosition).Items;
+        return childItems == null? 0:childItems.size();
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return 0;
-        //return this.profitStatementModel.get(groupPosition);
+        return this.mGroupItemData.get(groupPosition);
     }
 
     @Override
     public int getGroupCount() {
-        return 0;
-        //return this.profitStatementModel.size();
+        return this.mGroupItemData.size();
     }
 
     @Override
