@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.ANRequest;
+import com.androidnetworking.common.ANResponse;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.OkHttpResponseAndJSONObjectRequestListener;
@@ -258,30 +259,24 @@ public class HttpDataProvider {
                 .build();
 
 
-        request.getAsOkHttpResponseAndJSONObject(new OkHttpResponseAndJSONObjectRequestListener() {
-            @Override
-            public void onResponse(Response okHttpResponse, JSONObject response) {
-                if(okHttpResponse.code() == HTTP_OK_CODE){
-                    ActiveModel activeModel  = new ActiveModel();
-                    try {
-                        activeModel.IsActive = response.getString("status").equals("ACTIVE");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    mDatas.ActiveData = activeModel;
-
-                    if(activeViewModel != null)
-                    {
-                        activeViewModel.updateData(activeModel);
-                    }
-                }
+        ANResponse<JSONObject> responce = request.executeForJSONObject();
+        if(responce.isSuccess() && responce.getOkHttpResponse().code() == HTTP_OK_CODE){
+            ActiveModel activeModel  = new ActiveModel();
+            try {
+                activeModel.IsActive = responce.getResult().getString("status").equals("ACTIVE");
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+            mDatas.ActiveData = activeModel;
 
-            @Override
-            public void onError(ANError error) {
-                Toast.makeText(mApplicationContext, mApplicationContext.getString(R.string.network_error_message), Toast.LENGTH_LONG).show();
+            if(activeViewModel != null)
+            {
+                activeViewModel.updateData(activeModel);
             }
-        });
+        }
+        else{
+            Toast.makeText(mApplicationContext, mApplicationContext.getString(R.string.network_error_message), Toast.LENGTH_LONG).show();
+        }
     }
 
     public void refreshHomeViewModelData(HomeViewModel viewModel){
