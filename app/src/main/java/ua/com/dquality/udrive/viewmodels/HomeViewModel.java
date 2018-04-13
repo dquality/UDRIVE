@@ -23,6 +23,6 @@ public class HomeViewModel extends ViewModel {
     }
 
     private HomeModel getDefaultData(){
-        return UDriveApplication.getHttpDataProvider().getDatas().HomeData;
+        return UDriveApplication.getHttpDataProvider().getDataModels().HomeData;
     }
 }

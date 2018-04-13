@@ -9,8 +9,7 @@ import ua.com.dquality.udrive.helpers.SharedPreferencesManager;
 
 public class AuthenticateBaseActivity extends AppCompatActivity {
 
-    protected String mLoggedInUserId;
-
+    protected boolean mIsLoggedIn;
 
     @Override
     protected void onResume() {
@@ -32,24 +31,14 @@ public class AuthenticateBaseActivity extends AppCompatActivity {
 
     private void checkUserAuthentication(){
         SharedPreferencesManager manager = new SharedPreferencesManager(getApplicationContext());
-        if(manager.readIsLoginPreference()){
-            HttpDataProvider httpDataProvider = UDriveApplication.getHttpDataProvider();
-            mLoggedInUserId = httpDataProvider.mLoggedInUserId = manager.readUserIdPreference();
-            httpDataProvider.mCookies = manager.readCookiesPreferences();
-            if(httpDataProvider.getDatas() == null) {
-                httpDataProvider.initDefaultData();
-                Intent intent = new Intent(this, LoadActivity.class);
+        mIsLoggedIn = manager.readIsLoggedInPreference();
+        if(!mIsLoggedIn) {
+            {
+                Intent intent = new Intent(this, LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
             }
-        }
-        else {
-            mLoggedInUserId = null;
-            Intent intent = new Intent(this, LoginActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finish();
         }
     }
 }

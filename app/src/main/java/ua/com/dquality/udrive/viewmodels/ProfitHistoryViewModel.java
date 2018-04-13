@@ -32,6 +32,6 @@ public class ProfitHistoryViewModel extends ViewModel {
     }
 
     private List<ProfitHistoryGroupModel> getDefaultData(){
-        return UDriveApplication.getHttpDataProvider().getDatas().ProfitHistoryData;
+        return UDriveApplication.getHttpDataProvider().getDataModels().ProfitHistoryData;
     }
 }

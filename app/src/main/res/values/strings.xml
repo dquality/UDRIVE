@@ -41,4 +41,5 @@
     <string name="login_error_message">При попытке входа в систему, возникла ошибка. Обратитесь пожалуйста к Администратору</string>
     <string name="network_error_message">При попытке обращения к серверу, возникла ошибка. Обратитесь пожалуйста к Администратору</string>
     <string name="title_loading">Loading...</string>
+    <string name="title_status_undefined">Отсутствует</string>
 </resources>

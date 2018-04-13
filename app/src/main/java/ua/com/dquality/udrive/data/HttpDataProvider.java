@@ -3,7 +3,6 @@ package ua.com.dquality.udrive.data;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
@@ -23,8 +22,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.security.cert.CertificateException;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.net.ssl.HostnameVerifier;
@@ -35,16 +32,10 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-import okhttp3.Cookie;
-import okhttp3.CookieJar;
-import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
 
-import ua.com.dquality.udrive.LoginActivity;
-import ua.com.dquality.udrive.MainActivity;
 import ua.com.dquality.udrive.R;
-import ua.com.dquality.udrive.UDriveApplication;
 import ua.com.dquality.udrive.helpers.SharedPreferencesManager;
 import ua.com.dquality.udrive.interfaces.OnRefreshHideListener;
 import ua.com.dquality.udrive.viewmodels.ActiveViewModel;
@@ -54,28 +45,26 @@ import ua.com.dquality.udrive.viewmodels.ProfitStatementViewModel;
 import ua.com.dquality.udrive.viewmodels.models.ActiveModel;
 import ua.com.dquality.udrive.viewmodels.models.HomeModel;
 import ua.com.dquality.udrive.viewmodels.models.ProfitHistoryGroupModel;
-import ua.com.dquality.udrive.viewmodels.models.ProfitHistoryItemModel;
-import ua.com.dquality.udrive.viewmodels.models.ProfitHistoryItemType;
 import ua.com.dquality.udrive.viewmodels.models.ProfitStatementGroupModel;
-import ua.com.dquality.udrive.viewmodels.models.StatusLevel;
 
 public class HttpDataProvider {
     private static int HTTP_OK_CODE = 200;
+    private static int HTTP_UNAUTHORIZED_CODE = 401;
 
     private Context mApplicationContext;
     private OkHttpClient mOkHttpClient;
-    private DataModels mDatas;
+    private DataModels mDataModels;
 
-    public List<Cookie> mCookies = new ArrayList<Cookie>();
-    public String mLoggedInUserId;
+    public String mAccessToken;
+    public String mUserName;
 
     public HttpDataProvider(Context applicationContext) {
         this.mApplicationContext = applicationContext;
         initNetworkClient();
     }
 
-    public DataModels getDatas() {
-        return mDatas;
+    public DataModels getDataModels() {
+        return mDataModels;
     }
 
     private void initNetworkClient() {
@@ -118,32 +107,6 @@ public class HttpDataProvider {
                         .addNetworkInterceptor(new StethoInterceptor())
                         .sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0])
                         .hostnameVerifier(verifier)
-                        .cookieJar(new CookieJar() {
-                            @Override
-                            public List<Cookie> loadForRequest(HttpUrl url) {
-                                return mCookies;
-                            }
-                            @Override
-                            public void saveFromResponse(HttpUrl url, List<Cookie> cookies){
-                                List<Cookie> toAdd= new ArrayList<>();
-                                for (int i = 0; i < cookies.size(); i++) {
-                                    Cookie cookie = cookies.get(i);
-                                    boolean find = false;
-                                    for (int j = 0; j < mCookies.size(); j++) {
-                                        Cookie mCookie = mCookies.get(i);
-                                        if(mCookie.name().equals(cookie.name())){
-                                            mCookies.set(i, cookie);
-                                            find = true;
-                                            break;
-                                        }
-                                    }
-                                    if(!find){
-                                        toAdd.add(cookie);
-                                    }
-                                }
-                                mCookies.addAll(toAdd);
-                            }
-                        })
                         .build();
                 AndroidNetworking.initialize(mApplicationContext, mOkHttpClient);
                 AndroidNetworking.setParserFactory(new JacksonParserFactory());
@@ -152,77 +115,6 @@ public class HttpDataProvider {
                 throw new RuntimeException(e);
             }
         }
-    }
-
-    public void initDefaultData(){
-        if(mDatas == null)
-            mDatas = new DataModels();
-
-        //Init Active Model with default values
-        mDatas.ActiveData = new ActiveModel();
-
-        //Init Home Model with default values
-        HomeModel homeData = new HomeModel();
-
-        homeData.Level = StatusLevel.Classic;
-        homeData.NextLevelPercentage = 20;
-        homeData.UcoinsCount = 444;
-        homeData.Barcode = "3356 4673 7990 5332";
-
-        homeData.PrevMonthTripsCount = 1450;
-        homeData.TodayTripsCount = 1;
-        homeData.RemainsTripsCount = 80;
-        homeData.BalanceAmount = 16245.4;
-
-        mDatas.HomeData = homeData;
-
-        //Init Profit History Model with default test data
-        //For testing purpouse only
-        List<ProfitHistoryGroupModel> profitHistoryData = new ArrayList<>();
-
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DAY_OF_MONTH, -1);
-
-        ProfitHistoryGroupModel group1 = new ProfitHistoryGroupModel(cal.getTime(), new ArrayList<ProfitHistoryItemModel>());
-        cal.add(Calendar.MINUTE, 15);
-        group1.Items.add(new ProfitHistoryItemModel(cal.getTime(), "Комиссия сервиса", -51.41 ));
-        cal.add(Calendar.MINUTE, 15);
-        group1.Items.add(new ProfitHistoryItemModel(cal.getTime(), "Пополнение баланса", 150.50 ));
-        cal.add(Calendar.MINUTE, 15);
-        group1.Items.add(new ProfitHistoryItemModel(cal.getTime(), "Ucoins за поездку", 12d, ProfitHistoryItemType.Bonus ));
-        cal.add(Calendar.MINUTE, 15);
-        group1.Items.add(new ProfitHistoryItemModel(cal.getTime(), "Пополнение баланса", 250.00 ));
-
-
-        ProfitHistoryGroupModel group2 = new ProfitHistoryGroupModel(cal.getTime(), new ArrayList<ProfitHistoryItemModel>());
-        cal.add(Calendar.MINUTE, 15);
-        group2.Items.add(new ProfitHistoryItemModel(cal.getTime(), "Ucoins за поездку", 15d, ProfitHistoryItemType.Bonus ));
-        cal.add(Calendar.MINUTE, 15);
-        group2.Items.add(new ProfitHistoryItemModel(cal.getTime(), "Ucoins за поездку", 10d, ProfitHistoryItemType.Bonus ));
-        cal.add(Calendar.MINUTE, 15);
-        group2.Items.add(new ProfitHistoryItemModel(cal.getTime(), "Пополнение баланса", 3250.00 ));
-        cal.add(Calendar.MINUTE, 15);
-        group2.Items.add(new ProfitHistoryItemModel(cal.getTime(), "Ucoins за поездку", 10d, ProfitHistoryItemType.Bonus ));
-
-        ProfitHistoryGroupModel group3 = new ProfitHistoryGroupModel(cal.getTime(), new ArrayList<ProfitHistoryItemModel>());
-        cal.add(Calendar.MINUTE, 15);
-        group3.Items.add(new ProfitHistoryItemModel(cal.getTime(), "Комиссия сервиса", -350.00 ));
-        cal.add(Calendar.MINUTE, 15);
-        group3.Items.add(new ProfitHistoryItemModel(cal.getTime(), "Пополнение баланса", 100.00 ));
-        cal.add(Calendar.MINUTE, 15);
-        group3.Items.add(new ProfitHistoryItemModel(cal.getTime(), "Пополнение баланса", 1250.00 ));
-        cal.add(Calendar.MINUTE, 15);
-        group3.Items.add(new ProfitHistoryItemModel(cal.getTime(), "Ucoins за поездку", 10d, ProfitHistoryItemType.Bonus ));
-
-        profitHistoryData.add(group1);
-        profitHistoryData.add(group2);
-        profitHistoryData.add(group3);
-
-        mDatas.ProfitHistoryData = profitHistoryData;
-
-        List<ProfitStatementGroupModel> profitStatementData = new ArrayList<>();
-        mDatas.ProfitStatementData = profitStatementData;
-        
     }
 
     private <TViewModel extends ViewModel> TViewModel safeGetViewModel(FragmentActivity fragmentActivity, Class<TViewModel> type){
@@ -254,7 +146,7 @@ public class HttpDataProvider {
 
         ANRequest request = AndroidNetworking.get("https://backend.uberdrive.com.ua/Driver/Profile/GetDriverStatus")
                 .setTag("Active")
-                .addQueryParameter("driverId", mLoggedInUserId)
+                .addHeaders("Authorization", "Bearer " + mAccessToken)
                 .setPriority(Priority.IMMEDIATE)
                 .build();
 
@@ -262,39 +154,39 @@ public class HttpDataProvider {
         ANResponse<JSONObject> responce = request.executeForJSONObject();
         if(responce.isSuccess() && responce.getOkHttpResponse().code() == HTTP_OK_CODE){
             ActiveModel activeModel  = new ActiveModel();
-            try {
-                activeModel.IsActive = responce.getResult().getString("status").equals("ACTIVE");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            mDatas.ActiveData = activeModel;
+            activeModel.IsActive = responce.getResult().equals("ACTIVE");
+            mDataModels.ActiveData = activeModel;
 
             if(activeViewModel != null)
             {
                 activeViewModel.updateData(activeModel);
             }
         }
+        else if(responce.getOkHttpResponse().code() == HTTP_UNAUTHORIZED_CODE){
+            SharedPreferencesManager manager = new SharedPreferencesManager(mApplicationContext);
+            manager.clearAll();
+        }
         else{
-            Toast.makeText(mApplicationContext, mApplicationContext.getString(R.string.network_error_message), Toast.LENGTH_LONG).show();
+            HttpDataProvider.this.showUIMessage(mApplicationContext.getString(R.string.login_error_message));
         }
     }
 
     public void refreshHomeViewModelData(HomeViewModel viewModel){
         //HomeViewModel homeViewModel = ViewModelProviders.of(mFragmentActivity).get(HomeViewModel.class);
-        HomeModel homeModel = new HomeModel();
-
-        homeModel.Level = StatusLevel.Gold;
-        homeModel.NextLevelPercentage = 45;
-        homeModel.UcoinsCount = 128;
-        homeModel.Barcode = "3356 4673 7990 5332";
-
-        homeModel.PrevMonthTripsCount = 100;
-        homeModel.TodayTripsCount = 15;
-        homeModel.RemainsTripsCount = 800;
-        homeModel.BalanceAmount = -895;
-
-        if(viewModel != null)
-            viewModel.updateData(homeModel);
+//        HomeModel homeModel = new HomeModel();
+//
+//        homeModel.Level = StatusLevel.Gold;
+//        homeModel.NextLevelPercentage = 45;
+//        homeModel.UcoinsCount = 128;
+//        homeModel.Barcode = "3356 4673 7990 5332";
+//
+//        homeModel.PrevMonthTripsCount = 100;
+//        homeModel.WeekTripsCount = 15;
+//        homeModel.RemainsTripsCount = 800;
+//        homeModel.BalanceAmount = -895;
+//
+//        if(viewModel != null)
+//            viewModel.updateData(homeModel);
     }
 
     public void refreshProfitHistoryViewModelData(ProfitHistoryViewModel viewModel){
@@ -305,67 +197,81 @@ public class HttpDataProvider {
 
     }
 
-    public void Login2(String token){
-        ANRequest request = AndroidNetworking.post("https://backend.uberdrive.com.ua/Account/Login")
-                .addBodyParameter("LoginName", "pasha.rudenok@gmail.com")
-                .addBodyParameter("Password", "20KHs54A")
-                .addBodyParameter("RememberMe", "true")
-                .addBodyParameter("__RequestVerificationToken", token)
-                .setTag("Login2")
-                .setPriority(Priority.HIGH)
+    public void LoginByPhone(String phone){
+        ANRequest request = AndroidNetworking.post("https://backend.uberdrive.com.ua/Mobile/Account/LoginBySms")
+                .addQueryParameter("Phone", phone)
+                .setTag("LoginByPhone")
+                .setPriority(Priority.IMMEDIATE)
                 .build();
 
         request.getAsOkHttpResponse(new OkHttpResponseListener() {
             @Override
             public void onResponse(Response okHttpResponse) {
                 if(okHttpResponse.code() == HTTP_OK_CODE){
-                    SharedPreferencesManager manager = new SharedPreferencesManager(mApplicationContext);
-                    manager.clearAll();
-                    manager.writeIsLoginPreference(true);
-                    manager.writeUserIdPreference("c2c20f43-f8b3-4178-afb6-0923f6d91f8c");
-                    manager.writeCookiesPreferences(mCookies);
+                    try {
+                        String successMsg = okHttpResponse.body().string();
+                        HttpDataProvider.this.showUIMessage(successMsg);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        HttpDataProvider.this.showUIMessage(mApplicationContext.getString(R.string.login_error_message));
+                    }
                 }
             }
 
             @Override
             public void onError(ANError error) {
-                Toast.makeText(mApplicationContext, mApplicationContext.getString(R.string.login_error_message), Toast.LENGTH_LONG).show();
+                HttpDataProvider.this.showUIMessage(error.getErrorDetail());
             }
         });
     }
 
-    public void LogIn(){
-        ANRequest request = AndroidNetworking.get("https://backend.uberdrive.com.ua/Account/Login")
-                .setTag("Login")
-                .setPriority(Priority.HIGH)
+    public void LoginByCode(String code, OnRefreshHideListener onRefreshHideListener){
+        ANRequest request = AndroidNetworking.post("https://backend.uberdrive.com.ua/Mobile/Account/LoginBySmsCode")
+                .addQueryParameter("Code", code)
+                .setTag("LoginByCode")
+                .setPriority(Priority.IMMEDIATE)
                 .build();
 
-        request.getAsOkHttpResponse(new OkHttpResponseListener() {
+        request.getAsOkHttpResponseAndJSONObject(new OkHttpResponseAndJSONObjectRequestListener() {
             @Override
-            public void onResponse(Response okHttpResponse) {
+            public void onResponse(Response okHttpResponse, JSONObject response) {
                 if(okHttpResponse.code() == HTTP_OK_CODE){
-                    String token = null;
                     try {
-                        String strBody = okHttpResponse.body().string();
-                        String toFind = "CfDJ8F7tNUzGfNpPl";
-                        int startIndex = strBody.indexOf(toFind);
-                        int endIndex = strBody.indexOf("\" />", startIndex);
-                        token = strBody.substring(startIndex, endIndex);
-                    } catch (IOException e) {
+                        String userName = response.getString("username");
+                        String accessToken = response.getString("access_token");
+
+                        SharedPreferencesManager manager = new SharedPreferencesManager(mApplicationContext);
+                        manager.clearAll();
+
+                        Boolean isLoggedIn  = (userName != null && !userName.isEmpty()) &&(accessToken != null && !accessToken.isEmpty());
+                        manager.writeIsLoggedInPreference(isLoggedIn);
+                        manager.writeUserNamePreference(userName);
+                        manager.writeAccessTokenPreference(accessToken);
+
+                        HttpDataProvider.this.mAccessToken = accessToken;
+                        HttpDataProvider.this.mUserName = userName;
+                        HttpDataProvider.this.mDataModels = new DataModels();
+                        if(onRefreshHideListener != null)
+                            onRefreshHideListener.onRefreshHide();
+
+                    } catch (JSONException e) {
                         e.printStackTrace();
-                    }
-                    if(token != null)
-                    {
-                        Login2(token);
+                        HttpDataProvider.this.showUIMessage(mApplicationContext.getString(R.string.login_error_message));
                     }
                 }
             }
 
             @Override
             public void onError(ANError error) {
-                Toast.makeText(mApplicationContext.getApplicationContext(), mApplicationContext.getString(R.string.login_error_message), Toast.LENGTH_LONG).show();
+                HttpDataProvider.this.showUIMessage(error.getErrorDetail());
             }
         });
+    }
+
+    private void showUIMessage(String message){
+        if(message != null && !message.isEmpty()){
+            Toast.makeText(mApplicationContext, message, Toast.LENGTH_LONG).show();
+        }
     }
 
     public class DataModels{

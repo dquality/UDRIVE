@@ -1,5 +1,6 @@
 package ua.com.dquality.udrive;
 
+import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,8 +11,9 @@ import android.view.View;
 import android.widget.EditText;
 
 import ua.com.dquality.udrive.data.HttpDataProvider;
+import ua.com.dquality.udrive.interfaces.OnRefreshHideListener;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements OnRefreshHideListener {
 
     private EditText mInputPhone;
     private EditText mInputCode;
@@ -48,16 +50,16 @@ public class LoginActivity extends AppCompatActivity {
         public void onClick(View v) {
             if(!mGetCodeExecuted)
             {
-                //Получение SMS кода
+                UDriveApplication.getHttpDataProvider().LoginByPhone(mInputPhone.getText().toString());
                 mGetCodeExecuted = true;
             }
             else{
                 if(mInputPhone.isEnabled()){
-                    //Получение SMS кода
+                    UDriveApplication.getHttpDataProvider().LoginByPhone(mInputPhone.getText().toString());
                     mGetCodeExecuted = true;
                 }
                 else{
-                    UDriveApplication.getHttpDataProvider().LogIn();
+                    UDriveApplication.getHttpDataProvider().LoginByCode(mInputCode.getText().toString(), LoginActivity.this);
                 }
             }
 
@@ -137,14 +139,14 @@ public class LoginActivity extends AppCompatActivity {
         mGetCodeExecuted = savedInstanceState.getBoolean("GetCodeExecuted");
     }
 
-//    private void LoginSuccessCallBack(){
-//        SharedPreferencesManager manager = new SharedPreferencesManager(getApplicationContext());
-//        manager.writeIsLoginPreference(true);
-//        manager.writeCookiesPreferences(HttpDataProvider.mCookies);
-//
-//        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        startActivity(intent);
-//        finish();
-//    }
+    @Override
+    public void onRefreshHide() {
+        String accessToken = UDriveApplication.getHttpDataProvider().mAccessToken;
+        if(accessToken != null && !accessToken.isEmpty()) {
+            Intent intent = new Intent(this, LoadActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+        }
+    }
 }

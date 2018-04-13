@@ -30,7 +30,6 @@ import ua.com.dquality.udrive.fragments.HomeFragment;
 import ua.com.dquality.udrive.fragments.ProfitFragment;
 import ua.com.dquality.udrive.helpers.BottomNavigationViewHelper;
 import ua.com.dquality.udrive.viewmodels.ActiveViewModel;
-import ua.com.dquality.udrive.data.HttpDataProvider;
 import ua.com.dquality.udrive.viewmodels.models.ActiveModel;
 
 public class MainActivity extends AuthenticateBaseActivity {
@@ -147,7 +146,7 @@ public class MainActivity extends AuthenticateBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(mLoggedInUserId == null || mLoggedInUserId.isEmpty()){
+        if(!mIsLoggedIn){
             return;
         }
         setContentView(R.layout.activity_main);

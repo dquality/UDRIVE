@@ -36,7 +36,6 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import ua.com.dquality.udrive.UDriveApplication;
-import ua.com.dquality.udrive.data.HttpDataProvider;
 import ua.com.dquality.udrive.helpers.CircleStatusDrawable;
 import ua.com.dquality.udrive.constants.Const;
 import ua.com.dquality.udrive.helpers.OnSwipeTouchListener;
@@ -70,7 +69,7 @@ public class HomeFragment extends Fragment implements OnRefreshHideListener {
 
     private TextView mPrevMonthTripsTitle;
     private TextView mPrevMonthTripsCount;
-    private TextView mTodayTripsCount;
+    private TextView mWeekTripsCount;
     private TextView mRemainsTripsTitle;
     private TextView mRemainsTripsCount;
     private TextView mFinalStatusTitle;
@@ -127,7 +126,7 @@ public class HomeFragment extends Fragment implements OnRefreshHideListener {
         mPrevMonthTripsTitle = mParentView.findViewById(R.id.prev_month_trips_title);
         mPrevMonthTripsCount = mParentView.findViewById(R.id.prev_month_trips_count);
 
-        mTodayTripsCount = mParentView.findViewById(R.id.today_trips_count);
+        mWeekTripsCount = mParentView.findViewById(R.id.today_trips_count);
 
         mRemainsTripsTitle = mParentView.findViewById(R.id.remains_trips_title);
         mRemainsTripsCount = mParentView.findViewById(R.id.remains_trips_count);
@@ -186,6 +185,8 @@ public class HomeFragment extends Fragment implements OnRefreshHideListener {
 
         if(cardHolderState != null && lvl != null) {
             switch (lvl){
+                case Undefined:
+                    cardHolderState.setBackgroundResource(R.drawable.selector_card_undefined_background);
                 case Classic:
                     cardHolderState.setBackgroundResource(R.drawable.selector_card_classic_background);
                     break;
@@ -323,7 +324,7 @@ public class HomeFragment extends Fragment implements OnRefreshHideListener {
 
     private void setTripsCount(){
         if(mPrevMonthTripsCount != null) mPrevMonthTripsCount.setText(String.valueOf(getDataModel().PrevMonthTripsCount));
-        if(mTodayTripsCount != null) mTodayTripsCount.setText(String.valueOf(getDataModel().TodayTripsCount));
+        if(mWeekTripsCount != null) mWeekTripsCount.setText(String.valueOf(getDataModel().WeekTripsCount));
         if(mRemainsTripsCount != null) mRemainsTripsCount.setText(String.valueOf(getDataModel().RemainsTripsCount));
     }
 
@@ -336,6 +337,8 @@ public class HomeFragment extends Fragment implements OnRefreshHideListener {
     private String getStatusLevel(StatusLevel lvl){
         if(lvl != null){
             switch (lvl){
+                case Undefined:
+                    return getString(R.string.title_status_undefined);
                 case Classic:
                     return getString(R.string.title_status_classic);
                 case Gold:

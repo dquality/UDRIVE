@@ -29,93 +29,33 @@ public class SharedPreferencesManager {
         editor.commit();
     }
 
-    public void writeCookiesPreferences(List<Cookie> cookieList){
+    public void writeIsLoggedInPreference(boolean isLoggedIn){
         SharedPreferences.Editor editor =  mSharedPreferences.edit();
-
-//        String name, String value, long expiresAt, String domain, String path,
-//        boolean secure, boolean httpOnly, boolean hostOnly, boolean persistent
-        editor.putInt("CookieSize", cookieList.size());
-        for (int i = 0; i < cookieList.size(); i++) {
-            Cookie cookie = cookieList.get(i);
-            String nameF = String.format("%d_%s", i, "name");
-            String valueF = String.format("%d_%s", i, "value");
-            String expiresAtF = String.format("%d_%s", i, "expiresAt");
-            String domainF = String.format("%d_%s", i, "domain");
-            String pathF = String.format("%d_%s", i, "path");
-            String secureF = String.format("%d_%s", i, "secure");
-            String httpOnlyF = String.format("%d_%s", i, "httpOnly");
-            String hostOnlyF = String.format("%d_%s", i, "hostOnly");
-            String persistentF = String.format("%d_%s", i, "persistent");
-
-            editor.putString(nameF, cookie.name());
-            editor.putString(valueF, cookie.value());
-            editor.putLong(expiresAtF, cookie.expiresAt());
-            editor.putString(domainF, cookie.domain());
-            editor.putString(pathF, cookie.path());
-            editor.putBoolean(secureF, cookie.secure());
-            editor.putBoolean(httpOnlyF, cookie.httpOnly());
-            editor.putBoolean(hostOnlyF, cookie.hostOnly());
-            editor.putBoolean(persistentF, cookie.persistent());
-        }
+        editor.putBoolean("isLoggedIn", isLoggedIn);
         editor.commit();
     }
 
-    public List<Cookie> readCookiesPreferences(){
-        List<Cookie> list = new ArrayList<Cookie>();
-        for (int i = 0; i < mSharedPreferences.getInt("CookieSize", 0); i++) {
-
-            String nameF = String.format("%d_%s", i, "name");
-            String valueF = String.format("%d_%s", i, "value");
-            String expiresAtF = String.format("%d_%s", i, "expiresAt");
-            String domainF = String.format("%d_%s", i, "domain");
-            String pathF = String.format("%d_%s", i, "path");
-            String secureF = String.format("%d_%s", i, "secure");
-            String httpOnlyF = String.format("%d_%s", i, "httpOnly");
-            String hostOnlyF = String.format("%d_%s", i, "hostOnly");
-            String persistentF = String.format("%d_%s", i, "persistent");
-
-            Cookie.Builder cookieBuilder = new Cookie.Builder()
-            .name(mSharedPreferences.getString(nameF, ""))
-            .value(mSharedPreferences.getString(valueF, ""))
-            .expiresAt(mSharedPreferences.getLong(expiresAtF, 0))
-            .domain(mSharedPreferences.getString(domainF, ""))
-            .path(mSharedPreferences.getString(pathF, ""));
-
-            if(mSharedPreferences.getBoolean(secureF, false)){
-                cookieBuilder.secure();
-            }
-
-            if(mSharedPreferences.getBoolean(httpOnlyF, false)){
-                cookieBuilder.httpOnly();
-            }
-
-            if(mSharedPreferences.getBoolean(hostOnlyF, false)){
-                cookieBuilder.hostOnlyDomain(mSharedPreferences.getString(domainF, ""));
-            }
-            list.add(cookieBuilder.build());
-        }
-
-        return list;
+    public boolean readIsLoggedInPreference(){
+        return mSharedPreferences.getBoolean("isLoggedIn", false);
     }
 
-    public void writeIsLoginPreference(boolean isLogin){
+    public void writeUserNamePreference(String userName){
         SharedPreferences.Editor editor =  mSharedPreferences.edit();
-        editor.putBoolean("loggedInState", isLogin);
+        editor.putString("userName", userName);
         editor.commit();
     }
 
-    public boolean readIsLoginPreference(){
-        //return false;
-        return mSharedPreferences.getBoolean("loggedInState", false);
+    public String readUserNamePreference(){
+        return mSharedPreferences.getString("userName", null);
     }
 
-    public void writeUserIdPreference(String userId){
+    public void writeAccessTokenPreference(String accessToken){
         SharedPreferences.Editor editor =  mSharedPreferences.edit();
-        editor.putString("loggedInUserId", userId);
+        editor.putString("accessToken", accessToken);
         editor.commit();
     }
 
-    public String readUserIdPreference(){
-        return mSharedPreferences.getString("loggedInUserId", null);
+    public String readAccessTokenPreference(){
+        return mSharedPreferences.getString("accessToken", null);
     }
 }

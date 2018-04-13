@@ -27,6 +27,6 @@ public class ProfitStatementViewModel extends ViewModel {
     }
 
     private List<ProfitStatementGroupModel> getDefaultData(){
-        return UDriveApplication.getHttpDataProvider().getDatas().ProfitStatementData;
+        return UDriveApplication.getHttpDataProvider().getDataModels().ProfitStatementData;
     }
 }

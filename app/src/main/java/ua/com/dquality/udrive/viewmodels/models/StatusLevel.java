@@ -1,6 +1,7 @@
 package ua.com.dquality.udrive.viewmodels.models;
 
 public enum StatusLevel {
+    Undefined,
     Classic,
     Gold,
     Platinum;

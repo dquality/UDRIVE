@@ -6,7 +6,7 @@ public class HomeModel {
     public int UcoinsCount;
     public String Barcode;
     public int PrevMonthTripsCount;
-    public int TodayTripsCount;
+    public int WeekTripsCount;
     public int RemainsTripsCount;
     public double BalanceAmount;
 }
