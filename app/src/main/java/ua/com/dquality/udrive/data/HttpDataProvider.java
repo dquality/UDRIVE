@@ -35,8 +35,10 @@ import javax.net.ssl.X509TrustManager;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
 
+import ua.com.dquality.udrive.LoginActivity;
 import ua.com.dquality.udrive.R;
 import ua.com.dquality.udrive.helpers.SharedPreferencesManager;
+import ua.com.dquality.udrive.interfaces.OnHttpCodeResultExposed;
 import ua.com.dquality.udrive.interfaces.OnRefreshHideListener;
 import ua.com.dquality.udrive.viewmodels.ActiveViewModel;
 import ua.com.dquality.udrive.viewmodels.HomeViewModel;
@@ -197,8 +199,8 @@ public class HttpDataProvider {
 
     }
 
-    public void LoginByPhone(String phone){
-        ANRequest request = AndroidNetworking.post("https://backend.uberdrive.com.ua/Mobile/Account/LoginBySms")
+    public void LoginByPhone(String phone, OnHttpCodeResultExposed onHttpCodeResultExposed){
+        ANRequest request = AndroidNetworking.get("https://backend.uberdrive.com.ua/Mobile/Account/LoginBySms")
                 .addQueryParameter("Phone", phone)
                 .setTag("LoginByPhone")
                 .setPriority(Priority.IMMEDIATE)
@@ -207,14 +209,18 @@ public class HttpDataProvider {
         request.getAsOkHttpResponse(new OkHttpResponseListener() {
             @Override
             public void onResponse(Response okHttpResponse) {
-                if(okHttpResponse.code() == HTTP_OK_CODE){
-                    try {
-                        String successMsg = okHttpResponse.body().string();
-                        HttpDataProvider.this.showUIMessage(successMsg);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        HttpDataProvider.this.showUIMessage(mApplicationContext.getString(R.string.login_error_message));
-                    }
+                String msg = null;
+                try {
+                    msg = okHttpResponse.body().string();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    HttpDataProvider.this.showUIMessage(mApplicationContext.getString(R.string.login_error_message));
+                }
+                if(msg != null){
+                    HttpDataProvider.this.showUIMessage(msg);
+                }
+                if(onHttpCodeResultExposed != null){
+                    onHttpCodeResultExposed.onResultExposed(okHttpResponse.code() == HTTP_OK_CODE);
                 }
             }
 
@@ -225,8 +231,8 @@ public class HttpDataProvider {
         });
     }
 
-    public void LoginByCode(String code, OnRefreshHideListener onRefreshHideListener){
-        ANRequest request = AndroidNetworking.post("https://backend.uberdrive.com.ua/Mobile/Account/LoginBySmsCode")
+    public void LoginByCode(String code, OnHttpCodeResultExposed onHttpCodeResultExposed){
+        ANRequest request = AndroidNetworking.get("https://backend.uberdrive.com.ua/Mobile/Account/LoginBySmsCode")
                 .addQueryParameter("Code", code)
                 .setTag("LoginByCode")
                 .setPriority(Priority.IMMEDIATE)
@@ -251,12 +257,26 @@ public class HttpDataProvider {
                         HttpDataProvider.this.mAccessToken = accessToken;
                         HttpDataProvider.this.mUserName = userName;
                         HttpDataProvider.this.mDataModels = new DataModels();
-                        if(onRefreshHideListener != null)
-                            onRefreshHideListener.onRefreshHide();
+
+                        if(onHttpCodeResultExposed != null){
+                            onHttpCodeResultExposed.onResultExposed(okHttpResponse.code() == HTTP_OK_CODE);
+                        }
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                         HttpDataProvider.this.showUIMessage(mApplicationContext.getString(R.string.login_error_message));
+                    }
+                }
+                else{
+                    String msg = null;
+                    try {
+                        msg = okHttpResponse.body().string();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        HttpDataProvider.this.showUIMessage(mApplicationContext.getString(R.string.login_error_message));
+                    }
+                    if(msg != null){
+                        HttpDataProvider.this.showUIMessage(msg);
                     }
                 }
             }

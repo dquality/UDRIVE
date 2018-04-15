@@ -11,9 +11,10 @@ import android.view.View;
 import android.widget.EditText;
 
 import ua.com.dquality.udrive.data.HttpDataProvider;
+import ua.com.dquality.udrive.interfaces.OnHttpCodeResultExposed;
 import ua.com.dquality.udrive.interfaces.OnRefreshHideListener;
 
-public class LoginActivity extends AppCompatActivity implements OnRefreshHideListener {
+public class LoginActivity extends AppCompatActivity {
 
     private EditText mInputPhone;
     private EditText mInputCode;
@@ -43,6 +44,8 @@ public class LoginActivity extends AppCompatActivity implements OnRefreshHideLis
 
         mLogin = findViewById(R.id.btn_login);
         mLogin.setOnClickListener(loginClickListener);
+
+        RaiseTextChangedEvents();
     }
 
     private View.OnClickListener loginClickListener = new View.OnClickListener() {
@@ -50,20 +53,37 @@ public class LoginActivity extends AppCompatActivity implements OnRefreshHideLis
         public void onClick(View v) {
             if(!mGetCodeExecuted)
             {
-                UDriveApplication.getHttpDataProvider().LoginByPhone(mInputPhone.getText().toString());
-                mGetCodeExecuted = true;
+                UDriveApplication.getHttpDataProvider().LoginByPhone(mInputPhone.getText().toString(), onPhoneResultExposed);
             }
             else{
                 if(mInputPhone.isEnabled()){
-                    UDriveApplication.getHttpDataProvider().LoginByPhone(mInputPhone.getText().toString());
-                    mGetCodeExecuted = true;
+                    UDriveApplication.getHttpDataProvider().LoginByPhone(mInputPhone.getText().toString(), onPhoneResultExposed);
                 }
                 else{
-                    UDriveApplication.getHttpDataProvider().LoginByCode(mInputCode.getText().toString(), LoginActivity.this);
+                    UDriveApplication.getHttpDataProvider().LoginByCode(mInputCode.getText().toString(), onCodeResultExposed);
                 }
             }
 
             RaiseTextChangedEvents();
+        }
+    };
+
+    private OnHttpCodeResultExposed onPhoneResultExposed = isOkCode -> {
+        if(isOkCode){
+            mGetCodeExecuted = true;
+        }
+    };
+
+    private OnHttpCodeResultExposed onCodeResultExposed = isOkCode -> {
+        if(isOkCode){
+            String accessToken = UDriveApplication.getHttpDataProvider().mAccessToken;
+            if(accessToken != null && !accessToken.isEmpty()) {
+                LoginActivity currentActivity = LoginActivity.this;
+                Intent intent = new Intent(currentActivity, LoadActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                currentActivity.startActivity(intent);
+                currentActivity.finish();
+            }
         }
     };
 
@@ -137,16 +157,5 @@ public class LoginActivity extends AppCompatActivity implements OnRefreshHideLis
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mGetCodeExecuted = savedInstanceState.getBoolean("GetCodeExecuted");
-    }
-
-    @Override
-    public void onRefreshHide() {
-        String accessToken = UDriveApplication.getHttpDataProvider().mAccessToken;
-        if(accessToken != null && !accessToken.isEmpty()) {
-            Intent intent = new Intent(this, LoadActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finish();
-        }
     }
 }
