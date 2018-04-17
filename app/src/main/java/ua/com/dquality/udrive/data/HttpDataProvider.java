@@ -262,11 +262,16 @@ public class HttpDataProvider {
                 mDataModels.HomeData.NextLevelPercentage = obj.getInt("nextLevelPercentage");
                 mDataModels.HomeData.UcoinsCount = obj.getInt("ucoinsCount");
                 mDataModels.HomeData.WeekTripsCount = obj.getInt("weekTripsCount");
-                mDataModels.HomeData.Barcode = obj.getString("barcode");
+                mDataModels.HomeData.setBarcode(obj.getString("barcode"), mApplicationContext);
                 mDataModels.HomeData.PrevMonthTripsCount = obj.getInt("prevMonthTripsCount");
                 mDataModels.HomeData.RemainsTripsCount = obj.getInt("remainsTripsCount");
             } catch (JSONException e) {
                 e.printStackTrace();
+            }
+
+            if(homeViewModel != null)
+            {
+                homeViewModel.updateData(mDataModels.HomeData);
             }
         }
         else if(responce2.getOkHttpResponse().code() == HTTP_UNAUTHORIZED_CODE){
@@ -275,22 +280,6 @@ public class HttpDataProvider {
         else{
             HttpDataProvider.this.showUIMessage(mApplicationContext.getString(R.string.login_error_message));
         }
-
-        //HomeViewModel homeViewModel = ViewModelProviders.of(mFragmentActivity).get(HomeViewModel.class);
-//        HomeModel homeModel = new HomeModel();
-//
-//        homeModel.Level = StatusLevel.Gold;
-//        homeModel.NextLevelPercentage = 45;
-//        homeModel.UcoinsCount = 128;
-//        homeModel.Barcode = "3356 4673 7990 5332";
-//
-//        homeModel.PrevMonthTripsCount = 100;
-//        homeModel.WeekTripsCount = 15;
-//        homeModel.RemainsTripsCount = 800;
-//        homeModel.BalanceAmount = -895;
-//
-//        if(viewModel != null)
-//            viewModel.updateData(homeModel);
     }
 
     public void refreshProfitHistoryViewModelData(ProfitHistoryViewModel viewModel){

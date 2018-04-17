@@ -4,7 +4,10 @@ import android.app.Dialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -30,6 +33,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -210,7 +218,7 @@ public class HomeFragment extends Fragment implements OnRefreshHideListener {
             mCardType.setText(getStatusLevel(lvl));
         }
         if(mCardCodeNumber != null){
-            String barCode = getDataModel().Barcode;
+            String barCode = getDataModel().getBarcode();
             if(barCode != null && !barCode.isEmpty()){
                 String formattedBarcode = "";
                 char[] charArray = barCode.toCharArray();
@@ -249,6 +257,10 @@ public class HomeFragment extends Fragment implements OnRefreshHideListener {
 
             View dialogView = dialog.getLayoutInflater().inflate(R.layout.bar_code_popup_view, null);
 
+            Bitmap bmp = getDataModel().getBarcodeBitmap();
+            if(bmp != null){
+                ((ImageView) dialogView.findViewById(R.id.img_bar_code_qr)).setImageBitmap(bmp);
+            }
             dialogView.setOnTouchListener(new OnSwipeTouchListener(getContext()) {
                 @Override
                 public void onSwipeUp() {
