@@ -62,6 +62,28 @@ public class CircleStatusDrawable extends Drawable {
         final int arcWidth = (int)radius/2;
         int sweepAngel = (360/100) * mPercentage;
 
+        if(mStatusLevel == StatusLevel.Undefined){
+            Rect rect = new Rect(left - 2 * arcWidth, top - 2 * arcWidth, (int)(left + 2 * radius + 2 * arcWidth), (int)(top + 2 * radius + 2 * arcWidth));
+            DrawArcColor(canvas, rect, mColorPlatinumDefault);
+
+            rect = new Rect(left - arcWidth, top - arcWidth, (int)(left + 2 * radius + arcWidth), (int)(top + 2 * radius + arcWidth));
+            DrawArcColor(canvas, rect, mColorGoldDefault);
+
+            rect = new Rect(left, top, (int)(left + 2 * radius), (int)(top + 2 * radius));
+            ShapeDrawable.ShaderFactory shaderFactory = new ShapeDrawable.ShaderFactory() {
+                @Override
+                public Shader resize(int width, int height) {
+                    return new LinearGradient(width/2, 0, width/2, height,
+                            new int[]{ mColorCircleCenterStart, mColorCircleCenterStart, mColorCircleCenterEnd, mColorCircleCenterEnd },
+                            null,
+                            Shader.TileMode.CLAMP);
+                }
+            };
+            DrawOvalGradient(canvas, rect, shaderFactory);
+
+            return;
+        }
+
         switch (mStatusLevel){
             case Classic:
             {

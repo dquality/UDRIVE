@@ -22,6 +22,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.security.cert.CertificateException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.net.ssl.HostnameVerifier;
@@ -32,6 +33,9 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import okhttp3.Cookie;
+import okhttp3.CookieJar;
+import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
 
@@ -48,6 +52,7 @@ import ua.com.dquality.udrive.viewmodels.models.ActiveModel;
 import ua.com.dquality.udrive.viewmodels.models.HomeModel;
 import ua.com.dquality.udrive.viewmodels.models.ProfitHistoryGroupModel;
 import ua.com.dquality.udrive.viewmodels.models.ProfitStatementGroupModel;
+import ua.com.dquality.udrive.viewmodels.models.StatusLevel;
 
 public class HttpDataProvider {
     private static int HTTP_OK_CODE = 200;
@@ -56,6 +61,7 @@ public class HttpDataProvider {
     private Context mApplicationContext;
     private OkHttpClient mOkHttpClient;
     private DataModels mDataModels;
+    private List<Cookie> mCookies;
 
     public String mAccessToken;
     public String mUserName;
@@ -63,6 +69,12 @@ public class HttpDataProvider {
     public HttpDataProvider(Context applicationContext) {
         this.mApplicationContext = applicationContext;
         initNetworkClient();
+
+        SharedPreferencesManager manager = new SharedPreferencesManager(mApplicationContext);
+
+        mAccessToken = manager.readAccessTokenPreference();
+        mUserName = manager.readUserNamePreference();
+        mDataModels = new DataModels();
     }
 
     public DataModels getDataModels() {
@@ -71,7 +83,7 @@ public class HttpDataProvider {
 
     private void initNetworkClient() {
         if(mOkHttpClient ==null) {
-
+            mCookies = new ArrayList<>();
             try {
                 // Create a trust manager that does not validate certificate chains
                 final TrustManager[] trustAllCerts = new TrustManager[]{
@@ -109,6 +121,32 @@ public class HttpDataProvider {
                         .addNetworkInterceptor(new StethoInterceptor())
                         .sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0])
                         .hostnameVerifier(verifier)
+                        .cookieJar(new CookieJar() {
+                            @Override
+                            public List<Cookie> loadForRequest(HttpUrl url) {
+                                return mCookies;
+                            }
+                            @Override
+                            public void saveFromResponse(HttpUrl url, List<Cookie> cookies){
+                                List<Cookie> toAdd= new ArrayList<>();
+                                for (int i = 0; i < cookies.size(); i++) {
+                                    Cookie cookie = cookies.get(i);
+                                    boolean find = false;
+                                    for (int j = 0; j < mCookies.size(); j++) {
+                                        Cookie mCookie = mCookies.get(i);
+                                        if(mCookie.name().equals(cookie.name())){
+                                            mCookies.set(i, cookie);
+                                            find = true;
+                                            break;
+                                        }
+                                    }
+                                    if(!find){
+                                        toAdd.add(cookie);
+                                    }
+                                }
+                                mCookies.addAll(toAdd);
+                            }
+                        })
                         .build();
                 AndroidNetworking.initialize(mApplicationContext, mOkHttpClient);
                 AndroidNetworking.setParserFactory(new JacksonParserFactory());
@@ -123,6 +161,11 @@ public class HttpDataProvider {
         if(fragmentActivity == null)
             return null;
         return ViewModelProviders.of(fragmentActivity).get(type);
+    }
+
+    private void processAuthorizedResponce(){
+        SharedPreferencesManager manager = new SharedPreferencesManager(mApplicationContext);
+        manager.clearAll();
     }
 
     public void changePeriod(CalendarDay fromDay, CalendarDay toDay, ProfitStatementViewModel viewModel) {
@@ -146,34 +189,93 @@ public class HttpDataProvider {
 
     public void refreshActiveViewModelData(ActiveViewModel activeViewModel){
 
-        ANRequest request = AndroidNetworking.get("https://backend.uberdrive.com.ua/Driver/Profile/GetDriverStatus")
+        mDataModels.ActiveData  = new ActiveModel();
+
+        ANRequest request = AndroidNetworking.get("https://backend.uberdrive.com.ua/Mobile/Api/GetDriverStatus")
                 .setTag("Active")
                 .addHeaders("Authorization", "Bearer " + mAccessToken)
-                .setPriority(Priority.IMMEDIATE)
                 .build();
 
 
-        ANResponse<JSONObject> responce = request.executeForJSONObject();
+        ANResponse responce = request.executeForOkHttpResponse();
         if(responce.isSuccess() && responce.getOkHttpResponse().code() == HTTP_OK_CODE){
-            ActiveModel activeModel  = new ActiveModel();
-            activeModel.IsActive = responce.getResult().equals("ACTIVE");
-            mDataModels.ActiveData = activeModel;
+            try {
+                mDataModels.ActiveData.StatusName = responce.getOkHttpResponse().body().string();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            mDataModels.ActiveData.IsActive = mDataModels.ActiveData.StatusName.equals("ACTIVE");
 
             if(activeViewModel != null)
             {
-                activeViewModel.updateData(activeModel);
+                activeViewModel.updateData(mDataModels.ActiveData);
             }
         }
         else if(responce.getOkHttpResponse().code() == HTTP_UNAUTHORIZED_CODE){
-            SharedPreferencesManager manager = new SharedPreferencesManager(mApplicationContext);
-            manager.clearAll();
+           processAuthorizedResponce();
         }
         else{
             HttpDataProvider.this.showUIMessage(mApplicationContext.getString(R.string.login_error_message));
         }
     }
 
-    public void refreshHomeViewModelData(HomeViewModel viewModel){
+    public void refreshHomeViewModelData(HomeViewModel homeViewModel){
+        mDataModels.HomeData  = new HomeModel();
+
+        ANRequest request = AndroidNetworking.get("https://backend.uberdrive.com.ua/Mobile/Api/GetCurrentBalance")
+                .setTag("Active")
+                .addHeaders("Authorization", "Bearer " + mAccessToken)
+                .build();
+
+
+        ANResponse responce = request.executeForOkHttpResponse();
+        if(responce.isSuccess() && responce.getOkHttpResponse().code() == HTTP_OK_CODE){
+            try {
+                String resp = responce.getOkHttpResponse().body().string();
+                if(!resp.isEmpty()){
+                    mDataModels.HomeData.BalanceAmount = Double.parseDouble(resp);
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else if(responce.getOkHttpResponse().code() == HTTP_UNAUTHORIZED_CODE){
+            processAuthorizedResponce();
+        }
+        else{
+            HttpDataProvider.this.showUIMessage(mApplicationContext.getString(R.string.login_error_message));
+        }
+
+        request = AndroidNetworking.get("https://backend.uberdrive.com.ua/Mobile/Api/GetHomeData")
+                .setTag("Active")
+                .addHeaders("Authorization", "Bearer " + mAccessToken)
+                .build();
+
+
+        ANResponse<JSONObject> responce2 = request.executeForJSONObject();
+        if(responce2.isSuccess() && responce2.getOkHttpResponse().code() == HTTP_OK_CODE){
+            try {
+                JSONObject obj = responce2.getResult();
+                mDataModels.HomeData.Level = StatusLevel.valueOf(obj.getJSONObject("level").getString("levelName"));
+                mDataModels.HomeData.NextLevel = StatusLevel.valueOf(obj.getJSONObject("nextLevel").getString("levelName"));
+                mDataModels.HomeData.NextLevelPercentage = obj.getInt("nextLevelPercentage");
+                mDataModels.HomeData.UcoinsCount = obj.getInt("ucoinsCount");
+                mDataModels.HomeData.WeekTripsCount = obj.getInt("weekTripsCount");
+                mDataModels.HomeData.Barcode = obj.getString("barcode");
+                mDataModels.HomeData.PrevMonthTripsCount = obj.getInt("prevMonthTripsCount");
+                mDataModels.HomeData.RemainsTripsCount = obj.getInt("remainsTripsCount");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        else if(responce2.getOkHttpResponse().code() == HTTP_UNAUTHORIZED_CODE){
+            processAuthorizedResponce();
+        }
+        else{
+            HttpDataProvider.this.showUIMessage(mApplicationContext.getString(R.string.login_error_message));
+        }
+
         //HomeViewModel homeViewModel = ViewModelProviders.of(mFragmentActivity).get(HomeViewModel.class);
 //        HomeModel homeModel = new HomeModel();
 //
@@ -192,11 +294,11 @@ public class HttpDataProvider {
     }
 
     public void refreshProfitHistoryViewModelData(ProfitHistoryViewModel viewModel){
-
+        mDataModels.ProfitHistoryData  = new ArrayList<>();
     }
 
     public void refreshProfitStatementViewModelData(ProfitStatementViewModel viewModel){
-
+        mDataModels.ProfitStatementData  = new ArrayList<>();
     }
 
     public void LoginByPhone(String phone, OnHttpCodeResultExposed onHttpCodeResultExposed){
@@ -226,7 +328,7 @@ public class HttpDataProvider {
 
             @Override
             public void onError(ANError error) {
-                HttpDataProvider.this.showUIMessage(error.getErrorDetail());
+                HttpDataProvider.this.showUIMessage(error.getErrorBody());
             }
         });
     }
@@ -283,7 +385,7 @@ public class HttpDataProvider {
 
             @Override
             public void onError(ANError error) {
-                HttpDataProvider.this.showUIMessage(error.getErrorDetail());
+                HttpDataProvider.this.showUIMessage(error.getErrorBody());
             }
         });
     }

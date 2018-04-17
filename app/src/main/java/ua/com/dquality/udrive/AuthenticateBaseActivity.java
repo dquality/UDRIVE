@@ -33,8 +33,18 @@ public class AuthenticateBaseActivity extends AppCompatActivity {
         SharedPreferencesManager manager = new SharedPreferencesManager(getApplicationContext());
         mIsLoggedIn = manager.readIsLoggedInPreference();
         if(!mIsLoggedIn) {
-            {
-                Intent intent = new Intent(this, LoginActivity.class);
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+        }
+        else{
+            HttpDataProvider dataProvider = UDriveApplication.getHttpDataProvider();
+            if(dataProvider.getDataModels().ActiveData == null ||
+               dataProvider.getDataModels().HomeData == null ||
+               dataProvider.getDataModels().ProfitHistoryData == null ||
+               dataProvider.getDataModels().ProfitStatementData == null) {
+                Intent intent = new Intent(this, LoadActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();

@@ -83,7 +83,7 @@
                                 android:layout_alignParentRight="true"
                                 android:layout_alignParentEnd="true"
                                 android:layout_below="@id/card_barcode_image"
-                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
                                 android:textAllCaps="true"
                                 android:layout_toStartOf="@id/card_barcode_image"
                                 android:layout_toLeftOf="@id/card_barcode_image"/>

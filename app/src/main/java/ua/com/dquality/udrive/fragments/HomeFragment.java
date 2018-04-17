@@ -34,6 +34,7 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.logging.Level;
 
 import ua.com.dquality.udrive.UDriveApplication;
 import ua.com.dquality.udrive.helpers.CircleStatusDrawable;
@@ -50,6 +51,7 @@ import ua.com.dquality.udrive.viewmodels.models.StatusLevel;
 import static android.text.Spanned.SPAN_INCLUSIVE_INCLUSIVE;
 import static ua.com.dquality.udrive.viewmodels.models.StatusLevel.Gold;
 import static ua.com.dquality.udrive.viewmodels.models.StatusLevel.Platinum;
+import static ua.com.dquality.udrive.viewmodels.models.StatusLevel.Undefined;
 
 
 public class HomeFragment extends Fragment implements OnRefreshHideListener {
@@ -176,17 +178,20 @@ public class HomeFragment extends Fragment implements OnRefreshHideListener {
     }
 
     private StatusLevel getCurrentLevel(){
-        return getDataModel().Level;
+        StatusLevel lvl = getDataModel().Level;
+        return lvl == null ? StatusLevel.Undefined : lvl;
+    }
+
+    private StatusLevel getNextLevel(){
+        StatusLevel lvl = getDataModel().NextLevel;
+        return lvl == null ? StatusLevel.Classic : lvl;
     }
 
     public void updateCardHolderState(){
-
         StatusLevel lvl  = getCurrentLevel();
 
-        if(cardHolderState != null && lvl != null) {
-            switch (lvl){
-                case Undefined:
-                    cardHolderState.setBackgroundResource(R.drawable.selector_card_undefined_background);
+        if(cardHolderState != null) {
+            switch (lvl) {
                 case Classic:
                     cardHolderState.setBackgroundResource(R.drawable.selector_card_classic_background);
                     break;
@@ -196,13 +201,30 @@ public class HomeFragment extends Fragment implements OnRefreshHideListener {
                 case Platinum:
                     cardHolderState.setBackgroundResource(R.drawable.selector_card_platinum_background);
                     break;
+                default:
+                    cardHolderState.setBackgroundResource(R.drawable.selector_card_undefined_background);
+                    break;
             }
         }
         if(mCardType != null){
             mCardType.setText(getStatusLevel(lvl));
         }
         if(mCardCodeNumber != null){
-            mCardCodeNumber.setText(getDataModel().Barcode);
+            String barCode = getDataModel().Barcode;
+            if(barCode != null && !barCode.isEmpty()){
+                String formattedBarcode = "";
+                char[] charArray = barCode.toCharArray();
+                for (int i=0; i< charArray.length; i++) {
+                    if(i == 7){
+                        formattedBarcode+= "    ";
+                    }
+                    if(i == 1){
+                        formattedBarcode+= " ";
+                    }
+                    formattedBarcode+= String.valueOf(charArray[i]);
+                }
+                mCardCodeNumber.setText(formattedBarcode);
+            }
         }
         if(mCardMonthText != null){
             Calendar cal = Calendar.getInstance();
@@ -291,10 +313,10 @@ public class HomeFragment extends Fragment implements OnRefreshHideListener {
     }
 
     private void setRemainsBlock(){
-        StatusLevel lvl = getCurrentLevel();
-        if(lvl != null && mRemainsTripsTitle != null && mRemainsTripsCount != null && mFinalStatusTitle != null && mFinalStatusName != null){
+        StatusLevel nextLevel = getNextLevel();
+        if(nextLevel != null && mRemainsTripsTitle != null && mRemainsTripsCount != null && mFinalStatusTitle != null && mFinalStatusName != null){
 
-            if(lvl == Platinum){
+            if(nextLevel == Platinum){
                 mFinalStatusTitle.setVisibility(View.VISIBLE);
                 mFinalStatusName.setVisibility(View.VISIBLE);
 
@@ -309,9 +331,19 @@ public class HomeFragment extends Fragment implements OnRefreshHideListener {
                 mRemainsTripsCount.setVisibility(View.VISIBLE);
 
                 String remainTripStr = getString(R.string.remain_trips_title ).toUpperCase();
-                StatusLevel nextLevel = lvl.next();
                 Context ctx  = getContext();
-                int lvlColor = nextLevel == Gold ? ContextCompat.getColor(ctx, R.color.colorTextTitleGold) : ContextCompat.getColor(ctx, R.color.colorTextTitlePlatinum);
+                int lvlColor = 0;
+                switch (nextLevel){
+                    case Classic:
+                        lvlColor=ContextCompat.getColor(ctx, R.color.colorTextTitleClassic);
+                        break;
+                    case Gold:
+                        lvlColor=ContextCompat.getColor(ctx, R.color.colorTextTitleGold);
+                        break;
+                    case Platinum:
+                        lvlColor=ContextCompat.getColor(ctx, R.color.colorTextTitlePlatinum);
+                        break;
+                }
                 String lvlStr = getStatusLevel(nextLevel);
                 SpannableString lvlSpan = new SpannableString(lvlStr.toUpperCase());
                 lvlSpan.setSpan(new StyleSpan(Typeface.BOLD), 0, lvlStr.length(), SPAN_INCLUSIVE_INCLUSIVE);
@@ -334,20 +366,17 @@ public class HomeFragment extends Fragment implements OnRefreshHideListener {
         }
     }
 
-    private String getStatusLevel(StatusLevel lvl){
-        if(lvl != null){
-            switch (lvl){
-                case Undefined:
+    private String getStatusLevel(StatusLevel lvl) {
+        switch (lvl) {
+            case Classic:
+                return getString(R.string.title_status_classic);
+            case Gold:
+                return getString(R.string.title_status_gold);
+            case Platinum:
+                return getString(R.string.title_status_platinum);
+            default:
                     return getString(R.string.title_status_undefined);
-                case Classic:
-                    return getString(R.string.title_status_classic);
-                case Gold:
-                    return getString(R.string.title_status_gold);
-                case Platinum:
-                    return getString(R.string.title_status_platinum);
-            }
         }
-        return null;
     }
 
     public void updateBalance(){

@@ -71,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
     private OnHttpCodeResultExposed onPhoneResultExposed = isOkCode -> {
         if(isOkCode){
             mGetCodeExecuted = true;
+            RaiseTextChangedEvents();
         }
     };
 
@@ -150,7 +151,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putBoolean("GetCodeExecuted", true);
+        savedInstanceState.putBoolean("GetCodeExecuted", mGetCodeExecuted);
     }
 
     @Override

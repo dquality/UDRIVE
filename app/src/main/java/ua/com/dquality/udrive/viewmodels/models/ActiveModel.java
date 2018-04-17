@@ -6,4 +6,5 @@ package ua.com.dquality.udrive.viewmodels.models;
 
 public class ActiveModel {
     public boolean IsActive;
+    public String StatusName;
 }

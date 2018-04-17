@@ -2,6 +2,7 @@ package ua.com.dquality.udrive.viewmodels.models;
 
 public class HomeModel {
     public StatusLevel Level;
+    public StatusLevel NextLevel;
     public int NextLevelPercentage;
     public int UcoinsCount;
     public String Barcode;
