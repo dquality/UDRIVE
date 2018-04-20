@@ -135,10 +135,10 @@
                             sld:layout_constraintLeft_toRightOf="@id/circle_state"
                             sld:layout_constraintStart_toEndOf="@id/circle_state"
                             sld:layout_constraintTop_toBottomOf="@id/prev_month_trips_count"
-                            android:text="@string/today_trips_title"/>
+                            android:text="@string/week_trips_title"/>
 
                         <TextView
-                            android:id="@+id/today_trips_count"
+                            android:id="@+id/week_trips_count"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="end"
@@ -159,7 +159,7 @@
                             android:gravity="end"
                             sld:layout_constraintLeft_toRightOf="@id/circle_state"
                             sld:layout_constraintStart_toEndOf="@id/circle_state"
-                            sld:layout_constraintTop_toBottomOf="@id/today_trips_count"
+                            sld:layout_constraintTop_toBottomOf="@id/week_trips_count"
                             android:visibility="visible"/>
 
                         <TextView
@@ -186,7 +186,7 @@
                             android:gravity="end"
                             sld:layout_constraintLeft_toRightOf="@id/circle_state"
                             sld:layout_constraintStart_toEndOf="@id/circle_state"
-                            sld:layout_constraintTop_toBottomOf="@id/today_trips_count"
+                            sld:layout_constraintTop_toBottomOf="@id/week_trips_count"
                             android:text="@string/final_status_title"
                             android:visibility="gone"/>
 

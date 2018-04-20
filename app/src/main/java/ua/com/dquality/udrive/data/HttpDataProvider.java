@@ -3,6 +3,8 @@ package ua.com.dquality.udrive.data;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
@@ -14,16 +16,29 @@ import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.OkHttpResponseAndJSONObjectRequestListener;
 import com.androidnetworking.interfaces.OkHttpResponseListener;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.jacksonandroidnetworking.JacksonParserFactory;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.security.cert.CertificateException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.SimpleTimeZone;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -39,8 +54,9 @@ import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
 
-import ua.com.dquality.udrive.LoginActivity;
 import ua.com.dquality.udrive.R;
+import ua.com.dquality.udrive.constants.Const;
+import ua.com.dquality.udrive.fragments.dialogs.DateRangePickerFragment;
 import ua.com.dquality.udrive.helpers.SharedPreferencesManager;
 import ua.com.dquality.udrive.interfaces.OnHttpCodeResultExposed;
 import ua.com.dquality.udrive.interfaces.OnRefreshHideListener;
@@ -51,7 +67,10 @@ import ua.com.dquality.udrive.viewmodels.ProfitStatementViewModel;
 import ua.com.dquality.udrive.viewmodels.models.ActiveModel;
 import ua.com.dquality.udrive.viewmodels.models.HomeModel;
 import ua.com.dquality.udrive.viewmodels.models.ProfitHistoryGroupModel;
+import ua.com.dquality.udrive.viewmodels.models.ProfitHistoryItemModel;
 import ua.com.dquality.udrive.viewmodels.models.ProfitStatementGroupModel;
+import ua.com.dquality.udrive.viewmodels.models.ProfitStatementGroupType;
+import ua.com.dquality.udrive.viewmodels.models.ProfitStatementItemModel;
 import ua.com.dquality.udrive.viewmodels.models.StatusLevel;
 
 public class HttpDataProvider {
@@ -163,13 +182,10 @@ public class HttpDataProvider {
         return ViewModelProviders.of(fragmentActivity).get(type);
     }
 
-    private void processAuthorizedResponce(){
-        SharedPreferencesManager manager = new SharedPreferencesManager(mApplicationContext);
-        manager.clearAll();
-    }
-
     public void changePeriod(CalendarDay fromDay, CalendarDay toDay, ProfitStatementViewModel viewModel) {
-        refreshProfitStatementViewModelData(viewModel);
+        new Thread(() -> {
+            refreshProfitStatementViewModelData(fromDay, toDay, viewModel);
+        }).start();
     }
 
     public void refreshAllData(FragmentActivity fragmentActivity, OnRefreshHideListener onRefreshHideListener){
@@ -180,7 +196,7 @@ public class HttpDataProvider {
 
             refreshProfitHistoryViewModelData(safeGetViewModel(fragmentActivity, ProfitHistoryViewModel.class));
 
-            refreshProfitStatementViewModelData(safeGetViewModel(fragmentActivity, ProfitStatementViewModel.class));
+            refreshProfitStatementViewModelData(null, null, safeGetViewModel(fragmentActivity, ProfitStatementViewModel.class));
 
             if(onRefreshHideListener != null)
                 onRefreshHideListener.onRefreshHide();
@@ -191,16 +207,12 @@ public class HttpDataProvider {
 
         mDataModels.ActiveData  = new ActiveModel();
 
-        ANRequest request = AndroidNetworking.get("https://backend.uberdrive.com.ua/Mobile/Api/GetDriverStatus")
-                .setTag("Active")
-                .addHeaders("Authorization", "Bearer " + mAccessToken)
-                .build();
+        ANRequest request = createGetRequest("https://backend.uberdrive.com.ua/Mobile/Api/GetDriverStatus", "Active");
 
-
-        ANResponse responce = request.executeForOkHttpResponse();
-        if(responce.isSuccess() && responce.getOkHttpResponse().code() == HTTP_OK_CODE){
+        ANResponse response = request.executeForOkHttpResponse();
+        if(validateResponse(response)){
             try {
-                mDataModels.ActiveData.StatusName = responce.getOkHttpResponse().body().string();
+                mDataModels.ActiveData.StatusName = response.getOkHttpResponse().body().string();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -211,55 +223,36 @@ public class HttpDataProvider {
                 activeViewModel.updateData(mDataModels.ActiveData);
             }
         }
-        else if(responce.getOkHttpResponse().code() == HTTP_UNAUTHORIZED_CODE){
-           processAuthorizedResponce();
-        }
-        else{
-            HttpDataProvider.this.showUIMessage(mApplicationContext.getString(R.string.login_error_message));
-        }
+
     }
 
     public void refreshHomeViewModelData(HomeViewModel homeViewModel){
         mDataModels.HomeData  = new HomeModel();
 
-        ANRequest request = AndroidNetworking.get("https://backend.uberdrive.com.ua/Mobile/Api/GetCurrentBalance")
-                .setTag("Active")
-                .addHeaders("Authorization", "Bearer " + mAccessToken)
-                .build();
+        ANRequest request = createGetRequest("https://backend.uberdrive.com.ua/Mobile/Api/GetCurrentBalance", "Balance");
 
-
-        ANResponse responce = request.executeForOkHttpResponse();
-        if(responce.isSuccess() && responce.getOkHttpResponse().code() == HTTP_OK_CODE){
+        ANResponse response = request.executeForOkHttpResponse();
+        if(validateResponse(response)){
             try {
-                String resp = responce.getOkHttpResponse().body().string();
+                String resp = response.getOkHttpResponse().body().string();
                 if(!resp.isEmpty()){
-                    mDataModels.HomeData.BalanceAmount = Double.parseDouble(resp);
+                    mDataModels.HomeData.BalanceAmount = Double.valueOf(resp);
                 }
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        else if(responce.getOkHttpResponse().code() == HTTP_UNAUTHORIZED_CODE){
-            processAuthorizedResponce();
-        }
-        else{
-            HttpDataProvider.this.showUIMessage(mApplicationContext.getString(R.string.login_error_message));
-        }
 
-        request = AndroidNetworking.get("https://backend.uberdrive.com.ua/Mobile/Api/GetHomeData")
-                .setTag("Active")
-                .addHeaders("Authorization", "Bearer " + mAccessToken)
-                .build();
+        request = createGetRequest("https://backend.uberdrive.com.ua/Mobile/Api/GetHomeData", "Home");
 
-
-        ANResponse<JSONObject> responce2 = request.executeForJSONObject();
-        if(responce2.isSuccess() && responce2.getOkHttpResponse().code() == HTTP_OK_CODE){
+        ANResponse<JSONObject> response2 = request.executeForJSONObject();
+        if(validateResponse(response2)){
             try {
-                JSONObject obj = responce2.getResult();
+                JSONObject obj = response2.getResult();
                 mDataModels.HomeData.Level = StatusLevel.valueOf(obj.getJSONObject("level").getString("levelName"));
-                mDataModels.HomeData.NextLevel = StatusLevel.valueOf(obj.getJSONObject("nextLevel").getString("levelName"));
-                mDataModels.HomeData.NextLevelPercentage = obj.getInt("nextLevelPercentage");
+                mDataModels.HomeData.NextMonthLevel = StatusLevel.valueOf(obj.getJSONObject("nextLevel").getString("levelName"));
+                mDataModels.HomeData.NextLevelPercentage = (int) (obj.getDouble("nextLevelPercentage") * 100);
                 mDataModels.HomeData.UcoinsCount = obj.getInt("ucoinsCount");
                 mDataModels.HomeData.WeekTripsCount = obj.getInt("weekTripsCount");
                 mDataModels.HomeData.setBarcode(obj.getString("barcode"), mApplicationContext);
@@ -274,20 +267,108 @@ public class HttpDataProvider {
                 homeViewModel.updateData(mDataModels.HomeData);
             }
         }
-        else if(responce2.getOkHttpResponse().code() == HTTP_UNAUTHORIZED_CODE){
-            processAuthorizedResponce();
-        }
-        else{
-            HttpDataProvider.this.showUIMessage(mApplicationContext.getString(R.string.login_error_message));
-        }
     }
 
-    public void refreshProfitHistoryViewModelData(ProfitHistoryViewModel viewModel){
+    public void refreshProfitHistoryViewModelData(ProfitHistoryViewModel profitHistoryViewModel){
         mDataModels.ProfitHistoryData  = new ArrayList<>();
+
+        ANRequest request = createGetRequest("https://backend.uberdrive.com.ua/Mobile/Api/GetDriverProfitHistory", "ProfitHistory");
+
+        ANResponse<JSONArray> response = request.executeForJSONArray();
+        if(validateResponse(response)){
+            try {
+                JSONArray arrayObj = response.getResult();
+                for (int groupIndex = 0 ; groupIndex < arrayObj.length(); groupIndex++ ) {
+                    JSONObject groupEl = (JSONObject) arrayObj.get(groupIndex);
+
+                    Date date = parseDate(groupEl.getString("date"));
+
+                    List<ProfitHistoryItemModel> profitHistoryItems = new ArrayList<>();
+
+                    if(groupEl.has("items")) {
+
+                        JSONArray items = groupEl.getJSONArray("items");
+
+                        for (int itemIndex = 0; itemIndex < items.length(); itemIndex++) {
+                            JSONObject itemEl = (JSONObject) items.get(itemIndex);
+                            Date itemDate = parseDate(itemEl.getString("date"));
+                            String itemName = itemEl.getString("name");
+                            Double itemAmount = itemEl.getDouble("amount");
+                            ProfitHistoryItemModel itemModel = new ProfitHistoryItemModel(itemDate, itemName, itemAmount);
+                            profitHistoryItems.add(itemModel);
+                        }
+                    }
+                    ProfitHistoryGroupModel groupModel = new ProfitHistoryGroupModel(date, profitHistoryItems);
+                    mDataModels.ProfitHistoryData.add(groupModel);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            if(profitHistoryViewModel != null)
+            {
+                profitHistoryViewModel.updateData(mDataModels.ProfitHistoryData);
+            }
+        }
     }
 
-    public void refreshProfitStatementViewModelData(ProfitStatementViewModel viewModel){
+    public void refreshProfitStatementViewModelData(CalendarDay fromDay, CalendarDay toDay, ProfitStatementViewModel profitStatementViewModel){
         mDataModels.ProfitStatementData  = new ArrayList<>();
+
+        if(fromDay == null && toDay == null){
+            Calendar calendar = Calendar.getInstance();
+            CalendarDay[] initDays = DateRangePickerFragment.calculateStartEndWeekDate(CalendarDay.from(calendar), calendar);
+            fromDay = initDays[0];
+            toDay = initDays[1];
+        }
+
+        mDataModels.StatementFromDay = fromDay;
+        mDataModels.StatementToDay = toDay;
+
+        Map<String,String> params = new HashMap<String,String>();
+        params.put("from", new SimpleDateFormat(Const.PARSE_DATE_FORMAT, new Locale(Const.CULTURE)).format(fromDay.getDate()));
+
+        ANRequest request = createGetRequest("https://backend.uberdrive.com.ua/Mobile/Api/GetDriverProfitStatement","ProfitStatement", params);
+
+        ANResponse<JSONArray> response = request.executeForJSONArray();
+        if(validateResponse(response)){
+            try {
+                JSONArray arrayObj = response.getResult();
+                for (int groupIndex = 0 ; groupIndex < arrayObj.length(); groupIndex++ ) {
+                    JSONObject groupEl = (JSONObject) arrayObj.get(groupIndex);
+                    String name = groupEl.getString("name");
+                    Double amount = groupEl.getDouble("amount");
+                    ProfitStatementGroupType type = ProfitStatementGroupType.getValue(groupEl.getInt("type"));
+
+                    List<ProfitStatementItemModel> profitStatementItems = new ArrayList<>();
+                    if(groupEl.has("items") && groupEl.getString("items") != "null") {
+
+                        JSONArray items = groupEl.getJSONArray("items");
+
+                        for (int itemIndex = 0; itemIndex < items.length(); itemIndex++) {
+                            JSONObject itemEl = (JSONObject) items.get(itemIndex);
+
+                            Date itemDate = parseDate(itemEl.getString("date"));
+                            String itemName = itemEl.getString("name");
+                            Double itemAmount = itemEl.getDouble("amount");
+                            Boolean displayTime = itemEl.getBoolean("displayTime");
+
+                            ProfitStatementItemModel itemModel = new ProfitStatementItemModel(itemDate, itemName, itemAmount, displayTime);
+                            profitStatementItems.add(itemModel);
+                        }
+                    }
+                    ProfitStatementGroupModel groupModel = new ProfitStatementGroupModel(name,amount,type, profitStatementItems);
+                    mDataModels.ProfitStatementData.add(groupModel);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            if(profitStatementViewModel != null)
+            {
+                profitStatementViewModel.updateData(mDataModels.ProfitStatementData);
+            }
+        }
     }
 
     public void LoginByPhone(String phone, OnHttpCodeResultExposed onHttpCodeResultExposed){
@@ -385,10 +466,55 @@ public class HttpDataProvider {
         }
     }
 
+    private ANRequest createGetRequest(String url, Object tag){
+        return createGetRequest(url, tag, null);
+    }
+
+    private ANRequest createGetRequest(String url, Object tag, Map<String, String> params){
+        if(params != null){
+            return AndroidNetworking.get(url)
+                    .setTag(tag)
+                    .addQueryParameter(params)
+                    .addHeaders("Authorization", "Bearer " + mAccessToken)
+                    .build();
+        }
+
+        return AndroidNetworking.get(url)
+                .setTag(tag)
+                .addHeaders("Authorization", "Bearer " + mAccessToken)
+                .build();
+    }
+
+    private Boolean validateResponse(ANResponse response){
+        if(response.isSuccess() && response.getOkHttpResponse().code() == HTTP_OK_CODE){
+            return true;
+        }
+        else if(response.getOkHttpResponse() != null && response.getOkHttpResponse().code() == HTTP_UNAUTHORIZED_CODE){
+            SharedPreferencesManager manager = new SharedPreferencesManager(mApplicationContext);
+            manager.clearAll();
+        }
+        else{
+            HttpDataProvider.this.showUIMessage(mApplicationContext.getString(R.string.login_error_message));
+        }
+        return false;
+    }
+
+    private Date parseDate(String val){
+        SimpleDateFormat dateFormat = new SimpleDateFormat(Const.PARSE_DATE_FORMAT);
+        try {
+            return dateFormat.parse(val);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public class DataModels{
         public ActiveModel ActiveData;
         public HomeModel HomeData;
         public List<ProfitStatementGroupModel> ProfitStatementData;
         public List<ProfitHistoryGroupModel> ProfitHistoryData;
+        public CalendarDay StatementFromDay;
+        public CalendarDay StatementToDay;
     }
 }

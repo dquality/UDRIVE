@@ -68,10 +68,7 @@ public class ProfitStatementFragment extends Fragment implements DateRangePicker
         mPickDateButton = ret.findViewById(R.id.profit_statement_pick_date_button);
         mPickDateButton.setOnClickListener(this);
 
-        Calendar calendar = Calendar.getInstance();
-
-        CalendarDay[] initDays = DateRangePickerFragment.calculateStartEndWeekDate(CalendarDay.from(calendar), calendar);
-        setDateRange(initDays[0], initDays[1]);
+        setDateRange(mViewModelData.getStatementFromDay(), mViewModelData.getStatementToDay());
         return ret;
     }
 
@@ -80,12 +77,12 @@ public class ProfitStatementFragment extends Fragment implements DateRangePicker
         String toDateString = new SimpleDateFormat("dd MMMM yyyy", new Locale(Const.CULTURE)).format(endDate.getDate());
         mInitialDay = startDate;
         mPickDateButton.setText(fromDateString + "    -    " + toDateString);
-        UDriveApplication.getHttpDataProvider().changePeriod(startDate, endDate, mViewModelData);
     }
 
     @Override
     public void onDateRangeSet(MaterialCalendarView view, CalendarDay startDate, CalendarDay endDate) {
         setDateRange(startDate, endDate);
+        UDriveApplication.getHttpDataProvider().changePeriod(startDate, endDate, mViewModelData);
     }
 
     @Override

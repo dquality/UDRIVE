@@ -25,7 +25,7 @@
     <string name="title_status_gold">Gold</string>
     <string name="title_status_platinum">Platinum</string>
     <string name="prev_month_trip_title_tmpl">поездок за %1s</string>
-    <string name="today_trips_title">поездок сегодня</string>
+    <string name="week_trips_title">поездок за неделю</string>
     <string name="remain_trips_title">осталось поездок\nдо статуса</string>
     <string name="final_status_title">максимальный\nстатус</string>
     <string name="balance_title">ваш баланс</string>

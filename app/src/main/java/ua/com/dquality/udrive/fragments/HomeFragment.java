@@ -4,10 +4,8 @@ import android.app.Dialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -34,15 +32,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
-import java.util.logging.Level;
 
 import ua.com.dquality.udrive.UDriveApplication;
 import ua.com.dquality.udrive.helpers.CircleStatusDrawable;
@@ -57,9 +49,7 @@ import ua.com.dquality.udrive.viewmodels.models.HomeModel;
 import ua.com.dquality.udrive.viewmodels.models.StatusLevel;
 
 import static android.text.Spanned.SPAN_INCLUSIVE_INCLUSIVE;
-import static ua.com.dquality.udrive.viewmodels.models.StatusLevel.Gold;
 import static ua.com.dquality.udrive.viewmodels.models.StatusLevel.Platinum;
-import static ua.com.dquality.udrive.viewmodels.models.StatusLevel.Undefined;
 
 
 public class HomeFragment extends Fragment implements OnRefreshHideListener {
@@ -136,7 +126,7 @@ public class HomeFragment extends Fragment implements OnRefreshHideListener {
         mPrevMonthTripsTitle = mParentView.findViewById(R.id.prev_month_trips_title);
         mPrevMonthTripsCount = mParentView.findViewById(R.id.prev_month_trips_count);
 
-        mWeekTripsCount = mParentView.findViewById(R.id.today_trips_count);
+        mWeekTripsCount = mParentView.findViewById(R.id.week_trips_count);
 
         mRemainsTripsTitle = mParentView.findViewById(R.id.remains_trips_title);
         mRemainsTripsCount = mParentView.findViewById(R.id.remains_trips_count);
@@ -190,8 +180,8 @@ public class HomeFragment extends Fragment implements OnRefreshHideListener {
         return lvl == null ? StatusLevel.Undefined : lvl;
     }
 
-    private StatusLevel getNextLevel(){
-        StatusLevel lvl = getDataModel().NextLevel;
+    private StatusLevel getNextMonthLevel(){
+        StatusLevel lvl = getDataModel().NextMonthLevel;
         return lvl == null ? StatusLevel.Classic : lvl;
     }
 
@@ -237,7 +227,7 @@ public class HomeFragment extends Fragment implements OnRefreshHideListener {
         if(mCardMonthText != null){
             Calendar cal = Calendar.getInstance();
             cal.add(Calendar.MONTH, -1);
-            String month = new SimpleDateFormat("LLLL", new Locale(Const.CULTURE)).format(cal.getTime());
+            String month = new SimpleDateFormat(Const.LONG_MONTH_FROMAT, new Locale(Const.CULTURE)).format(cal.getTime());
             mCardMonthText.setText(month);
         }
 
@@ -319,16 +309,16 @@ public class HomeFragment extends Fragment implements OnRefreshHideListener {
         if(mPrevMonthTripsTitle != null){
             Calendar cal = Calendar.getInstance();
             cal.add(Calendar.MONTH, -1);
-            String prevMonth = new SimpleDateFormat("LLLL", new Locale(Const.CULTURE)).format(cal.getTime());
+            String prevMonth = new SimpleDateFormat(Const.LONG_MONTH_FROMAT, new Locale(Const.CULTURE)).format(cal.getTime());
             mPrevMonthTripsTitle.setText(String.format(getString(R.string.prev_month_trip_title_tmpl), prevMonth));
         }
     }
 
     private void setRemainsBlock(){
-        StatusLevel nextLevel = getNextLevel();
-        if(nextLevel != null && mRemainsTripsTitle != null && mRemainsTripsCount != null && mFinalStatusTitle != null && mFinalStatusName != null){
+        StatusLevel nextMonthLevel = getNextMonthLevel();
+        if(nextMonthLevel != null && mRemainsTripsTitle != null && mRemainsTripsCount != null && mFinalStatusTitle != null && mFinalStatusName != null){
 
-            if(nextLevel == Platinum){
+            if(nextMonthLevel == Platinum){
                 mFinalStatusTitle.setVisibility(View.VISIBLE);
                 mFinalStatusName.setVisibility(View.VISIBLE);
 
@@ -345,6 +335,7 @@ public class HomeFragment extends Fragment implements OnRefreshHideListener {
                 String remainTripStr = getString(R.string.remain_trips_title ).toUpperCase();
                 Context ctx  = getContext();
                 int lvlColor = 0;
+                StatusLevel nextLevel = nextMonthLevel.next();
                 switch (nextLevel){
                     case Classic:
                         lvlColor=ContextCompat.getColor(ctx, R.color.colorTextTitleClassic);
@@ -401,7 +392,7 @@ public class HomeFragment extends Fragment implements OnRefreshHideListener {
             Context ctx  = getContext();
             double balanceAmount = getDataModel().BalanceAmount;
             mBalanceAmount.setTextColor(ContextCompat.getColor(ctx, balanceAmount < 0 ? R.color.colorError : R.color.colorAccent));
-            mBalanceAmount.setText(String.format("%1$,.2f",balanceAmount));
+            mBalanceAmount.setText(String.format(Const.AMOUNT_FORMAT, balanceAmount));
         }
     }
 

@@ -17,7 +17,7 @@ import ua.com.dquality.udrive.UDriveApplication;
 
 public class HomeModel {
     public StatusLevel Level;
-    public StatusLevel NextLevel;
+    public StatusLevel NextMonthLevel;
     public int NextLevelPercentage;
     public int UcoinsCount;
 

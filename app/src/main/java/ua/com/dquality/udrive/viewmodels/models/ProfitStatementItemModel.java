@@ -6,9 +6,11 @@ public class ProfitStatementItemModel {
     public Date Date;
     public String Name;
     public Double Amount;
-    public ProfitStatementItemModel(Date date, String name, Double amount){
+    public Boolean DisplayTime;
+    public ProfitStatementItemModel(Date date, String name, Double amount, Boolean displayTime){
         Date = date;
         Name = name;
         Amount = amount;
+        DisplayTime = displayTime;
     }
 }

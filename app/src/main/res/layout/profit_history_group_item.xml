@@ -8,6 +8,7 @@
         android:id="@+id/item_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        android:gravity="center|center_vertical"/>
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:gravity="center|center_vertical"
+        android:textStyle="bold"/>
 </LinearLayout>

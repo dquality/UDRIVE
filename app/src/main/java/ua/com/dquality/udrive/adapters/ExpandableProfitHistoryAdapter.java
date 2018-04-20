@@ -19,7 +19,6 @@ import ua.com.dquality.udrive.constants.Const;
 import ua.com.dquality.udrive.viewmodels.models.ProfitHistoryGroupModel;
 import ua.com.dquality.udrive.viewmodels.models.ProfitHistoryItemModel;
 import ua.com.dquality.udrive.viewmodels.models.ProfitHistoryItemType;
-import ua.com.dquality.udrive.viewmodels.models.ProfitStatementItemModel;
 
 public class ExpandableProfitHistoryAdapter extends BaseExpandableListAdapter {
 
@@ -59,7 +58,7 @@ public class ExpandableProfitHistoryAdapter extends BaseExpandableListAdapter {
         }
 
         TextView itemTime = convertView.findViewById(R.id.item_time);
-        String hourAndMinute = new SimpleDateFormat("HH:mm", new Locale(Const.CULTURE)).format(itemModel.Date);
+        String hourAndMinute = new SimpleDateFormat(Const.SHORT_TIME_FORMAT, new Locale(Const.CULTURE)).format(itemModel.Date);
         itemTime.setText(hourAndMinute);
 
         TextView itemName = convertView.findViewById(R.id.item_name);
@@ -68,7 +67,7 @@ public class ExpandableProfitHistoryAdapter extends BaseExpandableListAdapter {
         TextView itemAmount = convertView.findViewById(R.id.item_amount);
 
         itemAmount.setTextColor(ContextCompat.getColor(mContext, itemModel.Type == ProfitHistoryItemType.Amount ? (itemModel.Amount < 0 ? R.color.colorError : R.color.colorAccent) : R.color.colorYellow));
-        String formattedAmount = String.format("%1$,.2f", itemModel.Amount );
+        String formattedAmount = String.format(Const.AMOUNT_FORMAT, itemModel.Amount );
         if(itemModel.Amount > 0){
             formattedAmount = "+ " + formattedAmount;
         }
@@ -111,7 +110,7 @@ public class ExpandableProfitHistoryAdapter extends BaseExpandableListAdapter {
         TextView itemHeader = convertView
                 .findViewById(R.id.item_header);
         itemHeader.setTypeface(null, Typeface.BOLD);
-        String dayAndMonth = new SimpleDateFormat("dd MMMM", new Locale(Const.CULTURE)).format(groupModel.Date);
+        String dayAndMonth = new SimpleDateFormat(Const.SHORT_DATE_FORMAT, new Locale(Const.CULTURE)).format(groupModel.Date);
         itemHeader.setText(dayAndMonth);
 
         return convertView;
