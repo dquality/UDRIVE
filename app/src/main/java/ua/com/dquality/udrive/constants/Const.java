@@ -15,4 +15,7 @@ public final class Const {
     public static final String LONG_MONTH_FROMAT = "LLLL";
 
     public static final String AMOUNT_FORMAT = "%1$,.2f";
+
+
+    public static final String SELECTED_MAIN_FRAGMENT_KEY = "MainFragmentIndex";
 }
