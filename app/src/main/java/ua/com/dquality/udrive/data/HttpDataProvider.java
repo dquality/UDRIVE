@@ -61,10 +61,12 @@ import ua.com.dquality.udrive.helpers.SharedPreferencesManager;
 import ua.com.dquality.udrive.interfaces.OnHttpCodeResultExposed;
 import ua.com.dquality.udrive.interfaces.OnRefreshHideListener;
 import ua.com.dquality.udrive.viewmodels.ActiveViewModel;
+import ua.com.dquality.udrive.viewmodels.DriverInfoViewModel;
 import ua.com.dquality.udrive.viewmodels.HomeViewModel;
 import ua.com.dquality.udrive.viewmodels.ProfitHistoryViewModel;
 import ua.com.dquality.udrive.viewmodels.ProfitStatementViewModel;
 import ua.com.dquality.udrive.viewmodels.models.ActiveModel;
+import ua.com.dquality.udrive.viewmodels.models.DriverInfoModel;
 import ua.com.dquality.udrive.viewmodels.models.HomeModel;
 import ua.com.dquality.udrive.viewmodels.models.ProfitHistoryGroupModel;
 import ua.com.dquality.udrive.viewmodels.models.ProfitHistoryItemModel;
@@ -197,6 +199,8 @@ public class HttpDataProvider {
             refreshProfitHistoryViewModelData(safeGetViewModel(fragmentActivity, ProfitHistoryViewModel.class));
 
             refreshProfitStatementViewModelData(null, null, safeGetViewModel(fragmentActivity, ProfitStatementViewModel.class));
+
+            refreshDriverInfoViewModelData(safeGetViewModel(fragmentActivity, DriverInfoViewModel.class));
 
             if(onRefreshHideListener != null)
                 onRefreshHideListener.onRefreshHide();
@@ -371,6 +375,59 @@ public class HttpDataProvider {
         }
     }
 
+    public void refreshDriverInfoViewModelData(DriverInfoViewModel driverInfoViewModel){
+        mDataModels.DriverInfoData  = new DriverInfoModel();
+
+        ANRequest request = createGetRequest("https://backend.uberdrive.com.ua/Mobile/Api/GetDriverPublicOffer", "Balance");
+
+        ANResponse response = request.executeForOkHttpResponse();
+        if(validateResponse(response)){
+            try {
+                mDataModels.DriverInfoData.PublicOfferContent = response.getOkHttpResponse().body().string();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        request = createGetRequest("https://backend.uberdrive.com.ua/Mobile/Api/GetDriverDetails", "Home");
+
+        ANResponse<JSONObject> response2 = request.executeForJSONObject();
+        if(validateResponse(response2)){
+            try {
+                JSONObject obj = response2.getResult();
+                mDataModels.DriverInfoData.Name = obj.getString("name");
+
+                mDataModels.DriverInfoData.Email = obj.getString("masterEmail");
+                if(mDataModels.DriverInfoData.Email.isEmpty())
+                    mDataModels.DriverInfoData.Email = obj.getString("email");
+
+                mDataModels.DriverInfoData.Phone = obj.getString("masterPhone");
+                if(mDataModels.DriverInfoData.Phone.isEmpty())
+                    mDataModels.DriverInfoData.Phone = obj.getString("phone");
+
+                mDataModels.DriverInfoData.IsPrivateBank = obj.getBoolean("privatBank");
+                mDataModels.DriverInfoData.BankName = obj.getString("bankName");
+                mDataModels.DriverInfoData.BankCardNumber = obj.getString("cardNumber");
+                mDataModels.DriverInfoData.BankCardHolderName = obj.getString("cardholderName");
+
+                mDataModels.DriverInfoData.CarProductionYear = obj.getInt("carProductionYear");
+                mDataModels.DriverInfoData.CarBrand = obj.getString("carBrand");
+                mDataModels.DriverInfoData.Sex = obj.getInt("sex") > 0;
+
+                mDataModels.DriverInfoData.Birthday = parseDate(obj.getString("birthday"));
+                mDataModels.DriverInfoData.PublicOfferAcceptanceDate = parseDate(obj.getString("publicOfferAcceptanceDate"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            if(driverInfoViewModel != null)
+            {
+                driverInfoViewModel.updateData(mDataModels.DriverInfoData);
+            }
+        }
+    }
+
     public void LoginByPhone(String phone, OnHttpCodeResultExposed onHttpCodeResultExposed){
         ANRequest request = AndroidNetworking.get("https://backend.uberdrive.com.ua/Mobile/Account/LoginBySms")
                 .addQueryParameter("Phone", phone)
@@ -514,6 +571,7 @@ public class HttpDataProvider {
         public HomeModel HomeData;
         public List<ProfitStatementGroupModel> ProfitStatementData;
         public List<ProfitHistoryGroupModel> ProfitHistoryData;
+        public DriverInfoModel DriverInfoData;
         public CalendarDay StatementFromDay;
         public CalendarDay StatementToDay;
     }

@@ -4,14 +4,6 @@
     android:layout_height="match_parent"
     tools:context="ua.com.dquality.udrive.fragments.ProfitHistoryFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-       <!--<android.support.v7.widget.RecyclerView-->
-           <!--android:id="@+id/profit_history_list"-->
-           <!--android:layout_width="match_parent"-->
-           <!--android:layout_height="match_parent"-->
-           <!--android:scrollbars="vertical">-->
-       <!--</android.support.v7.widget.RecyclerView>-->
-
     <ExpandableListView
         android:id="@+id/profit_history_list"
         android:layout_width="match_parent"

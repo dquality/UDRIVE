@@ -15,7 +15,8 @@
             android:textAllCaps="true"
             android:gravity="center"
             android:background="@drawable/selector_date_range_statement_background"
-            android:textColor="@drawable/selector_date_range_statement_text"/>
+            android:textColor="@drawable/selector_date_range_statement_text"
+            android:textStyle="bold"/>
 
         <ExpandableListView
             android:id="@+id/profit_statement_list"
