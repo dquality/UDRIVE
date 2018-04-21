@@ -65,6 +65,7 @@ import ua.com.dquality.udrive.viewmodels.DriverInfoViewModel;
 import ua.com.dquality.udrive.viewmodels.HomeViewModel;
 import ua.com.dquality.udrive.viewmodels.ProfitHistoryViewModel;
 import ua.com.dquality.udrive.viewmodels.ProfitStatementViewModel;
+import ua.com.dquality.udrive.viewmodels.models.AccountReplenishmentModel;
 import ua.com.dquality.udrive.viewmodels.models.ActiveModel;
 import ua.com.dquality.udrive.viewmodels.models.DriverInfoModel;
 import ua.com.dquality.udrive.viewmodels.models.HomeModel;
@@ -83,6 +84,7 @@ public class HttpDataProvider {
     private OkHttpClient mOkHttpClient;
     private DataModels mDataModels;
     private List<Cookie> mCookies;
+    private AccountReplenishmentModel mAccountReplenishmentModel;
 
     public String mAccessToken;
     public String mUserName;
@@ -100,6 +102,10 @@ public class HttpDataProvider {
 
     public DataModels getDataModels() {
         return mDataModels;
+    }
+
+    public AccountReplenishmentModel getAccountReplenishmentModel() {
+        return mAccountReplenishmentModel;
     }
 
     private void initNetworkClient() {
@@ -428,10 +434,68 @@ public class HttpDataProvider {
         }
     }
 
-    public void LoginByPhone(String phone, OnHttpCodeResultExposed onHttpCodeResultExposed){
+    public void tryRedirectToAccountReplenishment(Double amount, OnHttpCodeResultExposed onHttpCodeResultExposed){
+
+        ANRequest request = AndroidNetworking.get("https://backend.uberdrive.com.ua/Mobile/Api/AccountReplenishment")
+                .addQueryParameter("amount", amount.toString())
+                .setTag("TryRedirectToAccountReplenishment")
+                .setPriority(Priority.IMMEDIATE)
+                .build();
+
+        request.getAsOkHttpResponseAndJSONObject(new OkHttpResponseAndJSONObjectRequestListener() {
+            @Override
+            public void onResponse(Response okHttpResponse, JSONObject response) {
+                if(okHttpResponse.code() == HTTP_OK_CODE){
+                    try {
+                        Double totalAmount = response.getDouble("totalAmount");
+                        Double commissionAmount = response.getDouble("commissionAmount");
+                        Map<String, String> data = new HashMap<>();
+
+                        JSONArray pairs = response.getJSONArray("formData");
+                        for (int itemIndex = 0; itemIndex < pairs.length(); itemIndex++) {
+                            JSONObject pairEl = (JSONObject) pairs.get(itemIndex);
+                            String key = pairEl.getString("key");
+                            String value = pairEl.getString("value");
+                            data.put(key, value);
+                        }
+
+                        HttpDataProvider.this.mAccountReplenishmentModel = new AccountReplenishmentModel(totalAmount, commissionAmount, data);
+
+                        if(onHttpCodeResultExposed != null){
+                            onHttpCodeResultExposed.onResultExposed(okHttpResponse.code() == HTTP_OK_CODE);
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        HttpDataProvider.this.showUIMessage(mApplicationContext.getString(R.string.try_process_account_replenishment_error_message));
+                    }
+                }
+                else{
+                    String msg = null;
+                    try {
+                        msg = okHttpResponse.body().string();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        HttpDataProvider.this.showUIMessage(mApplicationContext.getString(R.string.try_process_account_replenishment_error_message));
+                    }
+                    if(msg != null){
+                        HttpDataProvider.this.showUIMessage(msg);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(ANError error) {
+                HttpDataProvider.this.showUIMessage(error.getErrorBody());
+            }
+        });
+
+    }
+
+    public void loginByPhone(String phone, OnHttpCodeResultExposed onHttpCodeResultExposed){
         ANRequest request = AndroidNetworking.get("https://backend.uberdrive.com.ua/Mobile/Account/LoginBySms")
                 .addQueryParameter("Phone", phone)
-                .setTag("LoginByPhone")
+                .setTag("loginByPhone")
                 .setPriority(Priority.IMMEDIATE)
                 .build();
 
@@ -460,10 +524,10 @@ public class HttpDataProvider {
         });
     }
 
-    public void LoginByCode(String code, OnHttpCodeResultExposed onHttpCodeResultExposed){
+    public void loginByCode(String code, OnHttpCodeResultExposed onHttpCodeResultExposed){
         ANRequest request = AndroidNetworking.get("https://backend.uberdrive.com.ua/Mobile/Account/LoginBySmsCode")
                 .addQueryParameter("Code", code)
-                .setTag("LoginByCode")
+                .setTag("loginByCode")
                 .setPriority(Priority.IMMEDIATE)
                 .build();
 

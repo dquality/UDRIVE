@@ -85,7 +85,10 @@ public class MainActivity extends AuthenticateBaseActivity {
                 View dialogView = dialog.getLayoutInflater().inflate(R.layout.top_up_balance_veiw, null);
 
                 AppCompatButton accrualButton =  dialogView.findViewById(R.id.dialog_accrual_button);
-                accrualButton.setOnClickListener(v1 -> Toast.makeText(MainActivity.this, R.string.accrual_button_title,Toast.LENGTH_SHORT).show());
+                accrualButton.setOnClickListener(v1 -> {
+                    showAccountReplenishmentDialog();
+                    dialog.cancel();
+                });
 
                 dialog.setContentView(dialogView);
                 dialog.setCancelable(true);
@@ -93,6 +96,8 @@ public class MainActivity extends AuthenticateBaseActivity {
             }
         }
     };
+
+
 
 
     @Override

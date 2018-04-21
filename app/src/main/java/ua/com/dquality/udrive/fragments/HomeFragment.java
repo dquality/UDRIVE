@@ -22,6 +22,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import ua.com.dquality.udrive.AuthenticateBaseActivity;
+import ua.com.dquality.udrive.MainActivity;
 import ua.com.dquality.udrive.R;
 
 import android.util.Log;
@@ -140,7 +142,7 @@ public class HomeFragment extends Fragment implements OnRefreshHideListener {
         accrualButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), R.string.accrual_button_title,Toast.LENGTH_SHORT).show();
+                ((AuthenticateBaseActivity)getActivity()).showAccountReplenishmentDialog();
             }
         });
 

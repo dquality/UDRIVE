@@ -70,7 +70,9 @@
         <activity
             android:name=".LoadActivity"
             android:label="@string/title_loading"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".AccountInfoActivity" />
+        <activity android:name=".AccountReplenishmentActivity"></activity>
     </application>
 
 </manifest>

@@ -20,7 +20,7 @@
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="Пополните баланс, что бы активировать Ваш аккаунт"
+            android:text="@string/accrual_dialog_title"
             android:textColor="@color/colorPrimary"/>
 
         <android.support.v7.widget.AppCompatButton

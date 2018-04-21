@@ -40,6 +40,11 @@
     <string name="get_code">Получить SMS код</string>
     <string name="login_error_message">При попытке входа в систему, возникла ошибка. Обратитесь пожалуйста к Администратору</string>
     <string name="network_error_message">При попытке обращения к серверу, возникла ошибка. Обратитесь пожалуйста к Администратору</string>
+    <string name="try_process_account_replenishment_error_message">При попытке получить данные от платежной системы, возникла ошибка. Обратитесь пожалуйста к Администратору</string>
     <string name="title_loading">Loading...</string>
     <string name="title_status_undefined">-</string>
+    <string name="account_replenishment_dialog_title">Пополнение баланса</string>
+    <string name="accrual_dialog_title">Пополните баланс, что бы активировать Ваш аккаунт</string>
+    <string name="amount_replenishment_hint">Сумма пополнения</string>
+    <string name="redirect_to_account_replenishment_title">перейти к оплате</string>
 </resources>

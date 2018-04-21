@@ -10,9 +10,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
-import ua.com.dquality.udrive.data.HttpDataProvider;
 import ua.com.dquality.udrive.interfaces.OnHttpCodeResultExposed;
-import ua.com.dquality.udrive.interfaces.OnRefreshHideListener;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -53,14 +51,14 @@ public class LoginActivity extends AppCompatActivity {
         public void onClick(View v) {
             if(!mGetCodeExecuted)
             {
-                UDriveApplication.getHttpDataProvider().LoginByPhone(mInputPhone.getText().toString(), onPhoneResultExposed);
+                UDriveApplication.getHttpDataProvider().loginByPhone(mInputPhone.getText().toString(), onPhoneResultExposed);
             }
             else{
                 if(mInputPhone.isEnabled()){
-                    UDriveApplication.getHttpDataProvider().LoginByPhone(mInputPhone.getText().toString(), onPhoneResultExposed);
+                    UDriveApplication.getHttpDataProvider().loginByPhone(mInputPhone.getText().toString(), onPhoneResultExposed);
                 }
                 else{
-                    UDriveApplication.getHttpDataProvider().LoginByCode(mInputCode.getText().toString(), onCodeResultExposed);
+                    UDriveApplication.getHttpDataProvider().loginByCode(mInputCode.getText().toString(), onCodeResultExposed);
                 }
             }
 

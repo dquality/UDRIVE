@@ -1,11 +1,20 @@
 package ua.com.dquality.udrive;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatButton;
+import android.view.Gravity;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import ua.com.dquality.udrive.data.HttpDataProvider;
 import ua.com.dquality.udrive.helpers.SharedPreferencesManager;
+import ua.com.dquality.udrive.interfaces.OnHttpCodeResultExposed;
 
 public class AuthenticateBaseActivity extends AppCompatActivity {
 
@@ -51,4 +60,37 @@ public class AuthenticateBaseActivity extends AppCompatActivity {
             }
         }
     }
+
+    public void showAccountReplenishmentDialog(){
+        Dialog dialog = new Dialog(this, android.R.style.Theme_Material_Dialog_Alert);
+        dialog.setTitle(R.string.account_replenishment_dialog_title);
+        //dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        Window w = dialog.getWindow();
+        w.setLayout(WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.WRAP_CONTENT);
+        w.setGravity(Gravity.CENTER);
+        w.setBackgroundDrawableResource(R.color.colorPrimary);
+
+        View dialogView = dialog.getLayoutInflater().inflate(R.layout.account_replenishment_amount_dialog, null);
+
+        EditText inputAmount =  dialogView.findViewById(R.id.input_amount);
+        AppCompatButton redirectToAccountReplenishmentButton =  dialogView.findViewById(R.id.btn_redirect_to_account_replenishment);
+        redirectToAccountReplenishmentButton.setOnClickListener(v1 -> {
+            UDriveApplication.getHttpDataProvider().tryRedirectToAccountReplenishment(Double.parseDouble(inputAmount.getText().toString()), onHttpCodeResultExposed);
+        });
+
+        dialog.setContentView(dialogView);
+        dialog.setCancelable(true);
+        dialog.show();
+    }
+
+    private OnHttpCodeResultExposed onHttpCodeResultExposed= new OnHttpCodeResultExposed(){
+
+        @Override
+        public void onResultExposed(Boolean isOkCode) {
+            Intent intent = new Intent(AuthenticateBaseActivity.this, AccountReplenishmentActivity.class);
+            startActivity(intent);
+        }
+    };
 }
