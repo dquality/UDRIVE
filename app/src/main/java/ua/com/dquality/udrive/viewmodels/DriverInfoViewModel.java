@@ -10,7 +10,7 @@ public class DriverInfoViewModel extends ViewModel {
 
     private MutableLiveData<DriverInfoModel> mData;
 
-    public MutableLiveData<DriverInfoModel> getActiveData(){
+    public MutableLiveData<DriverInfoModel> geDriverInfoData(){
         if(mData == null)
         {
             mData = new MutableLiveData<>();

@@ -436,30 +436,33 @@ public class HttpDataProvider {
 
     public void tryRedirectToAccountReplenishment(Double amount, OnHttpCodeResultExposed onHttpCodeResultExposed){
 
-        ANRequest request = AndroidNetworking.get("https://backend.uberdrive.com.ua/Mobile/Api/AccountReplenishment")
-                .addQueryParameter("amount", amount.toString())
-                .setTag("TryRedirectToAccountReplenishment")
-                .setPriority(Priority.IMMEDIATE)
-                .build();
+        Map<String,String> params = new HashMap<String,String>();
+        params.put("amount", amount.toString());
+
+        ANRequest request = createGetRequest("https://backend.uberdrive.com.ua/Mobile/Api/AccountReplenishment",
+                "TryRedirectToAccountReplenishment", params);
 
         request.getAsOkHttpResponseAndJSONObject(new OkHttpResponseAndJSONObjectRequestListener() {
             @Override
             public void onResponse(Response okHttpResponse, JSONObject response) {
                 if(okHttpResponse.code() == HTTP_OK_CODE){
                     try {
+                        String paymentUrl = response.getString("paymentUrl");
                         Double totalAmount = response.getDouble("totalAmount");
                         Double commissionAmount = response.getDouble("commissionAmount");
                         Map<String, String> data = new HashMap<>();
 
-                        JSONArray pairs = response.getJSONArray("formData");
-                        for (int itemIndex = 0; itemIndex < pairs.length(); itemIndex++) {
-                            JSONObject pairEl = (JSONObject) pairs.get(itemIndex);
-                            String key = pairEl.getString("key");
-                            String value = pairEl.getString("value");
-                            data.put(key, value);
-                        }
+                        JSONObject pairs = response.getJSONObject("formData");
+                        data.put("data", pairs.getString("data"));
+                        data.put("signature", pairs.getString("signature"));
+//                        for (int itemIndex = 0; itemIndex < pairs.length(); itemIndex++) {
+//                            JSONObject pairEl = (JSONObject) pairs.get(itemIndex);
+//                            String key = pairEl.getString("key");
+//                            String value = pairEl.getString("value");
+//                            data.put(key, value);
+//                        }
 
-                        HttpDataProvider.this.mAccountReplenishmentModel = new AccountReplenishmentModel(totalAmount, commissionAmount, data);
+                        HttpDataProvider.this.mAccountReplenishmentModel = new AccountReplenishmentModel(paymentUrl, totalAmount, commissionAmount, data);
 
                         if(onHttpCodeResultExposed != null){
                             onHttpCodeResultExposed.onResultExposed(okHttpResponse.code() == HTTP_OK_CODE);
@@ -486,9 +489,13 @@ public class HttpDataProvider {
 
             @Override
             public void onError(ANError error) {
-                HttpDataProvider.this.showUIMessage(error.getErrorBody());
+                showError(error);
             }
         });
+
+    }
+
+    public void postAccountReplenishment(AccountReplenishmentModel model){
 
     }
 
@@ -519,7 +526,7 @@ public class HttpDataProvider {
 
             @Override
             public void onError(ANError error) {
-                HttpDataProvider.this.showUIMessage(error.getErrorBody());
+                showError(error);
             }
         });
     }
@@ -576,9 +583,22 @@ public class HttpDataProvider {
 
             @Override
             public void onError(ANError error) {
-                HttpDataProvider.this.showUIMessage(error.getErrorBody());
+                showError(error);
             }
         });
+    }
+
+    private void showError(ANError error){
+        if(error.getErrorDetail() != null && !error.getErrorDetail().isEmpty())
+        {
+            HttpDataProvider.this.showUIMessage(mApplicationContext.getString(R.string.network_error_message));
+            return;
+        }
+        else if(error.getErrorBody() != null && !error.getErrorBody().isEmpty()){
+            HttpDataProvider.this.showUIMessage(error.getErrorBody());
+            return;
+        }
+        HttpDataProvider.this.showUIMessage(mApplicationContext.getString(R.string.network_error_message));
     }
 
     private void showUIMessage(String message){

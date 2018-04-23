@@ -154,7 +154,7 @@ public class HomeFragment extends Fragment implements OnRefreshHideListener {
 
         mViewModelData.getHomeData().observe(this, new Observer<HomeModel>() {
             @Override
-            public void onChanged(@Nullable HomeModel profitStatementModel) {
+            public void onChanged(@Nullable HomeModel homeModel) {
                 updateHomeData();
             }
         });

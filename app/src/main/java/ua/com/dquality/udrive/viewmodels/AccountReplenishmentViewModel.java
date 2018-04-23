@@ -13,7 +13,7 @@ public class AccountReplenishmentViewModel extends ViewModel {
 
     private MutableLiveData<AccountReplenishmentModel> mData;
 
-    public MutableLiveData<AccountReplenishmentModel> getActiveData(){
+    public MutableLiveData<AccountReplenishmentModel> getAccountReplenishmentModel(){
         if(mData == null)
         {
             mData = new MutableLiveData<>();
@@ -24,7 +24,7 @@ public class AccountReplenishmentViewModel extends ViewModel {
     }
 
     public void updateData(AccountReplenishmentModel model){
-        getActiveData().postValue(model == null ? getDefaultData() : model);
+        getAccountReplenishmentModel().postValue(model == null ? getDefaultData() : model);
     }
     private AccountReplenishmentModel getDefaultData(){
         return UDriveApplication.getHttpDataProvider().getAccountReplenishmentModel();
