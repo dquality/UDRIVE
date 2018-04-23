@@ -11,5 +11,7 @@ public class SettingsActivity extends AuthenticateBaseActivity {
             return;
         }
         setContentView(R.layout.activity_settings);
+
+        SetLogo(this);
     }
 }

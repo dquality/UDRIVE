@@ -11,5 +11,7 @@ public class PublicOfferActivity extends AuthenticateBaseActivity {
             return;
         }
         setContentView(R.layout.activity_public_offer);
+
+        SetLogo(this);
     }
 }

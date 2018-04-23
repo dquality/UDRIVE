@@ -11,5 +11,7 @@ public class SupportActivity extends AuthenticateBaseActivity {
             return;
         }
         setContentView(R.layout.activity_support);
+
+        SetLogo(this);
     }
 }

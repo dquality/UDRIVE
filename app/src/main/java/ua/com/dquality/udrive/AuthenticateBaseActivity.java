@@ -1,5 +1,6 @@
 package ua.com.dquality.udrive;
 
+import android.app.ActionBar;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +11,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import ua.com.dquality.udrive.data.HttpDataProvider;
 import ua.com.dquality.udrive.helpers.SharedPreferencesManager;
@@ -77,7 +77,7 @@ public class AuthenticateBaseActivity extends AppCompatActivity {
         EditText inputAmount =  dialogView.findViewById(R.id.input_amount);
         AppCompatButton redirectToAccountReplenishmentButton =  dialogView.findViewById(R.id.btn_redirect_to_account_replenishment);
         redirectToAccountReplenishmentButton.setOnClickListener(v1 -> {
-            UDriveApplication.getHttpDataProvider().tryRedirectToAccountReplenishment(Double.parseDouble(inputAmount.getText().toString()), onHttpCodeResultExposed);
+            UDriveApplication.getHttpDataProvider().tryRedirectToAccountReplenishment(Double.parseDouble(inputAmount.getText().toString()), onAccountReplenishmentDialogResultExposed);
         });
 
         dialog.setContentView(dialogView);
@@ -85,12 +85,22 @@ public class AuthenticateBaseActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private OnHttpCodeResultExposed onHttpCodeResultExposed= new OnHttpCodeResultExposed(){
+    private OnHttpCodeResultExposed onAccountReplenishmentDialogResultExposed= new OnHttpCodeResultExposed(){
 
         @Override
-        public void onResultExposed(Boolean isOkCode) {
+        public void onResultExposed(Boolean isOkCode, Object responceData) {
             Intent intent = new Intent(AuthenticateBaseActivity.this, AccountReplenishmentActivity.class);
             startActivity(intent);
         }
     };
+
+    public static void SetLogo(AppCompatActivity activity){
+        android.support.v7.app.ActionBar actionBar = activity.getSupportActionBar();
+        if(actionBar != null) {
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setDisplayUseLogoEnabled(true);
+            actionBar.setLogo(R.drawable.ic_launcher_foreground);
+            actionBar.setTitle("");
+        }
+    }
 }

@@ -117,6 +117,8 @@ public class MainActivity extends AuthenticateBaseActivity {
         initToolBar();
 
         initBottomNavigation(savedInstanceState);
+
+        SetLogo(this);
     }
 
     private void initStatus(){

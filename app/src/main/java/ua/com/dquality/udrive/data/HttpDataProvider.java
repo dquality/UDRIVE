@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentActivity;
+import android.webkit.WebView;
 import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
@@ -462,10 +463,10 @@ public class HttpDataProvider {
 //                            data.put(key, value);
 //                        }
 
-                        HttpDataProvider.this.mAccountReplenishmentModel = new AccountReplenishmentModel(paymentUrl, totalAmount, commissionAmount, data);
+                        HttpDataProvider.this.mAccountReplenishmentModel = new AccountReplenishmentModel(paymentUrl, totalAmount, amount, commissionAmount, data);
 
                         if(onHttpCodeResultExposed != null){
-                            onHttpCodeResultExposed.onResultExposed(okHttpResponse.code() == HTTP_OK_CODE);
+                            onHttpCodeResultExposed.onResultExposed(okHttpResponse.code() == HTTP_OK_CODE, null);
                         }
 
                     } catch (JSONException e) {
@@ -495,8 +496,28 @@ public class HttpDataProvider {
 
     }
 
-    public void postAccountReplenishment(AccountReplenishmentModel model){
+    public void postAccountReplenishment(OnHttpCodeResultExposed onHttpCodeResultExposed){
+        if(mAccountReplenishmentModel != null && onHttpCodeResultExposed != null){
+            new Thread(() -> {
+                ANRequest request = AndroidNetworking.get(mAccountReplenishmentModel.PaymentUrl)
+                        .setTag("Payment")
+                        .addQueryParameter(mAccountReplenishmentModel.FormData)
+                        .build();
 
+                ANResponse response = request.executeForOkHttpResponse();
+                if(validateResponse(response)){
+                    try {
+                        String content = response.getOkHttpResponse().body().string();
+                        if(!content.isEmpty()){
+                            onHttpCodeResultExposed.onResultExposed(true, content);
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+        }
     }
 
     public void loginByPhone(String phone, OnHttpCodeResultExposed onHttpCodeResultExposed){
@@ -520,7 +541,7 @@ public class HttpDataProvider {
                     HttpDataProvider.this.showUIMessage(msg);
                 }
                 if(onHttpCodeResultExposed != null){
-                    onHttpCodeResultExposed.onResultExposed(okHttpResponse.code() == HTTP_OK_CODE);
+                    onHttpCodeResultExposed.onResultExposed(okHttpResponse.code() == HTTP_OK_CODE, null);
                 }
             }
 
@@ -559,7 +580,7 @@ public class HttpDataProvider {
                         HttpDataProvider.this.mDataModels = new DataModels();
 
                         if(onHttpCodeResultExposed != null){
-                            onHttpCodeResultExposed.onResultExposed(okHttpResponse.code() == HTTP_OK_CODE);
+                            onHttpCodeResultExposed.onResultExposed(okHttpResponse.code() == HTTP_OK_CODE, null);
                         }
 
                     } catch (JSONException e) {

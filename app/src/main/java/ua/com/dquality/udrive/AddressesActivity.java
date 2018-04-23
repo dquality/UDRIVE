@@ -11,5 +11,6 @@ public class AddressesActivity extends AuthenticateBaseActivity {
             return;
         }
         setContentView(R.layout.activity_addresses);
+        SetLogo(this);
     }
 }

@@ -1,5 +1,6 @@
 package ua.com.dquality.udrive;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -44,6 +45,8 @@ public class LoginActivity extends AppCompatActivity {
         mLogin.setOnClickListener(loginClickListener);
 
         RaiseTextChangedEvents();
+
+        AuthenticateBaseActivity.SetLogo(this);
     }
 
     private View.OnClickListener loginClickListener = new View.OnClickListener() {
@@ -66,14 +69,14 @@ public class LoginActivity extends AppCompatActivity {
         }
     };
 
-    private OnHttpCodeResultExposed onPhoneResultExposed = isOkCode -> {
+    private OnHttpCodeResultExposed onPhoneResultExposed = (isOkCode, data) -> {
         if(isOkCode){
             mGetCodeExecuted = true;
             RaiseTextChangedEvents();
         }
     };
 
-    private OnHttpCodeResultExposed onCodeResultExposed = isOkCode -> {
+    private OnHttpCodeResultExposed onCodeResultExposed = (isOkCode, data) -> {
         if(isOkCode){
             String accessToken = UDriveApplication.getHttpDataProvider().mAccessToken;
             if(accessToken != null && !accessToken.isEmpty()) {

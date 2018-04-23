@@ -11,5 +11,7 @@ public class QuestionAnswerActivity extends AuthenticateBaseActivity {
             return;
         }
         setContentView(R.layout.activity_question_answer);
+
+        SetLogo(this);
     }
 }
