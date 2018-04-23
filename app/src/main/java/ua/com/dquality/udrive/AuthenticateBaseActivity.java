@@ -99,7 +99,7 @@ public class AuthenticateBaseActivity extends AppCompatActivity {
         if(actionBar != null) {
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setDisplayUseLogoEnabled(true);
-            actionBar.setLogo(R.drawable.ic_launcher_foreground);
+            actionBar.setLogo(R.drawable.ic_activity_logo);
             actionBar.setTitle("");
         }
     }
