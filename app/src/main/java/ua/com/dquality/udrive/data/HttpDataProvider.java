@@ -499,22 +499,14 @@ public class HttpDataProvider {
     public void postAccountReplenishment(OnHttpCodeResultExposed onHttpCodeResultExposed){
         if(mAccountReplenishmentModel != null && onHttpCodeResultExposed != null){
             new Thread(() -> {
-                ANRequest request = AndroidNetworking.get(mAccountReplenishmentModel.PaymentUrl)
+                ANRequest request = AndroidNetworking.post(mAccountReplenishmentModel.PaymentUrl)
+                        .addBodyParameter(mAccountReplenishmentModel.FormData)
                         .setTag("Payment")
-                        .addQueryParameter(mAccountReplenishmentModel.FormData)
                         .build();
 
                 ANResponse response = request.executeForOkHttpResponse();
-                if(validateResponse(response)){
-                    try {
-                        String content = response.getOkHttpResponse().body().string();
-                        if(!content.isEmpty()){
-                            onHttpCodeResultExposed.onResultExposed(true, content);
-                        }
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                if(validateResponse(response)) {
+                    onHttpCodeResultExposed.onResultExposed(true, response.getOkHttpResponse());
                 }
             }).start();
         }

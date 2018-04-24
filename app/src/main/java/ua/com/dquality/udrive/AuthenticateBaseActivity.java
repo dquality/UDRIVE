@@ -89,8 +89,10 @@ public class AuthenticateBaseActivity extends AppCompatActivity {
 
         @Override
         public void onResultExposed(Boolean isOkCode, Object responceData) {
-            Intent intent = new Intent(AuthenticateBaseActivity.this, AccountReplenishmentActivity.class);
-            startActivity(intent);
+            runOnUiThread(() -> {
+                Intent intent = new Intent(AuthenticateBaseActivity.this, AccountReplenishmentActivity.class);
+                startActivity(intent);
+            });
         }
     };
 

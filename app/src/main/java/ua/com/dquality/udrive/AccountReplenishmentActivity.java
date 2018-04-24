@@ -59,7 +59,6 @@ public class AccountReplenishmentActivity extends AuthenticateBaseActivity {
         public void onClick(View v){
             Intent intent = new Intent(AccountReplenishmentActivity.this, AccountReplenishmentWebActivity.class);
             startActivity(intent);
-            finish();
         }
     };
 }

@@ -70,23 +70,27 @@ public class LoginActivity extends AppCompatActivity {
     };
 
     private OnHttpCodeResultExposed onPhoneResultExposed = (isOkCode, data) -> {
-        if(isOkCode){
-            mGetCodeExecuted = true;
-            RaiseTextChangedEvents();
-        }
+        runOnUiThread(() -> {
+            if (isOkCode) {
+                mGetCodeExecuted = true;
+                RaiseTextChangedEvents();
+            }
+        });
     };
 
     private OnHttpCodeResultExposed onCodeResultExposed = (isOkCode, data) -> {
-        if(isOkCode){
-            String accessToken = UDriveApplication.getHttpDataProvider().mAccessToken;
-            if(accessToken != null && !accessToken.isEmpty()) {
-                LoginActivity currentActivity = LoginActivity.this;
-                Intent intent = new Intent(currentActivity, LoadActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                currentActivity.startActivity(intent);
-                currentActivity.finish();
+        runOnUiThread(() -> {
+            if (isOkCode) {
+                String accessToken = UDriveApplication.getHttpDataProvider().mAccessToken;
+                if (accessToken != null && !accessToken.isEmpty()) {
+                    LoginActivity currentActivity = LoginActivity.this;
+                    Intent intent = new Intent(currentActivity, LoadActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    currentActivity.startActivity(intent);
+                    currentActivity.finish();
+                }
             }
-        }
+        });
     };
 
     private void RaiseTextChangedEvents(){
