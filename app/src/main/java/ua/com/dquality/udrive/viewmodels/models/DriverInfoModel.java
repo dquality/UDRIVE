@@ -3,7 +3,6 @@ package ua.com.dquality.udrive.viewmodels.models;
 import java.util.Date;
 
 public class DriverInfoModel {
-    public String PublicOfferContent;
     public String Name;
     public String Email;
     public String Phone;

@@ -34,23 +34,32 @@ public class HomeModel {
             return;
 
         Barcode = barCode;
-        QRCodeWriter writer = new QRCodeWriter();
-        try {
-            BitMatrix bitMatrix = writer.encode(Barcode, BarcodeFormat.QR_CODE, 512, 512);
-            int width = bitMatrix.getWidth();
-            int height = bitMatrix.getHeight();
-            BarcodeBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
-            int black = Color.BLACK;
-            int white = ContextCompat.getColor(appContext, R.color.colorPrimaryLight);
-            for (int x = 0; x < width; x++) {
-                for (int y = 0; y < height; y++) {
-                    BarcodeBitmap.setPixel(x, y, bitMatrix.get(x, y) ? black : white);
-                }
-            }
+        generateBitmapAsync(appContext);
+    }
 
-        } catch (WriterException e) {
-            e.printStackTrace();
-        }
+    private Thread mAsync;
+
+    private void generateBitmapAsync(Context appContext){
+        int black = Color.BLACK;
+        int white = ContextCompat.getColor(appContext, R.color.colorPrimaryLight);
+        mAsync = new Thread(()->{
+            QRCodeWriter writer = new QRCodeWriter();
+            try {
+                BitMatrix bitMatrix = writer.encode(Barcode, BarcodeFormat.QR_CODE, 512, 512);
+                int width = bitMatrix.getWidth();
+                int height = bitMatrix.getHeight();
+                BarcodeBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+                for (int x = 0; x < width; x++) {
+                    for (int y = 0; y < height; y++) {
+                        BarcodeBitmap.setPixel(x, y, bitMatrix.get(x, y) ? black : white);
+                    }
+                }
+
+            } catch (WriterException e) {
+                e.printStackTrace();
+            }
+        });
+        mAsync.start();
     }
 
     public String getBarcode(){
@@ -58,6 +67,11 @@ public class HomeModel {
     }
 
     public Bitmap getBarcodeBitmap(){
+        try {
+            mAsync.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return BarcodeBitmap;
     }
 }

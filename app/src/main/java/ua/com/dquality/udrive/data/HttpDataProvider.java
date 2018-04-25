@@ -385,24 +385,12 @@ public class HttpDataProvider {
     public void refreshDriverInfoViewModelData(DriverInfoViewModel driverInfoViewModel){
         mDataModels.DriverInfoData  = new DriverInfoModel();
 
-        ANRequest request = createGetRequest("https://backend.uberdrive.com.ua/Mobile/Api/GetDriverPublicOffer", "Balance");
+        ANRequest request = createGetRequest("https://backend.uberdrive.com.ua/Mobile/Api/GetDriverDetails", "Home");
 
-        ANResponse response = request.executeForOkHttpResponse();
+        ANResponse<JSONObject> response = request.executeForJSONObject();
         if(validateResponse(response)){
             try {
-                mDataModels.DriverInfoData.PublicOfferContent = response.getOkHttpResponse().body().string();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        request = createGetRequest("https://backend.uberdrive.com.ua/Mobile/Api/GetDriverDetails", "Home");
-
-        ANResponse<JSONObject> response2 = request.executeForJSONObject();
-        if(validateResponse(response2)){
-            try {
-                JSONObject obj = response2.getResult();
+                JSONObject obj = response.getResult();
                 mDataModels.DriverInfoData.Name = obj.getString("name");
 
                 mDataModels.DriverInfoData.Email = obj.getString("masterEmail");
@@ -456,12 +444,6 @@ public class HttpDataProvider {
                         JSONObject pairs = response.getJSONObject("formData");
                         data.put("data", pairs.getString("data"));
                         data.put("signature", pairs.getString("signature"));
-//                        for (int itemIndex = 0; itemIndex < pairs.length(); itemIndex++) {
-//                            JSONObject pairEl = (JSONObject) pairs.get(itemIndex);
-//                            String key = pairEl.getString("key");
-//                            String value = pairEl.getString("value");
-//                            data.put(key, value);
-//                        }
 
                         HttpDataProvider.this.mAccountReplenishmentModel = new AccountReplenishmentModel(paymentUrl, totalAmount, amount, commissionAmount, data);
 
@@ -495,6 +477,18 @@ public class HttpDataProvider {
         });
 
     }
+
+    public void tryGetPublicOfferContent(OnHttpCodeResultExposed onHttpCodeResultExposed) {
+        ANRequest request = createGetRequest("https://backend.uberdrive.com.ua/Mobile/Api/GetDriverPublicOffer", "PublicOffer");
+
+        new Thread(() -> {
+            ANResponse<JSONObject> response = request.executeForJSONObject();
+            if(validateResponse(response)) {
+                onHttpCodeResultExposed.onResultExposed(true, response.getResult());
+            }
+        }).start();
+    }
+
 
     public void postAccountReplenishment(OnHttpCodeResultExposed onHttpCodeResultExposed){
         if(mAccountReplenishmentModel != null && onHttpCodeResultExposed != null){
@@ -648,7 +642,7 @@ public class HttpDataProvider {
             manager.clearAll();
         }
         else{
-            HttpDataProvider.this.showUIMessage(mApplicationContext.getString(R.string.login_error_message));
+            HttpDataProvider.this.showUIMessage(mApplicationContext.getString(R.string.network_error_message));
         }
         return false;
     }

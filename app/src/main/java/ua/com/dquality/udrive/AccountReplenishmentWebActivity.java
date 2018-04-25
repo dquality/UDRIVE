@@ -24,16 +24,18 @@ import ua.com.dquality.udrive.viewmodels.models.AccountReplenishmentModel;
 
 public class AccountReplenishmentWebActivity extends AppCompatActivity {
     private WebView mWebView;
-    //private ProgressBar mProgressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_replenishment_web);
+
         mWebView = findViewById(R.id.account_replenishment_web_view);
+
         WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);
-        HttpDataProvider provider = UDriveApplication.getHttpDataProvider();
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
+
         mWebView.setWebViewClient(new WebViewClient(){
             @SuppressLint("NewApi")
             @Override
@@ -48,7 +50,7 @@ public class AccountReplenishmentWebActivity extends AppCompatActivity {
                 super.onPageFinished(view, url);
             }
         });
-        provider.postAccountReplenishment(onHttpCodeResultExposed);
+        UDriveApplication.getHttpDataProvider().postAccountReplenishment(onHttpCodeResultExposed);
 
         AuthenticateBaseActivity.SetLogo(this);
     }
@@ -57,15 +59,16 @@ public class AccountReplenishmentWebActivity extends AppCompatActivity {
 
         @Override
         public void onResultExposed(Boolean isOkCode, Object data) {
-            runOnUiThread(() -> {
-                try {
-                    Response response = (Response) data;
-                    String content = response.body().string();
-                    mWebView.loadDataWithBaseURL(response.request().url().toString(), content, "text/html", "UTF-8", null);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
+            try {
+                Response response = (Response) data;
+                String content = response.body().string();
+                String url = response.request().url().toString();
+                runOnUiThread(() -> {
+                    mWebView.loadDataWithBaseURL(url, content, "text/html", "UTF-8", null);
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     };
 }
