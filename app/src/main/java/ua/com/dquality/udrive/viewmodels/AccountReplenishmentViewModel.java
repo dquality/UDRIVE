@@ -24,7 +24,7 @@ public class AccountReplenishmentViewModel extends ViewModel {
     }
 
     public void updateData(AccountReplenishmentModel model){
-        getAccountReplenishmentModel().postValue(model == null ? getDefaultData() : model);
+        if(mData != null) mData.postValue(model == null ? getDefaultData() : model);
     }
     private AccountReplenishmentModel getDefaultData(){
         return UDriveApplication.getHttpDataProvider().getAccountReplenishmentModel();

@@ -5,6 +5,7 @@ package ua.com.dquality.udrive.constants;
  */
 
 public final class Const {
+    public static final String RELOAD_DATA = "ReloadData";
     public static final String CULTURE = "ru";
 
     public static String PARSE_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";

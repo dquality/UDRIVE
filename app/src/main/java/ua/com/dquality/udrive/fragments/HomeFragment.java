@@ -412,6 +412,11 @@ public class HomeFragment extends Fragment implements OnRefreshHideListener {
         }
     }
 
+    public void onRefreshShow(){
+        mRefreshMainSwipe.setRefreshing(true);
+        UDriveApplication.getHttpDataProvider().refreshAllData(getActivity(), HomeFragment.this);
+    }
+
     @Override
     public void onRefreshHide() {
         mRefreshMainSwipe.postDelayed(new Runnable() {

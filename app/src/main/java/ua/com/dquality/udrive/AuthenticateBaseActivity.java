@@ -19,6 +19,7 @@ import ua.com.dquality.udrive.interfaces.OnHttpCodeResultExposed;
 public class AuthenticateBaseActivity extends AppCompatActivity {
 
     protected boolean mIsLoggedIn;
+    protected Dialog mAccountReplenishmentDialog;
 
     @Override
     protected void onResume() {
@@ -62,17 +63,17 @@ public class AuthenticateBaseActivity extends AppCompatActivity {
     }
 
     public void showAccountReplenishmentDialog(){
-        Dialog dialog = new Dialog(this, android.R.style.Theme_Material_Dialog_Alert);
-        dialog.setTitle(R.string.account_replenishment_dialog_title);
+        mAccountReplenishmentDialog = new Dialog(this, android.R.style.Theme_Material_Dialog_Alert);
+        mAccountReplenishmentDialog.setTitle(R.string.account_replenishment_dialog_title);
         //dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        Window w = dialog.getWindow();
+        Window w = mAccountReplenishmentDialog.getWindow();
         w.setLayout(WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.WRAP_CONTENT);
         w.setGravity(Gravity.CENTER);
         w.setBackgroundDrawableResource(R.color.colorPrimary);
 
-        View dialogView = dialog.getLayoutInflater().inflate(R.layout.account_replenishment_amount_dialog, null);
+        View dialogView = mAccountReplenishmentDialog.getLayoutInflater().inflate(R.layout.account_replenishment_amount_dialog, null);
 
         EditText inputAmount =  dialogView.findViewById(R.id.input_amount);
         AppCompatButton redirectToAccountReplenishmentButton =  dialogView.findViewById(R.id.btn_redirect_to_account_replenishment);
@@ -80,9 +81,17 @@ public class AuthenticateBaseActivity extends AppCompatActivity {
             UDriveApplication.getHttpDataProvider().tryRedirectToAccountReplenishment(Double.parseDouble(inputAmount.getText().toString()), onAccountReplenishmentDialogResultExposed);
         });
 
-        dialog.setContentView(dialogView);
-        dialog.setCancelable(true);
-        dialog.show();
+        mAccountReplenishmentDialog.setContentView(dialogView);
+        mAccountReplenishmentDialog.setCancelable(true);
+        mAccountReplenishmentDialog.show();
+    }
+
+    public void hideAccountReplenishmentDialog(){
+        if(mAccountReplenishmentDialog != null)
+        {
+            mAccountReplenishmentDialog.dismiss();
+            mAccountReplenishmentDialog = null;
+        }
     }
 
     private OnHttpCodeResultExposed onAccountReplenishmentDialogResultExposed= new OnHttpCodeResultExposed(){

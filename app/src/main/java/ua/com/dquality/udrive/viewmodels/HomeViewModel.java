@@ -19,7 +19,7 @@ public class HomeViewModel extends ViewModel {
     }
 
     public void updateData(HomeModel model){
-        getHomeData().postValue(model == null ? getDefaultData() : model);
+        if(mData != null) mData.postValue(model == null ? getDefaultData() : model);
     }
 
     private HomeModel getDefaultData(){

@@ -121,6 +121,19 @@ public class MainActivity extends AuthenticateBaseActivity {
         SetLogo(this);
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if(intent.getBooleanExtra(Const.RELOAD_DATA, false)){
+            hideAccountReplenishmentDialog();
+            if(mFragment instanceof HomeFragment){
+                ((HomeFragment)mFragment).onRefreshShow();
+            }
+            else
+                UDriveApplication.getHttpDataProvider().refreshAllData(this, null);
+        }
+    }
+
     private void initStatus(){
         mStatus = findViewById(R.id.status_button);
         mStatus.setOnClickListener(onStatusClickListener);

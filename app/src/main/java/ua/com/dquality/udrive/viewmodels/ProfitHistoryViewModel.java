@@ -21,14 +21,14 @@ public class ProfitHistoryViewModel extends ViewModel {
         if(mData == null)
         {
             mData = new MutableLiveData<>();
-            mData.setValue(getDefaultData());
+            mData.postValue(getDefaultData());
         }
 
         return mData;
     }
 
     public void updateData(List<ProfitHistoryGroupModel> model){
-        getProfitHistoryData().postValue(model == null ? getDefaultData() : model);
+        if(mData != null) mData.postValue(model == null ? getDefaultData() : model);
     }
 
     private List<ProfitHistoryGroupModel> getDefaultData(){

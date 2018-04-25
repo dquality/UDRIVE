@@ -23,7 +23,7 @@ public class ActiveViewModel extends ViewModel {
     }
 
     public void updateData(ActiveModel model){
-        getActiveData().postValue(model == null ? getDefaultData() : model);
+        if(mData != null) mData.postValue(model == null ? getDefaultData() : model);
     }
     private ActiveModel getDefaultData(){
         return UDriveApplication.getHttpDataProvider().getDataModels().ActiveData;

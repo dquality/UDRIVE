@@ -25,7 +25,7 @@ public class ProfitStatementViewModel extends ViewModel {
     }
 
     public void updateData(List<ProfitStatementGroupModel> model){
-        getProfitStatementData().postValue(model == null ? getDefaultData() : model);
+        if(mData != null) mData.postValue(model == null ? getDefaultData() : model);
     }
 
     private List<ProfitStatementGroupModel> getDefaultData(){
