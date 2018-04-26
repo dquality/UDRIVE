@@ -47,4 +47,5 @@
     <string name="accrual_dialog_title">Пополните баланс, что бы активировать Ваш аккаунт</string>
     <string name="amount_replenishment_hint">Сумма пополнения</string>
     <string name="redirect_to_account_replenishment_title">перейти к оплате</string>
+    <string name="liqpay_additional_info">Оплата совершается через сервис liqpay.ua. После нажатия кнопки “Оплатить”, Вы будете переадресованы на сайт платежного сервиса, для ввода данных Вашей карты.\n\n\n Возникли проблемы с оплатой?\n Звоните по телефонам ниже, работаем 24/7.\n\n\n +38 (095) 392 12 34\n +38 (098) 394 12 34\n +38 (063) 328 12 34</string>
 </resources>

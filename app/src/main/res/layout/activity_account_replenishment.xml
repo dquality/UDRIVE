@@ -113,20 +113,12 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:textStyle="bold"
         android:layout_below="@id/sum_title"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-        android:text="Оплата совершается через сервис liqpay.ua. После нажатия кнопки “Оплатить”, Вы будете переадресованы на сайт платежного сервиса, для ввода данных Вашей карты.
-
-Возникли проблемы с оплатой?
-Звоните по телефонам ниже, работаем 24/7.
-
-+38 (095) 392 12 34
-+38 (098) 394 12 34
-+38 (063) 328 12 34"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+        android:text="@string/liqpay_additional_info"
         />
 
     <android.support.v7.widget.AppCompatButton

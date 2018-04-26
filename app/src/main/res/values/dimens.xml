@@ -8,4 +8,5 @@
     <dimen name="sliding_shadow_height">4dp</dimen>
     <dimen name="text_status_height_12">12sp</dimen>
     <dimen name="corner_radius">15dp</dimen>
+    <dimen name="sliding_shadow_height2">2dp</dimen>
 </resources>

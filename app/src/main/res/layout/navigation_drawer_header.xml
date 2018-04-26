@@ -29,12 +29,23 @@
         android:layout_toEndOf="@id/header_account_image"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         />
+    <ImageView
+        android:id="@+id/header_account_status_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/sliding_shadow_height"
+        android:layout_below="@+id/header_account_name"
+        android:layout_toRightOf="@id/header_account_image"
+        android:layout_toEndOf="@id/header_account_image"
+        />
     <TextView
         android:id="@+id/header_account_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/sliding_shadow_height"
+        android:layout_marginTop="@dimen/sliding_shadow_height2"
         android:layout_below="@+id/header_account_name"
-        android:layout_toRightOf="@id/header_account_image"
-        android:layout_toEndOf="@id/header_account_image"
+        android:layout_toRightOf="@id/header_account_status_image"
+        android:layout_toEndOf="@id/header_account_status_image"
         />
 </RelativeLayout>

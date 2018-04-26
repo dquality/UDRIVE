@@ -54,9 +54,7 @@ import static android.text.Spanned.SPAN_INCLUSIVE_INCLUSIVE;
 import static ua.com.dquality.udrive.viewmodels.models.StatusLevel.Platinum;
 
 
-public class HomeFragment extends Fragment implements OnRefreshHideListener {
-    private HomeViewModel mViewModelData;
-
+public class HomeFragment extends HomeBaseFragment implements OnRefreshHideListener {
     private View mParentView;
 
     private SlidingUpPanelLayout mLayout;
@@ -83,7 +81,6 @@ public class HomeFragment extends Fragment implements OnRefreshHideListener {
 
 
     public HomeFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -91,8 +88,6 @@ public class HomeFragment extends Fragment implements OnRefreshHideListener {
                              Bundle savedInstanceState) {
 
         mParentView = inflater.inflate(R.layout.fragment_home, container, false);
-
-        mViewModelData = ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
 
         mLayout = mParentView.findViewById(R.id.sliding_layout);
 
@@ -152,17 +147,14 @@ public class HomeFragment extends Fragment implements OnRefreshHideListener {
                 () -> UDriveApplication.getHttpDataProvider().refreshAllData(getActivity(), HomeFragment.this)
         );
 
-        mViewModelData.getHomeData().observe(this, new Observer<HomeModel>() {
-            @Override
-            public void onChanged(@Nullable HomeModel homeModel) {
-                updateHomeData();
-            }
-        });
+        onCreateViewBase(mParentView);
 
         return mParentView;
     }
 
-    private void updateHomeData(){
+    @Override
+    protected void onChangeHomeData(HomeModel hModel) {
+        super.onChangeHomeData(hModel);
 
         updateCardHolderState();
 
@@ -173,39 +165,29 @@ public class HomeFragment extends Fragment implements OnRefreshHideListener {
         updateBalance();
     }
 
-    private HomeModel getDataModel(){
-        return mViewModelData.getHomeData().getValue();
-    }
-
-    private StatusLevel getCurrentLevel(){
-        StatusLevel lvl = getDataModel().Level;
-        return lvl == null ? StatusLevel.Undefined : lvl;
-    }
-
     private StatusLevel getNextMonthLevel(){
         StatusLevel lvl = getDataModel().NextMonthLevel;
         return lvl == null ? StatusLevel.Classic : lvl;
     }
 
+    private int getStatusLevelDrawable(StatusLevel lvl) {
+        switch (lvl) {
+            case Classic:
+                return R.drawable.selector_card_classic_background;
+            case Gold:
+                return R.drawable.selector_card_gold_background;
+            case Platinum:
+                return R.drawable.selector_card_platinum_background;
+            default:
+                return R.drawable.selector_card_undefined_background;
+        }
+    }
+
     public void updateCardHolderState(){
         StatusLevel lvl  = getCurrentLevel();
 
-        if(cardHolderState != null) {
-            switch (lvl) {
-                case Classic:
-                    cardHolderState.setBackgroundResource(R.drawable.selector_card_classic_background);
-                    break;
-                case Gold:
-                    cardHolderState.setBackgroundResource(R.drawable.selector_card_gold_background);
-                    break;
-                case Platinum:
-                    cardHolderState.setBackgroundResource(R.drawable.selector_card_platinum_background);
-                    break;
-                default:
-                    cardHolderState.setBackgroundResource(R.drawable.selector_card_undefined_background);
-                    break;
-            }
-        }
+        cardHolderState.setBackgroundResource(getStatusLevelDrawable(lvl));
+
         if(mCardType != null){
             mCardType.setText(getStatusLevel(lvl));
         }
@@ -335,21 +317,12 @@ public class HomeFragment extends Fragment implements OnRefreshHideListener {
                 mRemainsTripsCount.setVisibility(View.VISIBLE);
 
                 String remainTripStr = getString(R.string.remain_trips_title ).toUpperCase();
-                Context ctx  = getContext();
-                int lvlColor = 0;
+
                 StatusLevel nextLevel = nextMonthLevel.next();
-                switch (nextLevel){
-                    case Classic:
-                        lvlColor=ContextCompat.getColor(ctx, R.color.colorTextTitleClassic);
-                        break;
-                    case Gold:
-                        lvlColor=ContextCompat.getColor(ctx, R.color.colorTextTitleGold);
-                        break;
-                    case Platinum:
-                        lvlColor=ContextCompat.getColor(ctx, R.color.colorTextTitlePlatinum);
-                        break;
-                }
+
+                int lvlColor = getStatusLevelColor(nextLevel);
                 String lvlStr = getStatusLevel(nextLevel);
+
                 SpannableString lvlSpan = new SpannableString(lvlStr.toUpperCase());
                 lvlSpan.setSpan(new StyleSpan(Typeface.BOLD), 0, lvlStr.length(), SPAN_INCLUSIVE_INCLUSIVE);
                 lvlSpan.setSpan(new ForegroundColorSpan(lvlColor), 0, lvlStr.length(), SPAN_INCLUSIVE_INCLUSIVE);
@@ -368,19 +341,6 @@ public class HomeFragment extends Fragment implements OnRefreshHideListener {
     private void setCircleDrawable(){
         if(mCircleState != null){
             mCircleState.setBackgroundDrawable(new CircleStatusDrawable(getContext(), getCurrentLevel(), getDataModel().NextLevelPercentage));
-        }
-    }
-
-    private String getStatusLevel(StatusLevel lvl) {
-        switch (lvl) {
-            case Classic:
-                return getString(R.string.title_status_classic);
-            case Gold:
-                return getString(R.string.title_status_gold);
-            case Platinum:
-                return getString(R.string.title_status_platinum);
-            default:
-                    return getString(R.string.title_status_undefined);
         }
     }
 
