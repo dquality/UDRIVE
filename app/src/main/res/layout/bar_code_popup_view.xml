@@ -20,15 +20,5 @@
             android:gravity="center"
             android:contentDescription="BAR CODE"
             />
-        <!--<TextView-->
-            <!--android:id="@+id/dialog_title"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"-->
-            <!--app:layout_constraintStart_toStartOf="parent"-->
-            <!--app:layout_constraintTop_toTopOf="parent"-->
-            <!--android:text="BAR CODE"-->
-            <!--android:gravity="center"-->
-            <!--android:textColor="@color/colorPrimary"/>-->
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>
