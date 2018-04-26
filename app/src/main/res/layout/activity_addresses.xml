@@ -16,8 +16,8 @@
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_marginLeft="@dimen/nav_header_vertical_spacing"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        android:text="Адреса офисов"
-        />
+        android:text="@string/info_city_title"
+        android:layout_marginStart="@dimen/nav_header_vertical_spacing" />
     <android.support.v7.widget.AppCompatSpinner
         android:id="@+id/info_city_list"
         android:layout_width="match_parent"
@@ -36,7 +36,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:background="@drawable/selector_info_button_background"
-        android:text="Показать на карте">
+        android:text="@string/follow_city_on_map_title">
 
     </android.support.v7.widget.AppCompatButton>
 

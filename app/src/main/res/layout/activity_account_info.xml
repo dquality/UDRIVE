@@ -18,7 +18,7 @@
         android:layout_alignParentEnd="true"
         app:srcCompat="@drawable/ic_person_black_24dp"
         android:tint="@color/colorPrimaryLight"
-        android:contentDescription="Account" />
+        android:contentDescription="@string/account_description" />
     <TextView
         android:id="@+id/info_account_name"
         android:layout_width="match_parent"
@@ -36,7 +36,7 @@
         android:layout_toLeftOf="@id/info_account_status"
         android:layout_toStartOf="@id/info_account_status"
         android:layout_below="@+id/info_account_name"
-        android:contentDescription="Status" />
+        android:contentDescription="@string/status_description" />
     <TextView
         android:id="@+id/info_account_status"
         android:layout_width="wrap_content"

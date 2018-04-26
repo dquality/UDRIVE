@@ -10,4 +10,7 @@
     <dimen name="dim_2_dp">2dp</dimen>
     <dimen name="dim_4_dp">4dp</dimen>
     <dimen name="dim_6_dp">6dp</dimen>
+    <dimen name="dim_48_dp">48dp</dimen>
+    <dimen name="dim_56_dp">56dp</dimen>
+    <dimen name="dim_64_dp">64dp</dimen>
 </resources>

@@ -8,6 +8,7 @@ import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatSpinner;
 import android.widget.ArrayAdapter;
 
+import ua.com.dquality.udrive.constants.Const;
 import ua.com.dquality.udrive.viewmodels.HomeViewModel;
 import ua.com.dquality.udrive.viewmodels.UDriveInfoViewModel;
 import ua.com.dquality.udrive.viewmodels.models.UDriveInfoAddressModel;
@@ -38,7 +39,7 @@ public class AddressesActivity extends AuthenticateBaseActivity {
         mUDriveInfoViewModelData.getLiveDataModel().observe(this, uDriveInfoModel -> onChangeAddressesData(uDriveInfoModel));
 
         mFollowCityOnMap.setOnClickListener(v1 -> {
-            Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + mCityArrayAdapter.getItem(mCityList.getSelectedItemPosition()));
+            Uri gmmIntentUri = Uri.parse(Const.GEO_UNKNOWN_PREFIX + mCityArrayAdapter.getItem(mCityList.getSelectedItemPosition()));
             Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
             mapIntent.setPackage("com.google.android.apps.maps");
             startActivity(mapIntent);

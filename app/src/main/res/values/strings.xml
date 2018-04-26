@@ -50,4 +50,9 @@
     <string name="info_birthday_title">День рождения:</string>
     <string name="info_bank_title">Банк:</string>
     <string name="info_bank_card_title">Номер карты:</string>
+    <string name="follow_city_on_map_title">Показать на карте</string>
+    <string name="info_city_title">Адреса офисов</string>
+    <string name="account_description">Account</string>
+    <string name="status_description">Status</string>
+    <string name="call_title">Позвонить</string>
 </resources>

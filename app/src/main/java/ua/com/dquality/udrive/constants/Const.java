@@ -22,4 +22,10 @@ public final class Const {
 
     public static final String SELECTED_MAIN_FRAGMENT_KEY = "MainFragmentIndex";
     public static final String URL_QUESTION_ANSWER = "https://www.uber.com/en-UA/drive/resources/educational-materials/";
+
+    public static final String GEO_UNKNOWN_PREFIX = "geo:0,0?q=";
+    public static final String FACEBOOK_MESS = "Facebook";
+    public static final String VIBER_MESS = "Viber";
+    public static final String TELEGRAM_MESS = "Telegram";
+
 }
