@@ -4,7 +4,9 @@ package ua.com.dquality.udrive.fragments;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,6 +21,7 @@ import android.widget.TextView;
 
 import ua.com.dquality.udrive.AccountInfoActivity;
 import ua.com.dquality.udrive.AddressesActivity;
+import ua.com.dquality.udrive.LoginActivity;
 import ua.com.dquality.udrive.MainActivity;
 import ua.com.dquality.udrive.PublicOfferActivity;
 import ua.com.dquality.udrive.QuestionAnswerActivity;
@@ -26,6 +29,7 @@ import ua.com.dquality.udrive.R;
 import ua.com.dquality.udrive.SettingsActivity;
 import ua.com.dquality.udrive.SupportActivity;
 import ua.com.dquality.udrive.constants.Const;
+import ua.com.dquality.udrive.helpers.SharedPreferencesManager;
 import ua.com.dquality.udrive.viewmodels.DriverInfoViewModel;
 import ua.com.dquality.udrive.viewmodels.HomeViewModel;
 import ua.com.dquality.udrive.viewmodels.models.DriverInfoModel;
@@ -61,7 +65,8 @@ public class OtherFragment extends HomeBaseFragment {
 //                    mDrawerIntent = new Intent(mActivity, SettingsActivity.class);
 //                    break;
                 case R.id.navigation_drawer_question_answer:
-                    mDrawerIntent = new Intent(mActivity, QuestionAnswerActivity.class);
+                    //mDrawerIntent = new Intent(mActivity, QuestionAnswerActivity.class);
+                    mDrawerIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Const.URL_QUESTION_ANSWER));
                     break;
                 case R.id.navigation_drawer_public_offer:
                     mDrawerIntent = new Intent(mActivity, PublicOfferActivity.class);
@@ -73,6 +78,11 @@ public class OtherFragment extends HomeBaseFragment {
                     mDrawerIntent = new Intent(mActivity, SupportActivity.class);
                     break;
                 case R.id.navigation_drawer_exit:
+                    SharedPreferencesManager manager = new SharedPreferencesManager(mActivity.getApplicationContext());
+                    manager.clearAll();
+                    Intent intent = new Intent(mActivity, LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
                     mActivity.finish();
                     break;
             }
@@ -111,7 +121,7 @@ public class OtherFragment extends HomeBaseFragment {
     protected void onChangeHomeData(HomeModel hModel) {
         super.onChangeHomeData(hModel);
         if(mHeaderAccountStatus != null){
-            StatusLevel lvl = getCurrentLevel();
+            StatusLevel lvl = mViewModelData.getCurrentLevel();
             mHeaderAccountStatus.setText(getStatusLevel(lvl));
             int drawable = getStatusLevelDrawable(lvl);
             if(drawable != -1 && mLevelImageView != null){

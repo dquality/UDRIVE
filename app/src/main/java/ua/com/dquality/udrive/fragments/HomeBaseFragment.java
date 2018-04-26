@@ -20,7 +20,7 @@ import ua.com.dquality.udrive.viewmodels.models.StatusLevel;
 
 public class HomeBaseFragment extends Fragment {
 
-    private HomeViewModel mViewModelData;
+    protected HomeViewModel mViewModelData;
 
     public HomeBaseFragment() {
     }
@@ -33,11 +33,6 @@ public class HomeBaseFragment extends Fragment {
 
     protected HomeModel getDataModel(){
         return mViewModelData.getHomeData().getValue();
-    }
-
-    protected StatusLevel getCurrentLevel(){
-        StatusLevel lvl = getDataModel().Level;
-        return lvl == null ? StatusLevel.Undefined : lvl;
     }
 
     protected void onChangeHomeData(HomeModel hModel){

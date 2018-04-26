@@ -184,7 +184,7 @@ public class HomeFragment extends HomeBaseFragment implements OnRefreshHideListe
     }
 
     public void updateCardHolderState(){
-        StatusLevel lvl  = getCurrentLevel();
+        StatusLevel lvl  = mViewModelData.getCurrentLevel();
 
         cardHolderState.setBackgroundResource(getStatusLevelDrawable(lvl));
 
@@ -340,7 +340,7 @@ public class HomeFragment extends HomeBaseFragment implements OnRefreshHideListe
 
     private void setCircleDrawable(){
         if(mCircleState != null){
-            mCircleState.setBackgroundDrawable(new CircleStatusDrawable(getContext(), getCurrentLevel(), getDataModel().NextLevelPercentage));
+            mCircleState.setBackgroundDrawable(new CircleStatusDrawable(getContext(), mViewModelData.getCurrentLevel(), getDataModel().NextLevelPercentage));
         }
     }
 
