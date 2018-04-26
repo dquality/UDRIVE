@@ -48,4 +48,12 @@
     <string name="amount_replenishment_hint">Сумма пополнения</string>
     <string name="redirect_to_account_replenishment_title">перейти к оплате</string>
     <string name="liqpay_additional_info">Оплата совершается через сервис liqpay.ua. После нажатия кнопки “Оплатить”, Вы будете переадресованы на сайт платежного сервиса, для ввода данных Вашей карты.\n\n\n Возникли проблемы с оплатой?\n Звоните по телефонам ниже, работаем 24/7.\n\n\n +38 (095) 392 12 34\n +38 (098) 394 12 34\n +38 (063) 328 12 34</string>
+    <string name="info_car_title">Марка машины:</string>
+    <string name="info_car_year_title">Год выпуска:</string>
+    <string name="info_email_title">Email:</string>
+    <string name="info_phone_title">Телефон:</string>
+    <string name="info_offer_acceptance_date_title">Дата принятия оферты:</string>
+    <string name="info_birthday_title">День рождения:</string>
+    <string name="info_bank_title">Банк:</string>
+    <string name="info_bank_card_title">Номер карты:</string>
 </resources>

@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         android:gravity="bottom"
         sld:panelHeight="?attr/actionBarSize"
-        sld:shadowHeight="@dimen/sliding_shadow_height"
+        sld:shadowHeight="@dimen/dim_4_dp"
         sld:parallaxOffset="100dp"
         sld:overlay="true"
         sld:dragView="@+id/dragView"

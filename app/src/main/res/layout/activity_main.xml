@@ -30,8 +30,8 @@
                     android:minWidth="0dp"
                     android:paddingRight="@dimen/activity_horizontal_margin"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
-                    android:paddingTop="@dimen/sliding_shadow_height"
-                    android:paddingBottom="@dimen/sliding_shadow_height"
+                    android:paddingTop="@dimen/dim_4_dp"
+                    android:paddingBottom="@dimen/dim_4_dp"
                     android:layout_marginRight="@dimen/activity_horizontal_margin">
 
                 </android.support.v7.widget.AppCompatButton>
