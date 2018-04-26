@@ -7,28 +7,15 @@ import ua.com.dquality.udrive.UDriveApplication;
 import ua.com.dquality.udrive.viewmodels.models.HomeModel;
 import ua.com.dquality.udrive.viewmodels.models.StatusLevel;
 
-public class HomeViewModel extends ViewModel {
+public class HomeViewModel extends BaseViewModel<HomeModel> {
 
-    private MutableLiveData<HomeModel> mData;
-
-    public MutableLiveData<HomeModel> getHomeData() {
-        if (mData == null) {
-            mData = new MutableLiveData<>();
-            mData.setValue(getDefaultData());
-        }
-        return mData;
-    }
-
-    public void updateData(HomeModel model){
-        if(mData != null) mData.postValue(model == null ? getDefaultData() : model);
-    }
-
-    private HomeModel getDefaultData(){
+    @Override
+    protected HomeModel getDefaultData(){
         return UDriveApplication.getHttpDataProvider().getDataModels().HomeData;
     }
 
     public StatusLevel getCurrentLevel(){
-        StatusLevel lvl =  getHomeData().getValue().Level;
+        StatusLevel lvl =  getLiveDataModel().getValue().Level;
         return lvl == null ? StatusLevel.Undefined : lvl;
     }
 }

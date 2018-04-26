@@ -1,7 +1,6 @@
 package ua.com.dquality.udrive;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -54,11 +53,11 @@ public class AccountInfoActivity extends AuthenticateBaseActivity {
 
         mHomeViewModelData = ViewModelProviders.of(this).get(HomeViewModel.class);
 
-        mHomeViewModelData.getHomeData().observe(this, homeModel -> onChangeHomeData(homeModel));
+        mHomeViewModelData.getLiveDataModel().observe(this, homeModel -> onChangeHomeData(homeModel));
 
         mDriverViewModelData = ViewModelProviders.of(this).get(DriverInfoViewModel.class);
 
-        mDriverViewModelData.geDriverInfoData().observe(this, driverInfoModel -> onChangeDriverData(driverInfoModel));
+        mDriverViewModelData.getLiveDataModel().observe(this, driverInfoModel -> onChangeDriverData(driverInfoModel));
 
         SetLogo(this);
     }

@@ -1,15 +1,11 @@
 package ua.com.dquality.udrive.fragments;
 
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -24,14 +20,11 @@ import ua.com.dquality.udrive.AddressesActivity;
 import ua.com.dquality.udrive.LoginActivity;
 import ua.com.dquality.udrive.MainActivity;
 import ua.com.dquality.udrive.PublicOfferActivity;
-import ua.com.dquality.udrive.QuestionAnswerActivity;
 import ua.com.dquality.udrive.R;
-import ua.com.dquality.udrive.SettingsActivity;
 import ua.com.dquality.udrive.SupportActivity;
 import ua.com.dquality.udrive.constants.Const;
 import ua.com.dquality.udrive.helpers.SharedPreferencesManager;
 import ua.com.dquality.udrive.viewmodels.DriverInfoViewModel;
-import ua.com.dquality.udrive.viewmodels.HomeViewModel;
 import ua.com.dquality.udrive.viewmodels.models.DriverInfoModel;
 import ua.com.dquality.udrive.viewmodels.models.HomeModel;
 import ua.com.dquality.udrive.viewmodels.models.StatusLevel;
@@ -112,7 +105,7 @@ public class OtherFragment extends HomeBaseFragment {
 
         mDriverViewModelData = ViewModelProviders.of(getActivity()).get(DriverInfoViewModel.class);
 
-        mDriverViewModelData.geDriverInfoData().observe(this, driverInfoModel -> onChangeDriverData(driverInfoModel));
+        mDriverViewModelData.getLiveDataModel().observe(this, driverInfoModel -> onChangeDriverData(driverInfoModel));
 
         return parentView;
     }

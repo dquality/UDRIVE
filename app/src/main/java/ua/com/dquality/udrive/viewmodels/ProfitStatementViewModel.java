@@ -10,25 +10,10 @@ import java.util.List;
 import ua.com.dquality.udrive.UDriveApplication;
 import ua.com.dquality.udrive.viewmodels.models.ProfitStatementGroupModel;
 
-public class ProfitStatementViewModel extends ViewModel {
+public class ProfitStatementViewModel extends BaseViewModel<List<ProfitStatementGroupModel>> {
 
-    private MutableLiveData<List<ProfitStatementGroupModel>> mData;
-
-    public MutableLiveData<List<ProfitStatementGroupModel>> getProfitStatementData(){
-        if(mData == null)
-        {
-            mData = new MutableLiveData<>();
-            mData.setValue(getDefaultData());
-        }
-
-        return mData;
-    }
-
-    public void updateData(List<ProfitStatementGroupModel> model){
-        if(mData != null) mData.postValue(model == null ? getDefaultData() : model);
-    }
-
-    private List<ProfitStatementGroupModel> getDefaultData(){
+    @Override
+    protected List<ProfitStatementGroupModel> getDefaultData(){
         return UDriveApplication.getHttpDataProvider().getDataModels().ProfitStatementData;
     }
 

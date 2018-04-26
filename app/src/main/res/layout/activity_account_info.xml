@@ -55,7 +55,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/info_account_status"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
         android:text="@string/info_car_title"
         />
     <TextView
@@ -68,7 +68,7 @@
         android:layout_below="@+id/info_account_status"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
         android:textColor="@color/colorYellow2"
         />
     <TextView
@@ -79,7 +79,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@id/info_car_title"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
         android:text="@string/info_car_year_title"
         />
     <TextView
@@ -92,7 +92,7 @@
         android:layout_alignEnd="@id/info_car_year_title"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
         android:textColor="@color/colorYellow2"
         />
 
@@ -104,7 +104,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@id/info_car_year_title"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
         android:text="@string/info_email_title"
         />
     <TextView
@@ -115,7 +115,7 @@
         android:layout_below="@id/info_car_year_value"
         android:layout_alignRight="@id/info_email_title"
         android:layout_alignEnd="@id/info_email_title"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:textColor="@color/colorYellow2"
@@ -129,7 +129,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@id/info_email_title"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
         android:text="@string/info_phone_title"
         />
     <TextView
@@ -142,7 +142,7 @@
         android:layout_alignEnd="@id/info_phone_title"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
         android:textColor="@color/colorYellow2"
         />
 
@@ -154,7 +154,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@id/info_phone_title"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
         android:text="@string/info_offer_acceptance_date_title"
         />
     <TextView
@@ -167,7 +167,7 @@
         android:layout_alignEnd="@id/info_offer_acceptance_date_title"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
         android:textColor="@color/colorYellow2"
         />
 
@@ -179,7 +179,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@id/info_offer_acceptance_date_title"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
         android:text="@string/info_birthday_title"
         />
     <TextView
@@ -192,7 +192,7 @@
         android:layout_alignEnd="@id/info_birthday_title"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
         android:textColor="@color/colorYellow2"
         />
 
@@ -204,7 +204,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@id/info_birthday_title"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
         android:text="@string/info_bank_title"
         />
     <TextView
@@ -217,7 +217,7 @@
         android:layout_alignEnd="@id/info_bank_title"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
         android:textColor="@color/colorYellow2"
         />
 
@@ -229,7 +229,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@id/info_bank_title"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
         android:text="@string/info_bank_card_title"
         />
     <TextView
@@ -242,7 +242,7 @@
         android:layout_alignEnd="@id/info_bank_card_title"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
         android:textColor="@color/colorYellow2"
         />
 

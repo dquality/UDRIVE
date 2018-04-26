@@ -44,7 +44,7 @@ public class ProfitHistoryFragment extends Fragment {
         mExpandableListAdapter = new ExpandableProfitHistoryAdapter(getContext());
         mExpandableListView.setAdapter(mExpandableListAdapter);
 
-        mViewModelData.getProfitHistoryData().observe(this, new Observer<List<ProfitHistoryGroupModel>>() {
+        mViewModelData.getLiveDataModel().observe(this, new Observer<List<ProfitHistoryGroupModel>>() {
             @Override
             public void onChanged(@Nullable List<ProfitHistoryGroupModel> profitHistoryGroupModels) {
                 mExpandableListAdapter.setGroupItemData(profitHistoryGroupModels);

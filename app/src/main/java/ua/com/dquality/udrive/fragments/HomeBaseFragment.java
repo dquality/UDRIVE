@@ -1,17 +1,10 @@
 package ua.com.dquality.udrive.fragments;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import ua.com.dquality.udrive.R;
 import ua.com.dquality.udrive.viewmodels.HomeViewModel;
@@ -28,11 +21,11 @@ public class HomeBaseFragment extends Fragment {
     protected void onCreateViewBase(View parentView){
         mViewModelData = ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
 
-        mViewModelData.getHomeData().observe(this, homeModel -> onChangeHomeData(homeModel));
+        mViewModelData.getLiveDataModel().observe(this, homeModel -> onChangeHomeData(homeModel));
     }
 
     protected HomeModel getDataModel(){
-        return mViewModelData.getHomeData().getValue();
+        return mViewModelData.getLiveDataModel().getValue();
     }
 
     protected void onChangeHomeData(HomeModel hModel){

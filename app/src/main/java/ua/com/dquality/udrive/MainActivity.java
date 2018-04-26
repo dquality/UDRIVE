@@ -1,17 +1,11 @@
 package ua.com.dquality.udrive;
 
 import android.app.Dialog;
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -22,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import ua.com.dquality.udrive.constants.Const;
 import ua.com.dquality.udrive.fragments.OtherFragment;
@@ -30,7 +23,6 @@ import ua.com.dquality.udrive.fragments.HomeFragment;
 import ua.com.dquality.udrive.fragments.ProfitFragment;
 import ua.com.dquality.udrive.helpers.BottomNavigationViewHelper;
 import ua.com.dquality.udrive.viewmodels.ActiveViewModel;
-import ua.com.dquality.udrive.viewmodels.models.ActiveModel;
 
 public class MainActivity extends AuthenticateBaseActivity {
 
@@ -73,7 +65,7 @@ public class MainActivity extends AuthenticateBaseActivity {
     private View.OnClickListener onStatusClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v){
-            if(!mViewModelData.getActiveData().getValue().IsActive){
+            if(!mViewModelData.getLiveDataModel().getValue().IsActive){
                 Dialog dialog = new Dialog(MainActivity.this, R.style.NotActiveStatusPopupStyle);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
@@ -110,7 +102,7 @@ public class MainActivity extends AuthenticateBaseActivity {
 
         mViewModelData = ViewModelProviders.of(this).get(ActiveViewModel.class);
 
-        mViewModelData.getActiveData().observe(this, activeModel -> setStatus(activeModel.IsActive));
+        mViewModelData.getLiveDataModel().observe(this, activeModel -> setStatus(activeModel.IsActive));
 
         initStatus();
 

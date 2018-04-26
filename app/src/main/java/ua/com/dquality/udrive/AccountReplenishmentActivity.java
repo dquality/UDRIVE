@@ -1,22 +1,15 @@
 package ua.com.dquality.udrive;
 
-import android.app.Dialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
-import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import ua.com.dquality.udrive.constants.Const;
 import ua.com.dquality.udrive.viewmodels.AccountReplenishmentViewModel;
-import ua.com.dquality.udrive.viewmodels.ActiveViewModel;
 import ua.com.dquality.udrive.viewmodels.models.AccountReplenishmentModel;
-import ua.com.dquality.udrive.viewmodels.models.HomeModel;
 
 public class AccountReplenishmentActivity extends AuthenticateBaseActivity {
 
@@ -33,7 +26,7 @@ public class AccountReplenishmentActivity extends AuthenticateBaseActivity {
 
         mViewModelData = ViewModelProviders.of(this).get(AccountReplenishmentViewModel.class);
 
-        mViewModelData.getAccountReplenishmentModel().observe(this, accountReplenishmentModel -> {
+        mViewModelData.getLiveDataModel().observe(this, accountReplenishmentModel -> {
             updateAccountReplenishmentData(accountReplenishmentModel);
         });
 

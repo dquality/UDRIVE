@@ -9,24 +9,10 @@ import ua.com.dquality.udrive.UDriveApplication;
 import ua.com.dquality.udrive.viewmodels.models.AccountReplenishmentModel;
 import ua.com.dquality.udrive.viewmodels.models.ActiveModel;
 
-public class AccountReplenishmentViewModel extends ViewModel {
+public class AccountReplenishmentViewModel extends BaseViewModel<AccountReplenishmentModel> {
 
-    private MutableLiveData<AccountReplenishmentModel> mData;
-
-    public MutableLiveData<AccountReplenishmentModel> getAccountReplenishmentModel(){
-        if(mData == null)
-        {
-            mData = new MutableLiveData<>();
-            mData.setValue(getDefaultData());
-        }
-
-        return mData;
-    }
-
-    public void updateData(AccountReplenishmentModel model){
-        if(mData != null) mData.postValue(model == null ? getDefaultData() : model);
-    }
-    private AccountReplenishmentModel getDefaultData(){
+    @Override
+    protected AccountReplenishmentModel getDefaultData(){
         return UDriveApplication.getHttpDataProvider().getAccountReplenishmentModel();
     }
 }

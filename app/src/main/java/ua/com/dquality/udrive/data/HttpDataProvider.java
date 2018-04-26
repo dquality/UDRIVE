@@ -66,6 +66,7 @@ import ua.com.dquality.udrive.viewmodels.DriverInfoViewModel;
 import ua.com.dquality.udrive.viewmodels.HomeViewModel;
 import ua.com.dquality.udrive.viewmodels.ProfitHistoryViewModel;
 import ua.com.dquality.udrive.viewmodels.ProfitStatementViewModel;
+import ua.com.dquality.udrive.viewmodels.UDriveInfoViewModel;
 import ua.com.dquality.udrive.viewmodels.models.AccountReplenishmentModel;
 import ua.com.dquality.udrive.viewmodels.models.ActiveModel;
 import ua.com.dquality.udrive.viewmodels.models.DriverInfoModel;
@@ -76,6 +77,8 @@ import ua.com.dquality.udrive.viewmodels.models.ProfitStatementGroupModel;
 import ua.com.dquality.udrive.viewmodels.models.ProfitStatementGroupType;
 import ua.com.dquality.udrive.viewmodels.models.ProfitStatementItemModel;
 import ua.com.dquality.udrive.viewmodels.models.StatusLevel;
+import ua.com.dquality.udrive.viewmodels.models.UDriveInfoAddressModel;
+import ua.com.dquality.udrive.viewmodels.models.UDriveInfoModel;
 
 public class HttpDataProvider {
     private static int HTTP_OK_CODE = 200;
@@ -208,6 +211,8 @@ public class HttpDataProvider {
             refreshProfitStatementViewModelData(null, null, safeGetViewModel(fragmentActivity, ProfitStatementViewModel.class));
 
             refreshDriverInfoViewModelData(safeGetViewModel(fragmentActivity, DriverInfoViewModel.class));
+
+            refreshUDriveInfoViewModelData(safeGetViewModel(fragmentActivity, UDriveInfoViewModel.class));
 
             if(onRefreshHideListener != null)
                 onRefreshHideListener.onRefreshHide();
@@ -419,6 +424,63 @@ public class HttpDataProvider {
             if(driverInfoViewModel != null)
             {
                 driverInfoViewModel.updateData(mDataModels.DriverInfoData);
+            }
+        }
+    }
+
+    public void refreshUDriveInfoViewModelData(UDriveInfoViewModel uDriveInfoViewModel){
+        mDataModels.UDriveInfoData  = new UDriveInfoModel();
+
+        ANRequest request = createGetRequest("https://backend.uberdrive.com.ua/Mobile/Api/GetPartnerContactInfo", "ContactInfo");
+
+        ANResponse<JSONObject> response = request.executeForJSONObject();
+        if(validateResponse(response)){
+            try {
+                JSONObject obj = response.getResult();
+                JSONArray phones = obj.getJSONArray("phones");
+                JSONArray emails = obj.getJSONArray("emails");
+                JSONArray messengers = obj.getJSONArray("messengers");
+                JSONArray webSites = obj.getJSONArray("webSites");
+                JSONArray addresses = obj.getJSONArray("addresses");
+
+                for (int itemIndex = 0; itemIndex < phones.length(); itemIndex++) {
+                    String phone = phones.getString(itemIndex);
+                    mDataModels.UDriveInfoData.Phones.add(phone);
+                }
+
+                for (int itemIndex = 0; itemIndex < emails.length(); itemIndex++) {
+                    String email = emails.getString(itemIndex);
+                    mDataModels.UDriveInfoData.Emails.add(email);
+                }
+
+                for (int itemIndex = 0; itemIndex < messengers.length(); itemIndex++) {
+                    JSONObject messenger = messengers.getJSONObject(itemIndex);
+                    String key = messenger.getString("key");
+                    String value = messenger.getString("value");
+                    mDataModels.UDriveInfoData.Messengers.put(key, value);
+                }
+
+                for (int itemIndex = 0; itemIndex < webSites.length(); itemIndex++) {
+                    JSONObject webSite = webSites.getJSONObject(itemIndex);
+                    String key = webSite.getString("key");
+                    String value = webSite.getString("value");
+                    mDataModels.UDriveInfoData.WebSites.put(key, value);
+                }
+
+                for (int itemIndex = 0; itemIndex < addresses.length(); itemIndex++) {
+                    JSONObject addresseObj = addresses.getJSONObject(itemIndex);
+                    String cityName = addresseObj.getString("cityName");
+                    String address = addresseObj.getString("address");
+                    mDataModels.UDriveInfoData.Addresses.add(new UDriveInfoAddressModel(cityName, address));
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            if(uDriveInfoViewModel != null)
+            {
+                uDriveInfoViewModel.updateData(mDataModels.UDriveInfoData);
             }
         }
     }
@@ -665,5 +727,6 @@ public class HttpDataProvider {
         public DriverInfoModel DriverInfoData;
         public CalendarDay StatementFromDay;
         public CalendarDay StatementToDay;
+        public UDriveInfoModel UDriveInfoData;
     }
 }

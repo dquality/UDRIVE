@@ -13,25 +13,10 @@ import ua.com.dquality.udrive.viewmodels.models.ProfitHistoryGroupModel;
 import ua.com.dquality.udrive.viewmodels.models.ProfitHistoryItemModel;
 import ua.com.dquality.udrive.viewmodels.models.ProfitHistoryItemType;
 
-public class ProfitHistoryViewModel extends ViewModel {
+public class ProfitHistoryViewModel extends BaseViewModel<List<ProfitHistoryGroupModel>> {
 
-    private MutableLiveData<List<ProfitHistoryGroupModel>> mData;
-
-    public MutableLiveData<List<ProfitHistoryGroupModel>> getProfitHistoryData(){
-        if(mData == null)
-        {
-            mData = new MutableLiveData<>();
-            mData.postValue(getDefaultData());
-        }
-
-        return mData;
-    }
-
-    public void updateData(List<ProfitHistoryGroupModel> model){
-        if(mData != null) mData.postValue(model == null ? getDefaultData() : model);
-    }
-
-    private List<ProfitHistoryGroupModel> getDefaultData(){
+    @Override
+    protected List<ProfitHistoryGroupModel> getDefaultData(){
         return UDriveApplication.getHttpDataProvider().getDataModels().ProfitHistoryData;
     }
 }
