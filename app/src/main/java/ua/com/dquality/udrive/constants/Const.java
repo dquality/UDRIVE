@@ -6,6 +6,8 @@ package ua.com.dquality.udrive.constants;
 
 public final class Const {
     public static final String RELOAD_DATA = "ReloadData";
+    public static final String GET_CODE_EXECUTED = "GetCodeExecuted";
+    public static final String PHONE_NUMBER = "PhoneNumber";
     public static final String CULTURE = "ru";
 
     public static String PARSE_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
@@ -19,4 +21,5 @@ public final class Const {
 
 
     public static final String SELECTED_MAIN_FRAGMENT_KEY = "MainFragmentIndex";
+    public static final String URL_QUESTION_ANSWER = "https://www.uber.com/en-UA/drive/resources/educational-materials/";
 }

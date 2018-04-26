@@ -11,6 +11,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
+import ua.com.dquality.udrive.constants.Const;
 import ua.com.dquality.udrive.interfaces.OnHttpCodeResultExposed;
 
 public class LoginActivity extends AppCompatActivity {
@@ -26,10 +27,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(savedInstanceState != null){
-            mGetCodeExecuted = savedInstanceState.getBoolean("GetCodeExecuted");
-        }
-
         setContentView(R.layout.activity_login);
 
         mInputCode = findViewById(R.id.input_code);
@@ -43,6 +40,11 @@ public class LoginActivity extends AppCompatActivity {
 
         mLogin = findViewById(R.id.btn_login);
         mLogin.setOnClickListener(loginClickListener);
+
+        if(savedInstanceState != null){
+            mGetCodeExecuted = savedInstanceState.getBoolean(Const.GET_CODE_EXECUTED);
+            mInputPhone.setText(savedInstanceState.getString(Const.PHONE_NUMBER));
+        }
 
         RaiseTextChangedEvents();
 
@@ -156,12 +158,14 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putBoolean("GetCodeExecuted", mGetCodeExecuted);
+        savedInstanceState.putBoolean(Const.GET_CODE_EXECUTED, mGetCodeExecuted);
+        if(mInputPhone != null) savedInstanceState.putString(Const.PHONE_NUMBER, mInputPhone.getText().toString());
     }
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        mGetCodeExecuted = savedInstanceState.getBoolean("GetCodeExecuted");
+        mGetCodeExecuted = savedInstanceState.getBoolean(Const.GET_CODE_EXECUTED);
+        if(mInputPhone != null) mInputPhone.setText(savedInstanceState.getString(Const.PHONE_NUMBER));
     }
 }
