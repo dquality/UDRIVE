@@ -44,7 +44,7 @@ public class ProfitFragment extends Fragment {
         return ret;
     }
 
-    private ViewPager.OnPageChangeListener onPageProfitChangeListener = new ViewPager.OnPageChangeListener(){
+    private final ViewPager.OnPageChangeListener onPageProfitChangeListener = new ViewPager.OnPageChangeListener(){
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels){
 
@@ -62,7 +62,7 @@ public class ProfitFragment extends Fragment {
 
     };
 
-    private View.OnClickListener onProfitFilterClickListener = new View.OnClickListener() {
+    private final View.OnClickListener onProfitFilterClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v){
             if (!v.isSelected()) {

@@ -3,10 +3,10 @@ package ua.com.dquality.udrive.viewmodels.models;
 import java.util.Date;
 
 public class ProfitHistoryItemModel {
-    public Date Date;
-    public String Name;
-    public Double Amount;
-    public ProfitHistoryItemType Type;
+    public final Date Date;
+    public final String Name;
+    public final Double Amount;
+    public final ProfitHistoryItemType Type;
     public ProfitHistoryItemModel(Date date, String name, Double amount){
         this(date, name, amount, ProfitHistoryItemType.Amount);
     }

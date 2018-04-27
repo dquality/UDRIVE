@@ -22,7 +22,7 @@ import ua.com.dquality.udrive.viewmodels.models.ProfitStatementItemModel;
 
 public class ExpandableProfitStatementAdapter extends BaseExpandableListAdapter {
 
-    private Context mContext;
+    private final Context mContext;
     private List<ProfitStatementGroupModel> mGroupItemData;
 
     public ExpandableProfitStatementAdapter(Context context) {

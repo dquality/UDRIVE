@@ -130,7 +130,7 @@ public class HomeFragment extends HomeBaseFragment implements OnRefreshHideListe
                 () -> UDriveApplication.getHttpDataProvider().refreshAllData(getActivity(), HomeFragment.this)
         );
 
-        onCreateViewBase(mParentView);
+        onCreateViewBase();
 
         return mParentView;
     }
@@ -206,7 +206,7 @@ public class HomeFragment extends HomeBaseFragment implements OnRefreshHideListe
 
     }
 
-    private View.OnClickListener onCardHolderClickListener = new View.OnClickListener() {
+    private final View.OnClickListener onCardHolderClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             final Dialog dialog = new Dialog(getActivity(), R.style.CardHolderPopupStyle);

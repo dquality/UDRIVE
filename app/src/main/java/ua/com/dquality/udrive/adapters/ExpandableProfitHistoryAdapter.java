@@ -22,7 +22,7 @@ import ua.com.dquality.udrive.viewmodels.models.ProfitHistoryItemType;
 
 public class ExpandableProfitHistoryAdapter extends BaseExpandableListAdapter {
 
-    private Context mContext;
+    private final Context mContext;
     private List<ProfitHistoryGroupModel> mGroupItemData;
 
     public ExpandableProfitHistoryAdapter(Context context) {

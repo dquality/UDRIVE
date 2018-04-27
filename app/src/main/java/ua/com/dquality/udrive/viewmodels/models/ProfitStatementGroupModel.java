@@ -4,10 +4,10 @@ import java.util.Date;
 import java.util.List;
 
 public class ProfitStatementGroupModel {
-    public String Name;
-    public Double Amount;
-    public ProfitStatementGroupType Type;
-    public List<ProfitStatementItemModel> Items;
+    public final String Name;
+    public final Double Amount;
+    public final ProfitStatementGroupType Type;
+    public final List<ProfitStatementItemModel> Items;
     public ProfitStatementGroupModel(String name, Double amount, List<ProfitStatementItemModel> items){
         this(name, amount, ProfitStatementGroupType.Header1, items);
     }

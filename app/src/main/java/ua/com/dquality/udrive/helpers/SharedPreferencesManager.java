@@ -15,11 +15,10 @@ import ua.com.dquality.udrive.R;
 
 public class SharedPreferencesManager {
 
-    private SharedPreferences mSharedPreferences;
+    private final SharedPreferences mSharedPreferences;
 
     public SharedPreferencesManager(Context applicationContext){
-        Context mApplicationContext = applicationContext;
-        mSharedPreferences = mApplicationContext.getSharedPreferences(mApplicationContext.getResources().getString(R.string.app_shared_prefs), Context.MODE_PRIVATE);
+        mSharedPreferences = applicationContext.getSharedPreferences(applicationContext.getResources().getString(R.string.app_shared_prefs), Context.MODE_PRIVATE);
     }
 
     public void clearAll(){

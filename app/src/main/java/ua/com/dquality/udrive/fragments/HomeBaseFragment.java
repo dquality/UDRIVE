@@ -18,7 +18,7 @@ public class HomeBaseFragment extends Fragment {
     public HomeBaseFragment() {
     }
 
-    void onCreateViewBase(View parentView){
+    void onCreateViewBase(){
         mViewModelData = ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
 
         mViewModelData.getLiveDataModel().observe(this, homeModel -> onChangeHomeData(homeModel));

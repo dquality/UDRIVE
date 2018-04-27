@@ -45,7 +45,7 @@ public class AccountReplenishmentActivity extends AuthenticateBaseActivity {
         sumValueText.setText(String.format(Const.AMOUNT_FORMAT, model.TotalAmount));
     }
 
-    private View.OnClickListener onPerformAccountReplenishmentClickListener = v -> {
+    private final View.OnClickListener onPerformAccountReplenishmentClickListener = v -> {
         Intent intent = new Intent(AccountReplenishmentActivity.this, AccountReplenishmentWebActivity.class);
         startActivity(intent);
     };

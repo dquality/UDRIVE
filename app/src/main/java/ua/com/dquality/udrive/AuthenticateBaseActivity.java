@@ -16,6 +16,8 @@ import ua.com.dquality.udrive.data.HttpDataProvider;
 import ua.com.dquality.udrive.helpers.SharedPreferencesManager;
 import ua.com.dquality.udrive.interfaces.OnHttpCodeResultExposed;
 
+import static android.R.style.Theme_Material_Dialog_Alert;
+
 public class AuthenticateBaseActivity extends AppCompatActivity {
 
     boolean mIsLoggedIn;
@@ -63,7 +65,7 @@ public class AuthenticateBaseActivity extends AppCompatActivity {
     }
 
     public void showAccountReplenishmentDialog(){
-        mAccountReplenishmentDialog = new Dialog(this, android.R.style.Theme_Material_Dialog_Alert);
+        mAccountReplenishmentDialog = new Dialog(this, Theme_Material_Dialog_Alert);
         mAccountReplenishmentDialog.setTitle(R.string.account_replenishment_dialog_title);
         //dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
@@ -94,7 +96,7 @@ public class AuthenticateBaseActivity extends AppCompatActivity {
         }
     }
 
-    private OnHttpCodeResultExposed onAccountReplenishmentDialogResultExposed= (isOkCode, responceData) -> runOnUiThread(() -> {
+    private final OnHttpCodeResultExposed onAccountReplenishmentDialogResultExposed= (isOkCode, responceData) -> runOnUiThread(() -> {
         Intent intent = new Intent(AuthenticateBaseActivity.this, AccountReplenishmentActivity.class);
         startActivity(intent);
     });

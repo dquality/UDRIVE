@@ -20,7 +20,6 @@ public final class Const {
     public static final String AMOUNT_FORMAT = "%1$,.2f";
 
 
-    public static final String SELECTED_MAIN_FRAGMENT_KEY = "MainFragmentIndex";
     public static final String URL_QUESTION_ANSWER = "https://www.uber.com/en-UA/drive/resources/educational-materials/";
 
     public static final String GEO_UNKNOWN_PREFIX = "geo:0,0?q=";

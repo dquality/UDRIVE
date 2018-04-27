@@ -34,7 +34,7 @@ public class MainActivity extends AuthenticateBaseActivity {
 
     private AppCompatButton mStatus;
 
-    private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener
+    private final BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
@@ -62,7 +62,7 @@ public class MainActivity extends AuthenticateBaseActivity {
         }
     };
 
-    private View.OnClickListener onStatusClickListener = new View.OnClickListener() {
+    private final View.OnClickListener onStatusClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v){
             if(!mViewModelData.getLiveDataModel().getValue().IsActive){

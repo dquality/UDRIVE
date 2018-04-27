@@ -17,19 +17,19 @@ import ua.com.dquality.udrive.R;
 import ua.com.dquality.udrive.viewmodels.models.StatusLevel;
 
 public class CircleStatusDrawable extends Drawable {
-    private StatusLevel mStatusLevel;
-    private int mPercentage;
-    private int mColorCircleCenterStart;
-    private int mColorCircleCenterEnd;
+    private final StatusLevel mStatusLevel;
+    private final int mPercentage;
+    private final int mColorCircleCenterStart;
+    private final int mColorCircleCenterEnd;
 
-    private int mColorGoldStart;
-    private int mColorGoldEnd;
+    private final int mColorGoldStart;
+    private final int mColorGoldEnd;
 
-    private int mColorPlatinumStart;
-    private int mColorPlatinumEnd;
+    private final int mColorPlatinumStart;
+    private final int mColorPlatinumEnd;
 
-    private int mColorGoldDefault;
-    private int mColorPlatinumDefault;
+    private final int mColorGoldDefault;
+    private final int mColorPlatinumDefault;
 
     public CircleStatusDrawable(Context ctx, StatusLevel level, int percentage) {
         mStatusLevel = level == null ? StatusLevel.Undefined : level;

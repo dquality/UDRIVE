@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
         AuthenticateBaseActivity.SetLogo(this);
     }
 
-    private View.OnClickListener loginClickListener = new View.OnClickListener() {
+    private final View.OnClickListener loginClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             if(!mGetCodeExecuted)
@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     };
 
-    private OnHttpCodeResultExposed onPhoneResultExposed = (isOkCode, data) -> {
+    private final OnHttpCodeResultExposed onPhoneResultExposed = (isOkCode, data) -> {
         runOnUiThread(() -> {
             if (isOkCode) {
                 mGetCodeExecuted = true;
@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     };
 
-    private OnHttpCodeResultExposed onCodeResultExposed = (isOkCode, data) -> {
+    private final OnHttpCodeResultExposed onCodeResultExposed = (isOkCode, data) -> {
         runOnUiThread(() -> {
             if (isOkCode) {
                 String accessToken = UDriveApplication.getHttpDataProvider().mAccessToken;
@@ -103,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
         phoneTextWatcher.onTextChanged(phoneText,0, 0, phoneText.length());
     }
 
-    private  TextWatcher codeTextWatcher = new TextWatcher() {
+    private final TextWatcher codeTextWatcher = new TextWatcher() {
         @Override
         public void afterTextChanged(Editable s) {}
 
@@ -132,7 +132,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     };
 
-    private  TextWatcher phoneTextWatcher = new TextWatcher() {
+    private final TextWatcher phoneTextWatcher = new TextWatcher() {
         @Override
         public void afterTextChanged(Editable s) {}
 

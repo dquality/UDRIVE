@@ -42,7 +42,7 @@ public class OtherFragment extends HomeBaseFragment {
     public OtherFragment() {
     }
 
-    private NavigationView.OnNavigationItemSelectedListener onDrawerNavigationItemSelectedListener
+    private final NavigationView.OnNavigationItemSelectedListener onDrawerNavigationItemSelectedListener
             = new NavigationView.OnNavigationItemSelectedListener() {
 
         @Override
@@ -100,7 +100,7 @@ public class OtherFragment extends HomeBaseFragment {
         mHeaderAccountStatus = headerView.findViewById(R.id.header_account_status);
         mLevelImageView = headerView.findViewById(R.id.header_account_status_image);
 
-        onCreateViewBase(parentView);
+        onCreateViewBase();
 
         DriverInfoViewModel mDriverViewModelData = ViewModelProviders.of(getActivity()).get(DriverInfoViewModel.class);
 

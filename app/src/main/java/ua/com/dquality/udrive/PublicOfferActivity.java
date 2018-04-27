@@ -35,7 +35,7 @@ public class PublicOfferActivity extends AuthenticateBaseActivity {
         AuthenticateBaseActivity.SetLogo(this);
     }
 
-    private OnHttpCodeResultExposed onHttpCodeResultExposed= new OnHttpCodeResultExposed(){
+    private final OnHttpCodeResultExposed onHttpCodeResultExposed= new OnHttpCodeResultExposed(){
 
         @Override
         public void onResultExposed(Boolean isOkCode, Object data) {
