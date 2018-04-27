@@ -55,4 +55,9 @@
     <string name="account_description">Account</string>
     <string name="status_description">Status</string>
     <string name="call_title">Позвонить</string>
+    <string name="telegram_title">Telegram</string>
+    <string name="viber_title">Viber</string>
+    <string name="facebook_title">Facebook</string>
+    <string name="info_messanger_title">Выбирите удобный для вас мессенджер, для общения со службой поддержки:</string>
+    <string name="info_phones_title">Телефоны круглосуточной техподдержки водителей UBERDRIVE:</string>
 </resources>

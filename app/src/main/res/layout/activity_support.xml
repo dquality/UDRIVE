@@ -1,33 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="ua.com.dquality.udrive.SupportActivity">
+<android.support.constraint.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/activity_horizontal_margin">
     <TextView
         android:id="@+id/info_messanger_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_marginLeft="@dimen/nav_header_vertical_spacing"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-        android:text="Выбирите удобный для вас мессенджер, для общения со службой поддержки: "
-        android:layout_marginStart="@dimen/nav_header_vertical_spacing" />
+        android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+        android:text="@string/info_messanger_title"/>
 
     <ImageView
         android:id="@+id/info_telegram_mess"
         android:layout_marginRight="@dimen/element_vertical_margin"
+        android:layout_marginEnd="@dimen/element_vertical_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_width="@dimen/dim_56_dp"
         android:layout_height="@dimen/dim_56_dp"
         app:layout_constraintRight_toLeftOf="@+id/info_viber_mess"
         app:layout_constraintTop_toBottomOf="@+id/info_messanger_title"
         app:srcCompat="@drawable/ic_telegram_big_icon"
-        android:layout_marginEnd="@dimen/element_vertical_margin"
-        android:contentDescription="TODO" />
+        android:contentDescription="@string/telegram_title" />
 
     <ImageView
         android:id="@+id/info_viber_mess"
@@ -38,31 +40,30 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/info_messanger_title"
         app:srcCompat="@drawable/ic_viber_big_icon"
-        android:contentDescription="TODO" />
+        android:contentDescription="@string/viber_title" />
 
     <ImageView
         android:id="@+id/info_facebook_mess"
         android:layout_marginLeft="@dimen/element_vertical_margin"
+        android:layout_marginStart="@dimen/element_vertical_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_width="@dimen/dim_56_dp"
         android:layout_height="@dimen/dim_56_dp"
         app:layout_constraintLeft_toRightOf="@+id/info_viber_mess"
         app:layout_constraintTop_toBottomOf="@+id/info_messanger_title"
-        app:srcCompat="@drawable/ic_messanger_big_icon"
-        android:layout_marginStart="@dimen/element_vertical_margin"
-        android:contentDescription="TODO" />
+        app:srcCompat="@drawable/ic_messenger_big_icon"
+        android:contentDescription="@string/facebook_title" />
 
     <TextView
         android:id="@+id/info_phones_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dim_64_dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/info_viber_mess"
-        android:layout_marginLeft="@dimen/nav_header_vertical_spacing"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-        android:text="Телефоны круглосуточной техподдержки водителей UBERDRIVE: "
-        android:layout_marginStart="@dimen/nav_header_vertical_spacing" />
+        app:layout_constraintTop_toBottomOf="@+id/info_viber_mess"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+        android:text="@string/info_phones_title"
+         />
 
     <TextView
         android:id="@+id/info_phone1_title"
@@ -155,3 +156,4 @@
         android:text="@string/call_title"/>
 
 </android.support.constraint.ConstraintLayout>
+</ScrollView>

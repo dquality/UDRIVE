@@ -1,9 +1,11 @@
 package ua.com.dquality.udrive.data;
 
+import android.app.Application;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentActivity;
 import android.webkit.WebView;
@@ -39,6 +41,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.SimpleTimeZone;
 
 import javax.net.ssl.HostnameVerifier;
@@ -56,6 +59,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Response;
 
 import ua.com.dquality.udrive.R;
+import ua.com.dquality.udrive.UDriveApplication;
 import ua.com.dquality.udrive.constants.Const;
 import ua.com.dquality.udrive.fragments.dialogs.DateRangePickerFragment;
 import ua.com.dquality.udrive.helpers.SharedPreferencesManager;
@@ -81,19 +85,19 @@ import ua.com.dquality.udrive.viewmodels.models.UDriveInfoAddressModel;
 import ua.com.dquality.udrive.viewmodels.models.UDriveInfoModel;
 
 public class HttpDataProvider {
-    private static int HTTP_OK_CODE = 200;
-    private static int HTTP_UNAUTHORIZED_CODE = 401;
+    private static final int HTTP_OK_CODE = 200;
+    private static final int HTTP_UNAUTHORIZED_CODE = 401;
 
-    private Context mApplicationContext;
+    private final Context mApplicationContext;
     private OkHttpClient mOkHttpClient;
     private DataModels mDataModels;
     private List<Cookie> mCookies;
     private AccountReplenishmentModel mAccountReplenishmentModel;
 
     public String mAccessToken;
-    public String mUserName;
+    private String mUserName;
 
-    public HttpDataProvider(Context applicationContext) {
+    public HttpDataProvider(Application applicationContext) {
         this.mApplicationContext = applicationContext;
         initNetworkClient();
 
@@ -120,11 +124,11 @@ public class HttpDataProvider {
                 final TrustManager[] trustAllCerts = new TrustManager[]{
                         new X509TrustManager() {
                             @Override
-                            public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
+                            public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) {
                             }
 
                             @Override
-                            public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
+                            public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) {
                             }
 
                             @Override
@@ -140,12 +144,9 @@ public class HttpDataProvider {
                 // Create an ssl socket factory with our all-trusting manager
                 final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
 
-                HostnameVerifier verifier = new HostnameVerifier() {
-                    @Override
-                    public boolean verify(String hostname, SSLSession session) {
-                        HostnameVerifier hv = HttpsURLConnection.getDefaultHostnameVerifier();
-                        return hv.verify(hostname, session);
-                    }
+                HostnameVerifier verifier = (hostname, session) -> {
+                    HostnameVerifier hv = HttpsURLConnection.getDefaultHostnameVerifier();
+                    return hv.verify(hostname, session);
                 };
 
                 mOkHttpClient = new OkHttpClient().newBuilder()
@@ -154,11 +155,11 @@ public class HttpDataProvider {
                         .hostnameVerifier(verifier)
                         .cookieJar(new CookieJar() {
                             @Override
-                            public List<Cookie> loadForRequest(HttpUrl url) {
+                            public List<Cookie> loadForRequest(@NonNull HttpUrl url) {
                                 return mCookies;
                             }
                             @Override
-                            public void saveFromResponse(HttpUrl url, List<Cookie> cookies){
+                            public void saveFromResponse(@NonNull HttpUrl url, @NonNull List<Cookie> cookies){
                                 List<Cookie> toAdd= new ArrayList<>();
                                 for (int i = 0; i < cookies.size(); i++) {
                                     Cookie cookie = cookies.get(i);
@@ -195,9 +196,7 @@ public class HttpDataProvider {
     }
 
     public void changePeriod(CalendarDay fromDay, CalendarDay toDay, ProfitStatementViewModel viewModel) {
-        new Thread(() -> {
-            refreshProfitStatementViewModelData(fromDay, toDay, viewModel);
-        }).start();
+        new Thread(() -> refreshProfitStatementViewModelData(fromDay, toDay, viewModel)).start();
     }
 
     public void refreshAllData(FragmentActivity fragmentActivity, OnRefreshHideListener onRefreshHideListener){
@@ -228,7 +227,7 @@ public class HttpDataProvider {
         ANResponse response = request.executeForOkHttpResponse();
         if(validateResponse(response)){
             try {
-                mDataModels.ActiveData.StatusName = response.getOkHttpResponse().body().string();
+                mDataModels.ActiveData.StatusName = Objects.requireNonNull(response.getOkHttpResponse().body()).string();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -250,7 +249,7 @@ public class HttpDataProvider {
         ANResponse response = request.executeForOkHttpResponse();
         if(validateResponse(response)){
             try {
-                String resp = response.getOkHttpResponse().body().string();
+                String resp = Objects.requireNonNull(response.getOkHttpResponse().body()).string();
                 if(!resp.isEmpty()){
                     mDataModels.HomeData.BalanceAmount = Double.valueOf(resp);
                 }
@@ -262,10 +261,10 @@ public class HttpDataProvider {
 
         request = createGetRequest("https://backend.uberdrive.com.ua/Mobile/Api/GetHomeData", "Home");
 
-        ANResponse<JSONObject> response2 = request.executeForJSONObject();
+        ANResponse response2 = request.executeForJSONObject();
         if(validateResponse(response2)){
             try {
-                JSONObject obj = response2.getResult();
+                JSONObject obj = (JSONObject)response2.getResult();
                 mDataModels.HomeData.Level = StatusLevel.valueOf(obj.getJSONObject("level").getString("levelName"));
                 mDataModels.HomeData.NextMonthLevel = StatusLevel.valueOf(obj.getJSONObject("nextLevel").getString("levelName"));
                 mDataModels.HomeData.NextLevelPercentage = (int) (obj.getDouble("nextLevelPercentage") * 100);
@@ -290,10 +289,10 @@ public class HttpDataProvider {
 
         ANRequest request = createGetRequest("https://backend.uberdrive.com.ua/Mobile/Api/GetDriverProfitHistory", "ProfitHistory");
 
-        ANResponse<JSONArray> response = request.executeForJSONArray();
+        ANResponse response = request.executeForJSONArray();
         if(validateResponse(response)){
             try {
-                JSONArray arrayObj = response.getResult();
+                JSONArray arrayObj = (JSONArray)response.getResult();
                 for (int groupIndex = 0 ; groupIndex < arrayObj.length(); groupIndex++ ) {
                     JSONObject groupEl = (JSONObject) arrayObj.get(groupIndex);
 
@@ -341,15 +340,15 @@ public class HttpDataProvider {
         mDataModels.StatementFromDay = fromDay;
         mDataModels.StatementToDay = toDay;
 
-        Map<String,String> params = new HashMap<String,String>();
-        params.put("from", new SimpleDateFormat(Const.PARSE_DATE_FORMAT, new Locale(Const.CULTURE)).format(fromDay.getDate()));
+        Map<String,String> params = new HashMap<>();
+        params.put("from", new SimpleDateFormat(Const.PARSE_DATE_FORMAT, new Locale(Const.CULTURE)).format(Objects.requireNonNull(fromDay).getDate()));
 
         ANRequest request = createGetRequest("https://backend.uberdrive.com.ua/Mobile/Api/GetDriverProfitStatement","ProfitStatement", params);
 
-        ANResponse<JSONArray> response = request.executeForJSONArray();
+        ANResponse response = request.executeForJSONArray();
         if(validateResponse(response)){
             try {
-                JSONArray arrayObj = response.getResult();
+                JSONArray arrayObj = (JSONArray)response.getResult();
                 for (int groupIndex = 0 ; groupIndex < arrayObj.length(); groupIndex++ ) {
                     JSONObject groupEl = (JSONObject) arrayObj.get(groupIndex);
                     String name = groupEl.getString("name");
@@ -357,7 +356,7 @@ public class HttpDataProvider {
                     ProfitStatementGroupType type = ProfitStatementGroupType.getValue(groupEl.getInt("type"));
 
                     List<ProfitStatementItemModel> profitStatementItems = new ArrayList<>();
-                    if(groupEl.has("items") && groupEl.getString("items") != "null") {
+                    if(groupEl.has("items") && !groupEl.getString("items").equals("null")) {
 
                         JSONArray items = groupEl.getJSONArray("items");
 
@@ -392,10 +391,10 @@ public class HttpDataProvider {
 
         ANRequest request = createGetRequest("https://backend.uberdrive.com.ua/Mobile/Api/GetDriverDetails", "Home");
 
-        ANResponse<JSONObject> response = request.executeForJSONObject();
+        ANResponse response = request.executeForJSONObject();
         if(validateResponse(response)){
             try {
-                JSONObject obj = response.getResult();
+                JSONObject obj = (JSONObject)response.getResult();
                 mDataModels.DriverInfoData.Name = obj.getString("name");
 
                 mDataModels.DriverInfoData.Email = obj.getString("masterEmail");
@@ -433,10 +432,10 @@ public class HttpDataProvider {
 
         ANRequest request = createGetRequest("https://backend.uberdrive.com.ua/Mobile/Api/GetPartnerContactInfo", "ContactInfo");
 
-        ANResponse<JSONObject> response = request.executeForJSONObject();
+        ANResponse response = request.executeForJSONObject();
         if(validateResponse(response)){
             try {
-                JSONObject obj = response.getResult();
+                JSONObject obj = (JSONObject)response.getResult();
                 JSONArray phones = obj.getJSONArray("phones");
                 JSONArray emails = obj.getJSONArray("emails");
                 JSONArray messengers = obj.getJSONArray("messengers");
@@ -487,7 +486,7 @@ public class HttpDataProvider {
 
     public void tryRedirectToAccountReplenishment(Double amount, OnHttpCodeResultExposed onHttpCodeResultExposed){
 
-        Map<String,String> params = new HashMap<String,String>();
+        Map<String,String> params = new HashMap<>();
         params.put("amount", amount.toString());
 
         ANRequest request = createGetRequest("https://backend.uberdrive.com.ua/Mobile/Api/AccountReplenishment",
@@ -521,7 +520,7 @@ public class HttpDataProvider {
                 else{
                     String msg = null;
                     try {
-                        msg = okHttpResponse.body().string();
+                        msg = Objects.requireNonNull(okHttpResponse.body()).string();
                     } catch (IOException e) {
                         e.printStackTrace();
                         HttpDataProvider.this.showUIMessage(mApplicationContext.getString(R.string.try_process_account_replenishment_error_message));
@@ -544,7 +543,7 @@ public class HttpDataProvider {
         ANRequest request = createGetRequest("https://backend.uberdrive.com.ua/Mobile/Api/GetDriverPublicOffer", "PublicOffer");
 
         new Thread(() -> {
-            ANResponse<JSONObject> response = request.executeForJSONObject();
+            ANResponse response = request.executeForJSONObject();
             if(validateResponse(response)) {
                 onHttpCodeResultExposed.onResultExposed(true, response.getResult());
             }
@@ -580,7 +579,7 @@ public class HttpDataProvider {
             public void onResponse(Response okHttpResponse) {
                 String msg = null;
                 try {
-                    msg = okHttpResponse.body().string();
+                    msg = Objects.requireNonNull(okHttpResponse.body()).string();
                 } catch (IOException e) {
                     e.printStackTrace();
                     HttpDataProvider.this.showUIMessage(mApplicationContext.getString(R.string.login_error_message));
@@ -639,7 +638,7 @@ public class HttpDataProvider {
                 else{
                     String msg = null;
                     try {
-                        msg = okHttpResponse.body().string();
+                        msg = Objects.requireNonNull(okHttpResponse.body()).string();
                     } catch (IOException e) {
                         e.printStackTrace();
                         HttpDataProvider.this.showUIMessage(mApplicationContext.getString(R.string.login_error_message));
@@ -710,7 +709,7 @@ public class HttpDataProvider {
     }
 
     private Date parseDate(String val){
-        SimpleDateFormat dateFormat = new SimpleDateFormat(Const.PARSE_DATE_FORMAT);
+        SimpleDateFormat dateFormat = new SimpleDateFormat(Const.PARSE_DATE_FORMAT, new Locale(Const.CULTURE));
         try {
             return dateFormat.parse(val);
         } catch (ParseException e) {
