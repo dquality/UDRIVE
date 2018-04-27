@@ -27,7 +27,7 @@
         <item name="android:windowAnimationStyle">@style/PopupAnimationStyle</item>
     </style>
 
-    <style name="NotActiveStatusPopupStyle" parent="@style/ThemeOverlay.AppCompat.Dialog">
+    <style name="NotActiveStatusPopupStyle" parent="ThemeOverlay.AppCompat.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsTranslucent">false</item>
         <item name="android:windowBackground">@android:color/transparent</item>

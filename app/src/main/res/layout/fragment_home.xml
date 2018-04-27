@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom"
-        sld:panelHeight="?attr/actionBarSize"
+        sld:panelHeight="?android:attr/actionBarSize"
         sld:shadowHeight="@dimen/dim_4_dp"
         sld:parallaxOffset="100dp"
         sld:overlay="true"
@@ -257,7 +257,7 @@
             <ImageView
                 android:id="@+id/name"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="?android:attr/actionBarSize"
                 android:tint="@color/colorCircleGoldDefault"
                 android:gravity="top|center_horizontal"
                 android:scaleType="center"
