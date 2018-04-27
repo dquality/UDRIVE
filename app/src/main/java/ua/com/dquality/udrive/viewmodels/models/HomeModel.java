@@ -30,7 +30,7 @@ public class HomeModel {
     private String Barcode;
 
     public void setBarcode(String barCode, Context appContext){
-        if(barCode == Barcode)
+        if(barCode.equals(Barcode))
             return;
 
         Barcode = barCode;

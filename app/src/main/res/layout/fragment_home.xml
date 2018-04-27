@@ -1,5 +1,4 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -116,7 +115,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="end"
-                            android:text="-"
+                            android:text="@string/empty_dash"
                             android:textAllCaps="true"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
                             android:textStyle="bold"
@@ -142,7 +141,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="end"
-                            android:text="-"
+                            android:text="@string/empty_dash"
                             android:textAllCaps="true"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
                             android:textStyle="bold"
@@ -167,7 +166,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="end"
-                            android:text="-"
+                            android:text="@string/empty_dash"
                             android:textAllCaps="true"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
                             android:textStyle="bold"
@@ -240,7 +239,7 @@
                             sld:layout_constraintLeft_toRightOf="@id/balance_title"
                             sld:layout_constraintStart_toEndOf="@id/balance_title"
                             sld:layout_constraintTop_toBottomOf="@id/balance_title"
-                            android:text="-"/>
+                            android:text="@string/empty_dash"/>
 
         </android.support.constraint.ConstraintLayout>
                 </ScrollView>

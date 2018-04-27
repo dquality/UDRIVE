@@ -15,7 +15,6 @@ import ua.com.dquality.udrive.adapters.ProfitPageAdapter;
 public class ProfitFragment extends Fragment {
 
     private ViewPager mProfitViewPager;
-    private ProfitPageAdapter mProfitPagerAdapter;
     private AppCompatButton mProfitHistoryButton;
     private AppCompatButton mProfitStatementButton;
 
@@ -29,7 +28,7 @@ public class ProfitFragment extends Fragment {
         // Inflate the layout for this fragment
         View ret = inflater.inflate(R.layout.fragment_profit, container, false);
 
-        mProfitPagerAdapter = new ProfitPageAdapter(getFragmentManager());
+        ProfitPageAdapter mProfitPagerAdapter = new ProfitPageAdapter(getFragmentManager());
 
         mProfitViewPager = ret.findViewById(R.id.profit_view_pager);
         mProfitViewPager.setAdapter(mProfitPagerAdapter);

@@ -1,11 +1,9 @@
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        tools:context="ua.com.dquality.udrive.fragments.ProfitFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="ua.com.dquality.udrive.fragments.ProfitFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -18,6 +16,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/element_vertical_margin"
                 android:layout_marginLeft="@dimen/activity_vertical_margin"
+                android:layout_marginStart="@dimen/activity_vertical_margin"
                 android:padding="@dimen/corner_radius"
                 android:text="@string/profit_history_button_title"
                 android:textAllCaps="true"
@@ -33,6 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/element_vertical_margin"
                 android:layout_marginRight="@dimen/activity_vertical_margin"
+                android:layout_marginEnd="@dimen/activity_vertical_margin"
                 android:padding="@dimen/corner_radius"
                 android:text="@string/profit_statement_button_title"
                 android:textAllCaps="true"

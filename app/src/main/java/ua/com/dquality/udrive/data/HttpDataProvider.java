@@ -88,7 +88,7 @@ public class HttpDataProvider {
     private static final int HTTP_OK_CODE = 200;
     private static final int HTTP_UNAUTHORIZED_CODE = 401;
 
-    private final Context mApplicationContext;
+    private final Application mApplicationContext;
     private OkHttpClient mOkHttpClient;
     private DataModels mDataModels;
     private List<Cookie> mCookies;
@@ -467,9 +467,9 @@ public class HttpDataProvider {
                 }
 
                 for (int itemIndex = 0; itemIndex < addresses.length(); itemIndex++) {
-                    JSONObject addresseObj = addresses.getJSONObject(itemIndex);
-                    String cityName = addresseObj.getString("cityName");
-                    String address = addresseObj.getString("address");
+                    JSONObject addressObj = addresses.getJSONObject(itemIndex);
+                    String cityName = addressObj.getString("cityName");
+                    String address = addressObj.getString("address");
                     mDataModels.UDriveInfoData.Addresses.add(new UDriveInfoAddressModel(cityName, address));
                 }
 

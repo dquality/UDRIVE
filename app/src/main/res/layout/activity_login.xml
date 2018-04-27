@@ -28,7 +28,7 @@
                 android:theme="@style/CustomEditTextStyle"
                 android:textColor="@color/colorPrimaryLight"
                 android:textColorHint="@color/colorPrimaryLight"
-                android:hint="Телефон"/>
+                android:hint="@string/phone_hint"/>
         </android.support.design.widget.TextInputLayout>
 
         <!-- Password Label -->
@@ -47,7 +47,7 @@
                 android:theme="@style/CustomEditTextStyle"
                 android:textColor="@color/colorPrimaryLight"
                 android:textColorHint="@color/colorPrimaryLight"
-                android:hint="Код"/>
+                android:hint="@string/code_hint"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.AppCompatButton

@@ -7,10 +7,11 @@
     <TextView
         android:id="@+id/group_name"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-        android:gravity="left|start|center_vertical"
+        android:gravity="start|center_vertical"
         android:textColor="@color/colorPlatinumMiddle"/>
     <TextView
         android:id="@+id/group_amount"
@@ -18,5 +19,5 @@
         android:layout_height="wrap_content"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
         android:layout_gravity="end"
-        android:gravity="right|end|center_vertical"/>
+        android:gravity="end|center_vertical"/>
 </LinearLayout>

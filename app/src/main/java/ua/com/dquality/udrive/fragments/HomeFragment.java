@@ -1,15 +1,12 @@
 package ua.com.dquality.udrive.fragments;
 
 import android.app.Dialog;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatButton;
@@ -23,7 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import ua.com.dquality.udrive.AuthenticateBaseActivity;
-import ua.com.dquality.udrive.MainActivity;
 import ua.com.dquality.udrive.R;
 
 import android.util.Log;
@@ -32,7 +28,6 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -46,7 +41,6 @@ import ua.com.dquality.udrive.interfaces.OnRefreshHideListener;
 import ua.com.dquality.udrive.sliding.SlidingUpPanelLayout;
 import ua.com.dquality.udrive.sliding.SlidingUpPanelLayout.PanelSlideListener;
 import ua.com.dquality.udrive.sliding.SlidingUpPanelLayout.PanelState;
-import ua.com.dquality.udrive.viewmodels.HomeViewModel;
 import ua.com.dquality.udrive.viewmodels.models.HomeModel;
 import ua.com.dquality.udrive.viewmodels.models.StatusLevel;
 
@@ -55,7 +49,6 @@ import static ua.com.dquality.udrive.viewmodels.models.StatusLevel.Platinum;
 
 
 public class HomeFragment extends HomeBaseFragment implements OnRefreshHideListener {
-    private View mParentView;
 
     private SlidingUpPanelLayout mLayout;
     private  RelativeLayout cardHolderState;
@@ -87,7 +80,7 @@ public class HomeFragment extends HomeBaseFragment implements OnRefreshHideListe
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        mParentView = inflater.inflate(R.layout.fragment_home, container, false);
+        View mParentView = inflater.inflate(R.layout.fragment_home, container, false);
 
         mLayout = mParentView.findViewById(R.id.sliding_layout);
 
@@ -102,12 +95,7 @@ public class HomeFragment extends HomeBaseFragment implements OnRefreshHideListe
                 Log.i("DemoActivity", "onPanelStateChanged " + newState);
             }
         });
-        mLayout.setFadeOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mLayout.setPanelState(PanelState.COLLAPSED);
-            }
-        });
+        mLayout.setFadeOnClickListener(view -> mLayout.setPanelState(PanelState.COLLAPSED));
 
 
         cardHolderState =  mParentView.findViewById(R.id.card_holder_state);
@@ -134,12 +122,7 @@ public class HomeFragment extends HomeBaseFragment implements OnRefreshHideListe
         mBalanceAmount = mParentView.findViewById(R.id.balance_amount);
 
         AppCompatButton accrualButton =  mParentView.findViewById(R.id.accrual_button);
-        accrualButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((AuthenticateBaseActivity)getActivity()).showAccountReplenishmentDialog();
-            }
-        });
+        accrualButton.setOnClickListener(v -> ((AuthenticateBaseActivity)getActivity()).showAccountReplenishmentDialog());
 
         mRefreshMainSwipe = mParentView.findViewById(R.id.refresh_main_swipe);
 
@@ -183,7 +166,7 @@ public class HomeFragment extends HomeBaseFragment implements OnRefreshHideListe
         }
     }
 
-    public void updateCardHolderState(){
+    private void updateCardHolderState(){
         StatusLevel lvl  = mViewModelData.getCurrentLevel();
 
         cardHolderState.setBackgroundResource(getStatusLevelDrawable(lvl));
@@ -194,18 +177,18 @@ public class HomeFragment extends HomeBaseFragment implements OnRefreshHideListe
         if(mCardCodeNumber != null){
             String barCode = getDataModel().getBarcode();
             if(barCode != null && !barCode.isEmpty()){
-                String formattedBarcode = "";
+                StringBuilder formattedBarcode = new StringBuilder();
                 char[] charArray = barCode.toCharArray();
                 for (int i=0; i< charArray.length; i++) {
                     if(i == 7){
-                        formattedBarcode+= "    ";
+                        formattedBarcode.append("    ");
                     }
                     if(i == 1){
-                        formattedBarcode+= " ";
+                        formattedBarcode.append(" ");
                     }
-                    formattedBarcode+= String.valueOf(charArray[i]);
+                    formattedBarcode.append(String.valueOf(charArray[i]));
                 }
-                mCardCodeNumber.setText(formattedBarcode);
+                mCardCodeNumber.setText(formattedBarcode.toString());
             }
         }
         if(mCardMonthText != null){
@@ -249,7 +232,7 @@ public class HomeFragment extends HomeBaseFragment implements OnRefreshHideListe
         }
     };
 
-    public void updateCircleState(){
+    private void updateCircleState(){
 
         if(mCircleState != null){
 
@@ -264,7 +247,9 @@ public class HomeFragment extends HomeBaseFragment implements OnRefreshHideListe
 
             int[] textSizeAttr = {android.R.attr.textSize};
             TypedArray headLineTextAppStyle = getContext().obtainStyledAttributes(R.style.TextAppearance_AppCompat_Headline, textSizeAttr);
+            headLineTextAppStyle.recycle();
             TypedArray titleTextAppStyle = getContext().obtainStyledAttributes(R.style.TextAppearance_AppCompat_Medium, textSizeAttr);
+            titleTextAppStyle.recycle();
 
             String ucVals = String.valueOf(ucoins);
             SpannableString spanVal = new SpannableString(ucVals);
@@ -280,7 +265,7 @@ public class HomeFragment extends HomeBaseFragment implements OnRefreshHideListe
         }
     }
 
-    public void updateTripTitleAndCounterStats(){
+    private void updateTripTitleAndCounterStats(){
 
         setPrevMonthTripTitle();
 
@@ -344,7 +329,7 @@ public class HomeFragment extends HomeBaseFragment implements OnRefreshHideListe
         }
     }
 
-    public void updateBalance(){
+    private void updateBalance(){
 
         setBalanceAmount();
     }
@@ -356,11 +341,6 @@ public class HomeFragment extends HomeBaseFragment implements OnRefreshHideListe
             mBalanceAmount.setTextColor(ContextCompat.getColor(ctx, balanceAmount < 0 ? R.color.colorError : R.color.colorAccent));
             mBalanceAmount.setText(String.format(Const.AMOUNT_FORMAT, balanceAmount));
         }
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -379,11 +359,7 @@ public class HomeFragment extends HomeBaseFragment implements OnRefreshHideListe
 
     @Override
     public void onRefreshHide() {
-        mRefreshMainSwipe.postDelayed(new Runnable() {
-            public void run() {
-                mRefreshMainSwipe.setRefreshing(false);
-            }
-        }, 0);
+        mRefreshMainSwipe.postDelayed(() -> mRefreshMainSwipe.setRefreshing(false), 0);
     }
 }
 

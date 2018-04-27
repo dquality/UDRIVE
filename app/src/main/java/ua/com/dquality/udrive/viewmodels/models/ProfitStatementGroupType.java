@@ -6,10 +6,9 @@ public enum ProfitStatementGroupType {
     public static ProfitStatementGroupType getValue(int val)
     {
         ProfitStatementGroupType[] values = ProfitStatementGroupType.values();
-        for(int i = 0; i < values.length; i++)
-        {
-            if(values[i].ordinal() == val)
-                return values[i];
+        for (ProfitStatementGroupType value : values) {
+            if (value.ordinal() == val)
+                return value;
         }
         return ProfitStatementGroupType.Header1;
     }

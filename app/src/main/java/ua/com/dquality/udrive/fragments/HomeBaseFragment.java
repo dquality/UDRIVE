@@ -13,26 +13,26 @@ import ua.com.dquality.udrive.viewmodels.models.StatusLevel;
 
 public class HomeBaseFragment extends Fragment {
 
-    protected HomeViewModel mViewModelData;
+    HomeViewModel mViewModelData;
 
     public HomeBaseFragment() {
     }
 
-    protected void onCreateViewBase(View parentView){
+    void onCreateViewBase(View parentView){
         mViewModelData = ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
 
         mViewModelData.getLiveDataModel().observe(this, homeModel -> onChangeHomeData(homeModel));
     }
 
-    protected HomeModel getDataModel(){
+    HomeModel getDataModel(){
         return mViewModelData.getLiveDataModel().getValue();
     }
 
-    protected void onChangeHomeData(HomeModel hModel){
+    void onChangeHomeData(HomeModel hModel){
 
     }
 
-    protected String getStatusLevel(StatusLevel lvl) {
+    String getStatusLevel(StatusLevel lvl) {
         switch (lvl) {
             case Classic:
                 return getString(R.string.title_status_classic);
@@ -45,7 +45,7 @@ public class HomeBaseFragment extends Fragment {
         }
     }
 
-    protected int getStatusLevelColor(StatusLevel lvl){
+    int getStatusLevelColor(StatusLevel lvl){
         Context ctx  = getContext();
         switch (lvl){
             case Classic:

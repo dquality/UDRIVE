@@ -45,11 +45,9 @@ public class DateRangePickerFragment extends DialogFragment {
 
         AlertDialog dialog = new AlertDialog.Builder(activity)
                 .setPositiveButton(R.string.OK,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                if(mDateRangeSetListener !=null)
-                                    mDateRangeSetListener.onDateRangeSet(mCalendarView, mStartDate, mEndDate);
-                            }
+                        (dialog1, whichButton) -> {
+                            if(mDateRangeSetListener !=null)
+                                mDateRangeSetListener.onDateRangeSet(mCalendarView, mStartDate, mEndDate);
                         }
                 )
                 .setNegativeButton(R.string.Cancel, null)
@@ -72,17 +70,14 @@ public class DateRangePickerFragment extends DialogFragment {
         mCalendarView.selectRange(mStartDate, mEndDate);
 
 
-        mCalendarView.setOnDateChangedListener(new OnDateSelectedListener() {
-            @Override
-            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+        mCalendarView.setOnDateChangedListener((widget, date, selected) -> {
 
-                CalendarDay[] ret = calculateStartEndWeekDate(date, mCalendar);
-                mStartDate = ret[0];
-                mEndDate = ret[1];
-                widget.clearSelection();
-                if(selected){
-                    widget.selectRange(mStartDate, mEndDate);
-                }
+            CalendarDay[] ret = calculateStartEndWeekDate(date, mCalendar);
+            mStartDate = ret[0];
+            mEndDate = ret[1];
+            widget.clearSelection();
+            if(selected){
+                widget.selectRange(mStartDate, mEndDate);
             }
         });
 

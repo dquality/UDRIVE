@@ -17,7 +17,6 @@ import ua.com.dquality.udrive.viewmodels.models.StatusLevel;
 
 public class AccountInfoActivity extends AuthenticateBaseActivity {
     private HomeViewModel mHomeViewModelData;
-    private DriverInfoViewModel mDriverViewModelData;
 
     private TextView mInfoAccountStatus;
     private ImageView mLevelImageView;
@@ -55,7 +54,7 @@ public class AccountInfoActivity extends AuthenticateBaseActivity {
 
         mHomeViewModelData.getLiveDataModel().observe(this, homeModel -> onChangeHomeData(homeModel));
 
-        mDriverViewModelData = ViewModelProviders.of(this).get(DriverInfoViewModel.class);
+        DriverInfoViewModel mDriverViewModelData = ViewModelProviders.of(this).get(DriverInfoViewModel.class);
 
         mDriverViewModelData.getLiveDataModel().observe(this, driverInfoModel -> onChangeDriverData(driverInfoModel));
 
@@ -132,15 +131,15 @@ public class AccountInfoActivity extends AuthenticateBaseActivity {
         }
 
         if(mInfoBankCard != null){
-            String formattedNumber = "";
+            StringBuilder formattedNumber = new StringBuilder();
             char[] charArray = dModel.BankCardNumber.toCharArray();
             for (int i=0; i< charArray.length; i++) {
                 if((i % 4) == 0){
-                    formattedNumber+= " ";
+                    formattedNumber.append(" ");
                 }
-                formattedNumber+= String.valueOf(charArray[i]);
+                formattedNumber.append(String.valueOf(charArray[i]));
             }
-            mInfoBankCard.setText(formattedNumber);
+            mInfoBankCard.setText(formattedNumber.toString());
         }
     }
 }

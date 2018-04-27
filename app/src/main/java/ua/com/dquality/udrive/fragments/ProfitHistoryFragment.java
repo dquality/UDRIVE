@@ -22,7 +22,6 @@ import ua.com.dquality.udrive.viewmodels.ProfitHistoryViewModel;
  */
 public class ProfitHistoryFragment extends Fragment {
 
-    private ProfitHistoryViewModel mViewModelData;
     private ExpandableProfitHistoryAdapter mExpandableListAdapter;
     private ExpandableListView mExpandableListView;
 
@@ -39,19 +38,16 @@ public class ProfitHistoryFragment extends Fragment {
         mExpandableListView = ret.findViewById(R.id.profit_history_list);
 
 
-        mViewModelData = ViewModelProviders.of(getActivity()).get(ProfitHistoryViewModel.class);
+        ProfitHistoryViewModel mViewModelData = ViewModelProviders.of(getActivity()).get(ProfitHistoryViewModel.class);
 
         mExpandableListAdapter = new ExpandableProfitHistoryAdapter(getContext());
         mExpandableListView.setAdapter(mExpandableListAdapter);
 
-        mViewModelData.getLiveDataModel().observe(this, new Observer<List<ProfitHistoryGroupModel>>() {
-            @Override
-            public void onChanged(@Nullable List<ProfitHistoryGroupModel> profitHistoryGroupModels) {
-                mExpandableListAdapter.setGroupItemData(profitHistoryGroupModels);
-                for(int i=0; i < mExpandableListAdapter.getGroupCount(); i++)
-                {
-                    mExpandableListView.expandGroup(i);
-                }
+        mViewModelData.getLiveDataModel().observe(this, profitHistoryGroupModels -> {
+            mExpandableListAdapter.setGroupItemData(profitHistoryGroupModels);
+            for(int i=0; i < mExpandableListAdapter.getGroupCount(); i++)
+            {
+                mExpandableListView.expandGroup(i);
             }
         });
 

@@ -35,7 +35,6 @@ import ua.com.dquality.udrive.viewmodels.models.StatusLevel;
 public class OtherFragment extends HomeBaseFragment {
 
     private Intent mDrawerIntent;
-    private DriverInfoViewModel mDriverViewModelData;
     private TextView mHeaderAccountName;
     private TextView mHeaderAccountStatus;
     private ImageView mLevelImageView;
@@ -103,7 +102,7 @@ public class OtherFragment extends HomeBaseFragment {
 
         onCreateViewBase(parentView);
 
-        mDriverViewModelData = ViewModelProviders.of(getActivity()).get(DriverInfoViewModel.class);
+        DriverInfoViewModel mDriverViewModelData = ViewModelProviders.of(getActivity()).get(DriverInfoViewModel.class);
 
         mDriverViewModelData.getLiveDataModel().observe(this, driverInfoModel -> onChangeDriverData(driverInfoModel));
 

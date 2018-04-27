@@ -18,8 +18,8 @@ import ua.com.dquality.udrive.interfaces.OnHttpCodeResultExposed;
 
 public class AuthenticateBaseActivity extends AppCompatActivity {
 
-    protected boolean mIsLoggedIn;
-    protected Dialog mAccountReplenishmentDialog;
+    boolean mIsLoggedIn;
+    private Dialog mAccountReplenishmentDialog;
 
     @Override
     protected void onResume() {
@@ -94,16 +94,10 @@ public class AuthenticateBaseActivity extends AppCompatActivity {
         }
     }
 
-    private OnHttpCodeResultExposed onAccountReplenishmentDialogResultExposed= new OnHttpCodeResultExposed(){
-
-        @Override
-        public void onResultExposed(Boolean isOkCode, Object responceData) {
-            runOnUiThread(() -> {
-                Intent intent = new Intent(AuthenticateBaseActivity.this, AccountReplenishmentActivity.class);
-                startActivity(intent);
-            });
-        }
-    };
+    private OnHttpCodeResultExposed onAccountReplenishmentDialogResultExposed= (isOkCode, responceData) -> runOnUiThread(() -> {
+        Intent intent = new Intent(AuthenticateBaseActivity.this, AccountReplenishmentActivity.class);
+        startActivity(intent);
+    });
 
     public static void SetLogo(AppCompatActivity activity){
         android.support.v7.app.ActionBar actionBar = activity.getSupportActionBar();

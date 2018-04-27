@@ -13,6 +13,7 @@
     <ImageView
         android:id="@+id/liqpay_logo"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -39,6 +40,7 @@
     <TextView
         android:id="@+id/amount_title"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -46,7 +48,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@id/liqpay_logo"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-        android:text="Сумма пополнения:"
+        android:text="@string/amount_title"
         />
     <TextView
         android:id="@+id/amount_value"
@@ -56,6 +58,7 @@
         android:layout_alignParentEnd="true"
         android:layout_below="@id/mastercard_logo"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
         />
@@ -63,6 +66,7 @@
     <TextView
         android:id="@+id/commission_amount_title"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -70,7 +74,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@id/amount_title"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-        android:text="Коммисия сервиса LiqPay:"
+        android:text="@string/commission_amount_title"
         />
     <TextView
         android:id="@+id/commission_amount_value"
@@ -80,6 +84,7 @@
         android:layout_alignParentEnd="true"
         android:layout_below="@id/amount_value"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
         />
@@ -87,6 +92,7 @@
     <TextView
         android:id="@+id/sum_title"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -95,7 +101,7 @@
         android:textStyle="bold"
         android:layout_below="@id/commission_amount_title"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        android:text="Итого к оплате:"
+        android:text="@string/sum_title"
         />
     <TextView
         android:id="@+id/sum_value"
@@ -106,6 +112,7 @@
         android:textStyle="bold"
         android:layout_below="@id/commission_amount_value"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         />
@@ -137,7 +144,7 @@
         android:layout_below="@id/liqpay_additional_info"
         android:textAllCaps="true"
         android:background="@drawable/selector_add_accrual_background"
-        android:text="оплатить liqpay >>"/>
+        android:text="@string/btn_perform_account_replenishment"/>
 
 </RelativeLayout>
 </ScrollView>

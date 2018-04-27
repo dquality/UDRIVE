@@ -10,7 +10,7 @@ public final class Const {
     public static final String PHONE_NUMBER = "PhoneNumber";
     public static final String CULTURE = "ru";
 
-    public static String PARSE_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
+    public static final String PARSE_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
     public static final String SHORT_TIME_FORMAT = "HH:mm";
     public static final String SHORT_DATETIME_FORMAT = "dd.MM HH:mm";
     public static final String SHORT_DATE_FORMAT = "dd MMMM";

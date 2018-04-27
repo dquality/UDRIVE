@@ -132,7 +132,7 @@ public class MainActivity extends AuthenticateBaseActivity {
         setStatus(true);
     }
 
-    public void setStatus(boolean active){
+    private void setStatus(boolean active){
         if(mStatus != null){
             mStatus.setText(active ? R.string.active : R.string.notactive);
             mStatus.setBackgroundResource(active ? R.drawable.selector_status_active_background : R.drawable.selector_status_notactive_background);

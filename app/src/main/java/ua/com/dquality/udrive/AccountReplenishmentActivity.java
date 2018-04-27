@@ -13,8 +13,6 @@ import ua.com.dquality.udrive.viewmodels.models.AccountReplenishmentModel;
 
 public class AccountReplenishmentActivity extends AuthenticateBaseActivity {
 
-    private AccountReplenishmentViewModel mViewModelData;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +22,7 @@ public class AccountReplenishmentActivity extends AuthenticateBaseActivity {
 
         setContentView(R.layout.activity_account_replenishment);
 
-        mViewModelData = ViewModelProviders.of(this).get(AccountReplenishmentViewModel.class);
+        AccountReplenishmentViewModel mViewModelData = ViewModelProviders.of(this).get(AccountReplenishmentViewModel.class);
 
         mViewModelData.getLiveDataModel().observe(this, accountReplenishmentModel -> {
             updateAccountReplenishmentData(accountReplenishmentModel);
@@ -47,11 +45,8 @@ public class AccountReplenishmentActivity extends AuthenticateBaseActivity {
         sumValueText.setText(String.format(Const.AMOUNT_FORMAT, model.TotalAmount));
     }
 
-    private View.OnClickListener onPerformAccountReplenishmentClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v){
-            Intent intent = new Intent(AccountReplenishmentActivity.this, AccountReplenishmentWebActivity.class);
-            startActivity(intent);
-        }
+    private View.OnClickListener onPerformAccountReplenishmentClickListener = v -> {
+        Intent intent = new Intent(AccountReplenishmentActivity.this, AccountReplenishmentWebActivity.class);
+        startActivity(intent);
     };
 }

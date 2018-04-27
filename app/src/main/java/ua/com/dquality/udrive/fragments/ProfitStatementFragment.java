@@ -35,7 +35,6 @@ public class ProfitStatementFragment extends Fragment implements DateRangePicker
 
     private ProfitStatementViewModel mViewModelData;
     private ExpandableProfitStatementAdapter mExpandableListAdapter;
-    private ExpandableListView mExpandableListView;
     private AppCompatButton mPickDateButton;
     private CalendarDay mInitialDay;
 
@@ -49,19 +48,14 @@ public class ProfitStatementFragment extends Fragment implements DateRangePicker
         // Inflate the layout for this fragment
         View ret = inflater.inflate(R.layout.fragment_profit_statement, container, false);
 
-        mExpandableListView = ret.findViewById(R.id.profit_statement_list);
+        ExpandableListView mExpandableListView = ret.findViewById(R.id.profit_statement_list);
 
         mViewModelData = ViewModelProviders.of(getActivity()).get(ProfitStatementViewModel.class);
 
         mExpandableListAdapter = new ExpandableProfitStatementAdapter(getContext());
         mExpandableListView.setAdapter(mExpandableListAdapter);
 
-        mViewModelData.getLiveDataModel().observe(this, new Observer<List<ProfitStatementGroupModel>>() {
-            @Override
-            public void onChanged(@Nullable List<ProfitStatementGroupModel> profitStatementGroupModel) {
-                mExpandableListAdapter.setGroupItemData(profitStatementGroupModel);
-            }
-        });
+        mViewModelData.getLiveDataModel().observe(this, profitStatementGroupModel -> mExpandableListAdapter.setGroupItemData(profitStatementGroupModel));
 
         mPickDateButton = ret.findViewById(R.id.profit_statement_pick_date_button);
         mPickDateButton.setOnClickListener(this);
@@ -74,7 +68,7 @@ public class ProfitStatementFragment extends Fragment implements DateRangePicker
         String fromDateString = new SimpleDateFormat("dd MMMM yyyy", new Locale(Const.CULTURE)).format(startDate.getDate());
         String toDateString = new SimpleDateFormat("dd MMMM yyyy", new Locale(Const.CULTURE)).format(endDate.getDate());
         mInitialDay = startDate;
-        mPickDateButton.setText(fromDateString + "    -    " + toDateString);
+        mPickDateButton.setText(String.format("%s    -    %s", fromDateString, toDateString));
     }
 
     @Override

@@ -6,7 +6,6 @@ public class DriverInfoModel {
     public String Name;
     public String Email;
     public String Phone;
-    public String City;
     public Boolean IsPrivateBank;
     public String BankName;
     public String BankCardNumber;
@@ -26,12 +25,10 @@ public class DriverInfoModel {
              String carBrand,
              Boolean sex,
              Date birthday,
-             Date publicOfferAcceptanceDate,
-             String city) {
+             Date publicOfferAcceptanceDate) {
         Name = name;
         Email = email;
         Phone = phone;
-        City = city;
         IsPrivateBank = isPrivateBank;
         BankName = bankName;
         BankCardNumber = bankCardNumber;

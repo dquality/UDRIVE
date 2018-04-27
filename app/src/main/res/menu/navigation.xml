@@ -1,30 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/navigation_home"
         android:icon="@drawable/ic_home_black_24dp"
         android:checkable="true"
-        android:title="@string/title_home"
-        android:tooltipText="@string/title_home"/>
+        android:title="@string/title_home"/>
     <item
         android:id="@+id/navigation_profit"
         android:icon="@drawable/ic_arrows_black_24dp"
         android:checkable="true"
-        android:title="@string/title_profit"
-        android:tooltipText="@string/title_profit"/>
+        android:title="@string/title_profit"/>
     <!--TODO Uncomment Shop-->
     <!--<item-->
         <!--android:id="@+id/navigation_udrive_shop"-->
         <!--android:icon="@drawable/ic_shopping_cart_black_24dp"-->
         <!--android:checkable="true"-->
-        <!--android:title="@string/title_offer"-->
-        <!--android:tooltipText="@string/title_offer"/>-->
+        <!--android:title="@string/title_offer"/>-->
     <item
         android:id="@+id/navigation_other"
         android:icon="@drawable/ic_other_24dp"
         android:checkable="true"
-        android:title="@string/title_other"
-        android:tooltipText="@string/title_other"/>
+        android:title="@string/title_other"/>
 </menu>

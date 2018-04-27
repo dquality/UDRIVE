@@ -16,9 +16,7 @@ import ua.com.dquality.udrive.viewmodels.models.UDriveInfoModel;
 
 public class AddressesActivity extends AuthenticateBaseActivity {
 
-    private UDriveInfoViewModel mUDriveInfoViewModelData;
     private AppCompatSpinner mCityList;
-    private AppCompatButton mFollowCityOnMap;
     private ArrayAdapter<String> mCityArrayAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +31,9 @@ public class AddressesActivity extends AuthenticateBaseActivity {
         mCityArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mCityList.setAdapter(mCityArrayAdapter);
 
-        mFollowCityOnMap = findViewById(R.id.btn_follow_city_on_map);
+        AppCompatButton mFollowCityOnMap = findViewById(R.id.btn_follow_city_on_map);
 
-        mUDriveInfoViewModelData = ViewModelProviders.of(this).get(UDriveInfoViewModel.class);
+        UDriveInfoViewModel mUDriveInfoViewModelData = ViewModelProviders.of(this).get(UDriveInfoViewModel.class);
         mUDriveInfoViewModelData.getLiveDataModel().observe(this, uDriveInfoModel -> onChangeAddressesData(uDriveInfoModel));
 
         mFollowCityOnMap.setOnClickListener(v1 -> {

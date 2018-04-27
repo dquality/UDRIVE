@@ -15,24 +15,23 @@ import ua.com.dquality.udrive.R;
 
 public class SharedPreferencesManager {
 
-    private Context mApplicationContext;
     private SharedPreferences mSharedPreferences;
 
     public SharedPreferencesManager(Context applicationContext){
-        mApplicationContext = applicationContext;
+        Context mApplicationContext = applicationContext;
         mSharedPreferences = mApplicationContext.getSharedPreferences(mApplicationContext.getResources().getString(R.string.app_shared_prefs), Context.MODE_PRIVATE);
     }
 
     public void clearAll(){
         SharedPreferences.Editor editor =  mSharedPreferences.edit();
         editor.clear();
-        editor.commit();
+        editor.apply();
     }
 
     public void writeIsLoggedInPreference(boolean isLoggedIn){
         SharedPreferences.Editor editor =  mSharedPreferences.edit();
         editor.putBoolean("isLoggedIn", isLoggedIn);
-        editor.commit();
+        editor.apply();
     }
 
     public boolean readIsLoggedInPreference(){
@@ -42,7 +41,7 @@ public class SharedPreferencesManager {
     public void writeUserNamePreference(String userName){
         SharedPreferences.Editor editor =  mSharedPreferences.edit();
         editor.putString("userName", userName);
-        editor.commit();
+        editor.apply();
     }
 
     public String readUserNamePreference(){
@@ -52,7 +51,7 @@ public class SharedPreferencesManager {
     public void writeAccessTokenPreference(String accessToken){
         SharedPreferences.Editor editor =  mSharedPreferences.edit();
         editor.putString("accessToken", accessToken);
-        editor.commit();
+        editor.apply();
     }
 
     public String readAccessTokenPreference(){
