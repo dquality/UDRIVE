@@ -1,7 +1,9 @@
 package ua.com.dquality.udrive;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import ua.com.dquality.udrive.constants.Const;
 import ua.com.dquality.udrive.viewmodels.UDriveInfoViewModel;
@@ -41,33 +44,21 @@ public class SupportActivity extends AuthenticateBaseActivity {
         mInfoPhone3Title = findViewById(R.id.info_phone3_title);
 
         mInfoPhone1Btn = findViewById(R.id.info_phone1_btn);
-        mInfoPhone1Btn.setOnClickListener(v -> {
-            tryCallToPhone(0);
-        });
+        mInfoPhone1Btn.setOnClickListener(v -> tryCallToPhone(0));
         mInfoPhone2Btn = findViewById(R.id.info_phone2_btn);
-        mInfoPhone2Btn.setOnClickListener(v -> {
-            tryCallToPhone(1);
-        });
+        mInfoPhone2Btn.setOnClickListener(v -> tryCallToPhone(1));
         mInfoPhone3Btn = findViewById(R.id.info_phone3_btn);
-        mInfoPhone3Btn.setOnClickListener(v -> {
-            tryCallToPhone(2);
-        });
+        mInfoPhone3Btn.setOnClickListener(v -> tryCallToPhone(2));
 
         ImageView facebook = findViewById(R.id.info_facebook_mess);
-        facebook.setOnClickListener(v -> {
-            tryOpenMessenger(Const.FACEBOOK_MESS);
-        });
+        facebook.setOnClickListener(v -> tryOpenMessenger(Const.FACEBOOK_MESS));
         ImageView viber = findViewById(R.id.info_viber_mess);
-        viber.setOnClickListener(v -> {
-            tryOpenMessenger(Const.VIBER_MESS);
-        });
+        viber.setOnClickListener(v -> tryOpenMessenger(Const.VIBER_MESS));
         ImageView telegram = findViewById(R.id.info_telegram_mess);
-        telegram.setOnClickListener(v -> {
-            tryOpenMessenger(Const.TELEGRAM_MESS);
-        });
+        telegram.setOnClickListener(v -> tryOpenMessenger(Const.TELEGRAM_MESS));
 
         mUDriveInfoViewModelData = ViewModelProviders.of(this).get(UDriveInfoViewModel.class);
-        mUDriveInfoViewModelData.getLiveDataModel().observe(this, uDriveInfoModel -> onChangeUdriveInfoData(uDriveInfoModel));
+        mUDriveInfoViewModelData.getLiveDataModel().observe(this, this::onChangeUdriveInfoData);
 
         SetLogo(this);
     }
@@ -80,17 +71,56 @@ public class SupportActivity extends AuthenticateBaseActivity {
 
     private void tryOpenMessenger(String messenger){
         if(getMessengers().containsKey(messenger)){
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getMessengers().get(messenger)));
-            startActivity(intent);
+            String url = getMessengers().get(messenger).trim();
+            Intent intent = null;
+            switch (messenger){
+                case Const.TELEGRAM_MESS:
+                    String appName = "org.telegram.messenger";
+                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    if (isAppAvailable(getApplicationContext(), appName))
+                        intent.setPackage(appName);
+                    break;
+                case Const.VIBER_MESS:
+                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//                    if (isAppAvailable(getApplicationContext(), "com.viber.voip"))
+//                    {
+//                        intent.setClassName("com.viber.voip","com.viber.voip.messages.ui.PublicAccountConversationActivity");
+//                    com.viber.voip.messages.ui.ConversationActivity
+//                    com.viber.voip.messages.ui.PublicAccountConversationActivity
+//                    }
+//                    intent.setData(Uri.parse("chat:uberdrivecomua"));
+                    break;
+                case Const.FACEBOOK_MESS:
+                    appName = "com.facebook.katana";
+                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    if (isAppAvailable(getApplicationContext(), appName))
+                        intent.setPackage(appName);
+                    break;
+            }
+            if(intent != null) startActivity(intent);
+        }
+    }
+
+    private static boolean isAppAvailable(Context context, String appName)
+    {
+        PackageManager pm = context.getPackageManager();
+        try
+        {
+            pm.getPackageInfo(appName, PackageManager.GET_ACTIVITIES);
+            return true;
+        }
+        catch (Exception e)
+        {
+            return false;
         }
     }
 
     private List<String> getPhones(){
-        return mUDriveInfoViewModelData.getLiveDataModel().getValue().Phones;
+        return Objects.requireNonNull(mUDriveInfoViewModelData.getLiveDataModel().getValue()).Phones;
     }
 
     private Map<String,String> getMessengers(){
-        return mUDriveInfoViewModelData.getLiveDataModel().getValue().Messengers;
+        return Objects.requireNonNull(mUDriveInfoViewModelData.getLiveDataModel().getValue()).Messengers;
     }
 
     private void onChangeUdriveInfoData(UDriveInfoModel uDriveInfoModel){
