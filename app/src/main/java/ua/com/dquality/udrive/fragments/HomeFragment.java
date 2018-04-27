@@ -247,9 +247,7 @@ public class HomeFragment extends HomeBaseFragment implements OnRefreshHideListe
 
             int[] textSizeAttr = {android.R.attr.textSize};
             TypedArray headLineTextAppStyle = getContext().obtainStyledAttributes(R.style.TextAppearance_AppCompat_Headline, textSizeAttr);
-            headLineTextAppStyle.recycle();
             TypedArray titleTextAppStyle = getContext().obtainStyledAttributes(R.style.TextAppearance_AppCompat_Medium, textSizeAttr);
-            titleTextAppStyle.recycle();
 
             String ucVals = String.valueOf(ucoins);
             SpannableString spanVal = new SpannableString(ucVals);
@@ -262,6 +260,8 @@ public class HomeFragment extends HomeBaseFragment implements OnRefreshHideListe
             titleSpan.setSpan(new AbsoluteSizeSpan(titleTextAppStyle.getDimensionPixelSize(0, 0)), 0, ucTitle.length(), SPAN_INCLUSIVE_INCLUSIVE);
 
             mCircleState.setText(TextUtils.concat(spanVal, "\n", titleSpan));
+            headLineTextAppStyle.recycle();
+            titleTextAppStyle.recycle();
         }
     }
 
