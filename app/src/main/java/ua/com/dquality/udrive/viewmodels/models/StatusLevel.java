@@ -10,4 +10,10 @@ public enum StatusLevel {
     {
         return vals[(this.ordinal()+1) % vals.length];
     }
+    public static StatusLevel valueOfCustom(String lvlStr){
+        if(lvlStr.equals("Отсутствует")){
+            return Undefined;
+        }
+        return valueOf(lvlStr);
+    }
 }

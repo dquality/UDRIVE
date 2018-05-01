@@ -265,8 +265,8 @@ public class HttpDataProvider {
         if(validateResponse(response2)){
             try {
                 JSONObject obj = (JSONObject)response2.getResult();
-                mDataModels.HomeData.Level = StatusLevel.valueOf(obj.getJSONObject("level").getString("levelName"));
-                mDataModels.HomeData.NextMonthLevel = StatusLevel.valueOf(obj.getJSONObject("nextLevel").getString("levelName"));
+                mDataModels.HomeData.Level = StatusLevel.valueOfCustom(obj.getJSONObject("level").getString("levelName"));
+                mDataModels.HomeData.NextMonthLevel = StatusLevel.valueOfCustom(obj.getJSONObject("nextLevel").getString("levelName"));
                 mDataModels.HomeData.NextLevelPercentage = (int) (obj.getDouble("nextLevelPercentage") * 100);
                 mDataModels.HomeData.UcoinsCount = obj.getInt("ucoinsCount");
                 mDataModels.HomeData.WeekTripsCount = obj.getInt("weekTripsCount");
