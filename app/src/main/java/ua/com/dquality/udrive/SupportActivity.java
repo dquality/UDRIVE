@@ -81,7 +81,10 @@ public class SupportActivity extends AuthenticateBaseActivity {
                         intent.setPackage(appName);
                     break;
                 case Const.VIBER_MESS:
+                    appName = "com.viber.voip";
                     intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    if (isAppAvailable(getApplicationContext(), appName))
+                        intent.setPackage(appName);
 //                    if (isAppAvailable(getApplicationContext(), "com.viber.voip"))
 //                    {
 //                        intent.setClassName("com.viber.voip","com.viber.voip.messages.ui.PublicAccountConversationActivity");
@@ -97,7 +100,15 @@ public class SupportActivity extends AuthenticateBaseActivity {
                         intent.setPackage(appName);
                     break;
             }
-            if(intent != null) startActivity(intent);
+            if(intent != null)
+                try {
+                    startActivity(intent);
+                }
+                catch (Exception ex){
+                    if(intent.getPackage() != null && !intent.getPackage().isEmpty())
+                        intent.setPackage(null);
+                    startActivity(intent);
+                }
         }
     }
 

@@ -40,7 +40,14 @@ public class AddressesActivity extends AuthenticateBaseActivity {
             Uri gmmIntentUri = Uri.parse(Const.GEO_UNKNOWN_PREFIX + mCityArrayAdapter.getItem(mCityList.getSelectedItemPosition()));
             Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
             mapIntent.setPackage("com.google.android.apps.maps");
-            startActivity(mapIntent);
+            try {
+                startActivity(mapIntent);
+            }
+            catch (Exception ex){
+                if(mapIntent.getPackage() != null && !mapIntent.getPackage().isEmpty())
+                    mapIntent.setPackage(null);
+                startActivity(mapIntent);
+            }
         });
 
         SetLogo(this);
