@@ -20,7 +20,6 @@ import java.util.Calendar;
 import ua.com.dquality.udrive.R;
 
 import static android.R.style.Theme_Material_Dialog_Alert;
-import static android.R.style.Theme_Material_Light_Dialog_Alert;
 import static com.prolificinteractive.materialcalendarview.MaterialCalendarView.SELECTION_MODE_RANGE;
 
 public class DateRangePickerFragment extends DialogFragment {
