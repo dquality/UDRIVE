@@ -20,7 +20,7 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="CalendarHeaderTextStyle">
-        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textColor">@color/colorPrimaryLight</item>
     </style>
 
     <style name="CardHolderPopupStyle" parent="NotActiveStatusPopupStyle">

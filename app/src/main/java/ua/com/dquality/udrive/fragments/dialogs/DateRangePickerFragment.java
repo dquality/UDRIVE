@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
@@ -18,6 +19,8 @@ import java.util.Calendar;
 
 import ua.com.dquality.udrive.R;
 
+import static android.R.style.Theme_Material_Dialog_Alert;
+import static android.R.style.Theme_Material_Light_Dialog_Alert;
 import static com.prolificinteractive.materialcalendarview.MaterialCalendarView.SELECTION_MODE_RANGE;
 
 public class DateRangePickerFragment extends DialogFragment {
@@ -43,7 +46,7 @@ public class DateRangePickerFragment extends DialogFragment {
         LayoutInflater layoutInflater = activity.getLayoutInflater();
         View viewContent = layoutInflater.inflate(R.layout.statement_date_range_picker_veiw, null);
 
-        AlertDialog dialog = new AlertDialog.Builder(activity)
+        AlertDialog dialog = new AlertDialog.Builder(activity, Theme_Material_Dialog_Alert)
                 .setPositiveButton(R.string.OK,
                         (dialog1, whichButton) -> {
                             if(mDateRangeSetListener !=null)
@@ -53,6 +56,8 @@ public class DateRangePickerFragment extends DialogFragment {
                 .setNegativeButton(R.string.Cancel, null)
                 .setView(viewContent)
                 .create();
+        Window w = dialog.getWindow();
+        w.setBackgroundDrawableResource(R.color.colorPrimary);
 
         mCalendar = Calendar.getInstance();
 
