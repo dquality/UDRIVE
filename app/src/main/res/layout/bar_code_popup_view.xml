@@ -20,5 +20,15 @@
             android:gravity="center"
             android:contentDescription="@string/bar_code_title"
             />
+        <ImageView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="?android:attr/actionBarSize"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:tint="@color/colorCircleGoldDefault"
+            app:srcCompat="@drawable/ic_up_arrow_24dp"
+            android:contentDescription="@string/slide_up_title"/>
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>

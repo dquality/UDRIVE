@@ -69,4 +69,5 @@
     <string name="commission_amount_title">Коммисия сервиса LiqPay:</string>
     <string name="sum_title">Итого к оплате:</string>
     <string name="btn_perform_account_replenishment"><![CDATA[оплатить liqpay >>]]></string>
+    <string name="slide_up_title">Slide Up</string>
 </resources>
