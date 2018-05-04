@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +37,6 @@ public class ProfitHistoryFragment extends Fragment {
         View ret = inflater.inflate(R.layout.fragment_profit_history, container, false);
 
         mExpandableListView = ret.findViewById(R.id.profit_history_list);
-
 
         ProfitHistoryViewModel mViewModelData = ViewModelProviders.of(getActivity()).get(ProfitHistoryViewModel.class);
 
