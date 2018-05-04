@@ -2,6 +2,7 @@ package ua.com.dquality.udrive;
 
 import android.app.ActionBar;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.support.v7.widget.AppCompatButton;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.EditText;
 
 import ua.com.dquality.udrive.constants.Const;
@@ -54,13 +56,14 @@ public class LoginActivity extends AppCompatActivity {
     private final View.OnClickListener loginClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            String phone = mInputPhone.getText().toString();
             if(!mGetCodeExecuted)
             {
-                UDriveApplication.getHttpDataProvider().loginByPhone(mInputPhone.getText().toString(), onPhoneResultExposed);
+                UDriveApplication.getHttpDataProvider().loginByPhone(phone, onPhoneResultExposed);
             }
             else{
                 if(mInputPhone.isEnabled()){
-                    UDriveApplication.getHttpDataProvider().loginByPhone(mInputPhone.getText().toString(), onPhoneResultExposed);
+                    UDriveApplication.getHttpDataProvider().loginByPhone(phone, onPhoneResultExposed);
                 }
                 else{
                     UDriveApplication.getHttpDataProvider().loginByCode(mInputCode.getText().toString(), onCodeResultExposed);

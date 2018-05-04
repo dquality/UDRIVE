@@ -568,6 +568,11 @@ public class HttpDataProvider {
     }
 
     public void loginByPhone(String phone, OnHttpCodeResultExposed onHttpCodeResultExposed){
+        if(phone.isEmpty()){
+            showUIMessage(mApplicationContext.getString(R.string.enter_phone_required));
+            return;
+        }
+
         ANRequest request = AndroidNetworking.get("https://backend.uberdrive.com.ua/Mobile/Account/LoginBySms")
                 .addQueryParameter("Phone", phone)
                 .setTag("loginByPhone")
@@ -600,6 +605,10 @@ public class HttpDataProvider {
     }
 
     public void loginByCode(String code, OnHttpCodeResultExposed onHttpCodeResultExposed){
+        if(code.isEmpty()){
+            showUIMessage(mApplicationContext.getString(R.string.enter_code_required));
+            return;
+        }
         ANRequest request = AndroidNetworking.get("https://backend.uberdrive.com.ua/Mobile/Account/LoginBySmsCode")
                 .addQueryParameter("Code", code)
                 .setTag("loginByCode")

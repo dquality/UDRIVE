@@ -3,11 +3,11 @@
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorPrimary">#242337</color>
     <color name="colorAccent">#68b549</color>
-    <color name="colorAccent2">#528c3a</color>
+    <color name="colorAccent2">#447430</color>
     <color name="colorPrimaryLight">#f9f9f9</color>
     <color name="colorError">#e94556</color>
     <color name="colorYellow">#ffcc01</color>
-    <color name="colorYellow2">#e9ba00</color>
+    <color name="colorYellow2">#c49c00</color>
 
     <color name="colorClassicStart">#d25673</color>
     <color name="colorClassicEnd">#612bc5</color>

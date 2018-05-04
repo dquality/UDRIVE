@@ -70,4 +70,6 @@
     <string name="sum_title">Итого к оплате:</string>
     <string name="btn_perform_account_replenishment"><![CDATA[оплатить liqpay >>]]></string>
     <string name="slide_up_title">Slide Up</string>
+    <string name="enter_phone_required">Введите телефон пожалуйста</string>
+    <string name="enter_code_required">Введите код пожалуйста</string>
 </resources>
