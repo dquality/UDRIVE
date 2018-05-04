@@ -21,5 +21,6 @@
             android:id="@+id/profit_statement_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="vertical"/>
+            android:scrollbars="vertical"
+            android:groupIndicator="@drawable/selector_list_group_indicator"/>
 </LinearLayout>

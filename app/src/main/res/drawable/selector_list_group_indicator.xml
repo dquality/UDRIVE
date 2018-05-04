@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/ic_keyboard_arrow_right_black_24dp" android:state_empty="true"/>
-    <item android:drawable="@drawable/ic_keyboard_arrow_down_black_24dp" android:state_expanded="true"/>
-    <item android:drawable="@drawable/ic_keyboard_arrow_right_black_24dp"></item>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:state_empty="true">
+        <inset android:drawable="@drawable/ic_keyboard_arrow_right_black_24dp" android:insetTop="@dimen/dim_18_dp"  android:insetBottom="@dimen/dim_18_dp" android:insetLeft="@dimen/dim_4_dp" android:insetRight="@dimen/dim_4_dp">
+        </inset>
+    </item>
+    <item android:state_expanded="true">
+        <inset android:drawable="@drawable/ic_keyboard_arrow_down_black_24dp" android:insetTop="@dimen/dim_18_dp"  android:insetBottom="@dimen/dim_18_dp" android:insetLeft="@dimen/dim_3_dp" android:insetRight="@dimen/dim_3_dp">
+        </inset>
+    </item>
+    <item>
+        <inset android:drawable="@drawable/ic_keyboard_arrow_right_black_24dp" android:insetTop="@dimen/dim_18_dp"  android:insetBottom="@dimen/dim_18_dp" android:insetLeft="@dimen/dim_4_dp" android:insetRight="@dimen/dim_4_dp">
+        </inset>
+    </item>
 </selector>
