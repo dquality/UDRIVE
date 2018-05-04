@@ -214,7 +214,7 @@ public class HomeFragment extends HomeBaseFragment implements OnRefreshHideListe
 
             View dialogView = dialog.getLayoutInflater().inflate(R.layout.bar_code_popup_view, null);
 
-            Bitmap bmp = getDataModel().getBarcodeBitmap();
+            Bitmap bmp = getDataModel().getBarcodeBitmap(true);
             if(bmp != null){
                 ((ImageView) dialogView.findViewById(R.id.img_bar_code_qr)).setImageBitmap(bmp);
             }

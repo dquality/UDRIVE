@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat;
 import android.widget.ImageView;
 
 import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
@@ -26,7 +27,8 @@ public class HomeModel {
     public int RemainsTripsCount;
     public double BalanceAmount;
 
-    private Bitmap BarcodeBitmap;
+    private Bitmap QrBitmap;
+    private Bitmap EanBitmap;
     private String Barcode;
 
     public void setBarcode(String barCode, Context appContext){
@@ -43,21 +45,35 @@ public class HomeModel {
         int black = Color.BLACK;
         int white = ContextCompat.getColor(appContext, R.color.colorPrimaryLight);
         mAsync = new Thread(()->{
+            int size = 512;
+
             QRCodeWriter writer = new QRCodeWriter();
             try {
-                BitMatrix bitMatrix = writer.encode(Barcode, BarcodeFormat.QR_CODE, 512, 512);
-                int width = bitMatrix.getWidth();
-                int height = bitMatrix.getHeight();
-                BarcodeBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
-                for (int x = 0; x < width; x++) {
-                    for (int y = 0; y < height; y++) {
-                        BarcodeBitmap.setPixel(x, y, bitMatrix.get(x, y) ? black : white);
+                BitMatrix bitMatrix = writer.encode(Barcode, BarcodeFormat.QR_CODE, size, size);
+                QrBitmap = Bitmap.createBitmap(size, size, Bitmap.Config.RGB_565);
+                for (int x = 0; x < size; x++) {
+                    for (int y = 0; y < size; y++) {
+                        QrBitmap.setPixel(x, y, bitMatrix.get(x, y) ? black : white);
                     }
                 }
 
             } catch (WriterException e) {
                 e.printStackTrace();
             }
+
+            MultiFormatWriter barcodeWriter = new MultiFormatWriter();
+            try {
+                BitMatrix barcodeBitMatrix = barcodeWriter.encode(Barcode, BarcodeFormat.EAN_13, size, size);
+                EanBitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
+                for (int x = 0; x < size; x++) {
+                    for (int y = 0; y < size; y++) {
+                        EanBitmap.setPixel(x, y, barcodeBitMatrix.get(x, y) ? black : white);
+                    }
+                }
+            } catch (WriterException e) {
+                e.printStackTrace();
+            }
+
         });
         mAsync.start();
     }
@@ -66,12 +82,12 @@ public class HomeModel {
         return Barcode;
     }
 
-    public Bitmap getBarcodeBitmap(){
+    public Bitmap getBarcodeBitmap(boolean qrCode){
         try {
             mAsync.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return BarcodeBitmap;
+        return qrCode ? QrBitmap: EanBitmap;
     }
 }
