@@ -33,6 +33,7 @@ public class AccountReplenishmentWebActivity extends AppCompatActivity {
         mWebView = findViewById(R.id.account_replenishment_web_view);
 
         WebSettings settings = mWebView.getSettings();
+        settings.setDefaultTextEncodingName("utf-8");
         settings.setJavaScriptEnabled(true);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
 

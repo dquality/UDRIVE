@@ -28,6 +28,8 @@ public class PublicOfferActivity extends AuthenticateBaseActivity {
         setContentView(R.layout.activity_public_offer);
 
         mWebView = findViewById(R.id.public_offer_web_view);
+        WebSettings settings = mWebView.getSettings();
+        settings.setDefaultTextEncodingName("utf-8");
         mWebView.setWebViewClient(new WebViewClient());
 
         UDriveApplication.getHttpDataProvider().tryGetPublicOfferContent(onHttpCodeResultExposed);
