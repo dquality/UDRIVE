@@ -27,4 +27,6 @@ public final class Const {
     public static final String VIBER_MESS = "Viber";
     public static final String TELEGRAM_MESS = "Telegram";
 
+    public static final String DEFAULT_BARCODE = "0000000000000";
+
 }

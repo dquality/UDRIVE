@@ -118,11 +118,11 @@ public class AccountInfoActivity extends AuthenticateBaseActivity {
             mInfoPhone.setText(dModel.Phone);
         }
 
-        if(mInfoOfferAcceptanceDate != null){
+        if(mInfoOfferAcceptanceDate != null && dModel.PublicOfferAcceptanceDate != null){
             mInfoOfferAcceptanceDate.setText(new SimpleDateFormat(Const.LONG_DATE_FROMAT, new Locale(Const.CULTURE)).format(dModel.PublicOfferAcceptanceDate));
         }
 
-        if(mInfoBirthday != null){
+        if(mInfoBirthday != null && dModel.Birthday != null){
             mInfoBirthday.setText(new SimpleDateFormat(Const.LONG_DATE_FROMAT, new Locale(Const.CULTURE)).format(dModel.Birthday));
         }
 

@@ -15,6 +15,7 @@ import com.google.zxing.qrcode.QRCodeWriter;
 
 import ua.com.dquality.udrive.R;
 import ua.com.dquality.udrive.UDriveApplication;
+import ua.com.dquality.udrive.constants.Const;
 
 public class HomeModel {
     public StatusLevel Level;
@@ -32,8 +33,13 @@ public class HomeModel {
     private String Barcode;
 
     public void setBarcode(String barCode, Context appContext){
-        if(barCode.equals(Barcode))
+        if(barCode == null || barCode.isEmpty() || barCode == "null") {
+            barCode = Const.DEFAULT_BARCODE;
+        }
+
+        if(barCode.equals(Barcode)) {
             return;
+        }
 
         Barcode = barCode;
         generateBitmapAsync(appContext);

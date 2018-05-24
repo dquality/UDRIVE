@@ -568,6 +568,8 @@ public class HttpDataProvider {
     }
 
     public void loginByPhone(String phone, OnHttpCodeResultExposed onHttpCodeResultExposed){
+        mCookies.clear();
+
         if(phone.isEmpty()){
             showUIMessage(mApplicationContext.getString(R.string.enter_phone_required));
             return;
