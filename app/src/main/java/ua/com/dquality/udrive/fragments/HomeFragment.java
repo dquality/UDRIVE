@@ -192,10 +192,7 @@ public class HomeFragment extends HomeBaseFragment implements OnRefreshHideListe
             }
         }
         if(mCardMonthText != null){
-            Calendar cal = Calendar.getInstance();
-            cal.add(Calendar.MONTH, -1);
-            String month = new SimpleDateFormat(Const.LONG_MONTH_FROMAT, new Locale(Const.CULTURE)).format(cal.getTime());
-            mCardMonthText.setText(month);
+            mCardMonthText.setText(getPrevMonth());
         }
 
         int cardTextColor = ContextCompat.getColor(getContext(), lvl == Platinum ? R.color.colorTextTitlePlatinum : R.color.colorPrimaryLight);
@@ -215,9 +212,7 @@ public class HomeFragment extends HomeBaseFragment implements OnRefreshHideListe
             View dialogView = dialog.getLayoutInflater().inflate(R.layout.bar_code_popup_view, null);
 
             Bitmap bmp = getDataModel().getBarcodeBitmap(true);
-            if(bmp != null){
-                ((ImageView) dialogView.findViewById(R.id.img_bar_code_qr)).setImageBitmap(bmp);
-            }
+            ((ImageView) dialogView.findViewById(R.id.img_bar_code_qr)).setImageBitmap(bmp);
             dialogView.setOnTouchListener(new OnSwipeTouchListener(getContext()) {
                 @Override
                 public void onSwipeUp() {
@@ -255,7 +250,9 @@ public class HomeFragment extends HomeBaseFragment implements OnRefreshHideListe
             spanVal.setSpan(new StyleSpan(Typeface.BOLD), 0, ucVals.length(), SPAN_INCLUSIVE_INCLUSIVE);
 
 
-            String ucTitle = getString(R.string.title_circle_ucoins);
+            //String ucTitle = getString(R.string.title_circle_ucoins);
+            String ucTitle = getCurrentMonth();
+
             SpannableString titleSpan = new SpannableString(ucTitle);
             titleSpan.setSpan(new AbsoluteSizeSpan(titleTextAppStyle.getDimensionPixelSize(0, 0)), 0, ucTitle.length(), SPAN_INCLUSIVE_INCLUSIVE);
 
@@ -341,6 +338,17 @@ public class HomeFragment extends HomeBaseFragment implements OnRefreshHideListe
             mBalanceAmount.setTextColor(ContextCompat.getColor(ctx, balanceAmount < 0 ? R.color.colorError : R.color.colorAccent));
             mBalanceAmount.setText(String.format(Const.AMOUNT_FORMAT, balanceAmount));
         }
+    }
+
+    private String getCurrentMonth(){
+        Calendar cal = Calendar.getInstance();
+        return new SimpleDateFormat(Const.LONG_MONTH_FROMAT, new Locale(Const.CULTURE)).format(cal.getTime());
+    }
+
+    private String getPrevMonth(){
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, -1);
+        return new SimpleDateFormat(Const.LONG_MONTH_FROMAT, new Locale(Const.CULTURE)).format(cal.getTime());
     }
 
     @Override

@@ -33,7 +33,8 @@ public class HomeModel {
     private String Barcode;
 
     public void setBarcode(String barCode, Context appContext){
-        if(barCode == null || barCode.isEmpty() || barCode == "null") {
+        boolean isEmptyBarcode = barCode == null || barCode.isEmpty() || barCode == "null";
+        if(isEmptyBarcode) {
             barCode = Const.DEFAULT_BARCODE;
         }
 
@@ -42,7 +43,9 @@ public class HomeModel {
         }
 
         Barcode = barCode;
-        generateBitmapAsync(appContext);
+        if(!isEmptyBarcode) {
+            generateBitmapAsync(appContext);
+        }
     }
 
     private Thread mAsync;
@@ -89,10 +92,12 @@ public class HomeModel {
     }
 
     public Bitmap getBarcodeBitmap(boolean qrCode){
-        try {
-            mAsync.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if(mAsync != null) {
+            try {
+                mAsync.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         return qrCode ? QrBitmap: EanBitmap;
     }
